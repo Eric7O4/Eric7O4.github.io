@@ -55,7 +55,7 @@
       "data": {
         "values": [
           {"x": 15, "y": 47.5, "note": "Higher humidity → lower max temperatures", "col": "#333"},
-          {"x": 15, "y": 44.5, "note": "Blue dots cluster at high humidity — rain typically follows", "col": "#2980b9"}
+          {"x": 15, "y": 44.5, "note": "Blue dots cluster at high humidity; rain typically follows", "col": "#2980b9"}
         ]
       },
       "mark": { "type": "text", "align": "left", "fontSize": 10, "fontStyle": "italic" },

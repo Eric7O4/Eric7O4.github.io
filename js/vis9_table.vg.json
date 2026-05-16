@@ -80,8 +80,8 @@
     {
       "data": {
         "values": [
-          { "city": "Adelaide", "x": 23.2, "note": "Widest swing — 15.6°C" },
-          { "city": "Darwin",   "x": 31.7, "note": "Nearly stable — 0.6°C" }
+          { "city": "Adelaide", "x": 23.2, "note": "Widest swing: 15.6°C" },
+          { "city": "Darwin",   "x": 31.7, "note": "Nearly stable: 0.6°C" }
         ]
       },
       "mark": { "type": "text", "dy": -14, "fontSize": 9, "fontStyle": "italic", "color": "#555", "align": "center" },

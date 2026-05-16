@@ -148,7 +148,7 @@
       "encoding": {
         "x": {"field": "m", "type": "ordinal"},
         "y": {"field": "t", "type": "quantitative"},
-        "text": {"value": ["July — all southern", "cities at their coldest"]}
+        "text": {"value": ["July: all southern cities", "at their coldest"]}
       }
     }
   ]
