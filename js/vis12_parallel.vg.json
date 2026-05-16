@@ -64,7 +64,7 @@
         "point": { "filled": true, "size": 80 }
       },
       "encoding": { 
-        "x": { 
+        "x": {  
           "field": "metric",
           "type": "nominal",
           "sort": ["Max Temp","Rainfall","Wind Speed","Humidity","Rain Days"],
