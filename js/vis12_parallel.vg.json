@@ -63,7 +63,7 @@
         "type": "line",
         "point": { "filled": true, "size": 80 }
       },
-      "encoding": {
+      "encoding": { 
         "x": {
           "field": "metric",
           "type": "nominal",
