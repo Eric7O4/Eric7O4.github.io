@@ -1,0 +1,69 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": 540,
+  "height": 360,
+
+  "projection": {
+    "type": "mercator",
+    "center": [134, -28],
+    "scale": 480
+  },
+
+  "layer": [
+    {
+      "data": {
+        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+        "format": { "type": "topojson", "feature": "countries" }
+      },
+      "transform": [ { "filter": "datum.id == 36" } ],
+      "mark": { "type": "geoshape", "fill": "lightgray", "stroke": "white" }
+    },
+
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": { "type": "json", "property": "features" }
+      },
+      "mark": { "type": "geoshape", "fill": null, "stroke": "#aaa", "strokeWidth": 0.7 }
+    },
+
+    {
+      "data": {
+        "values": [
+          {"city": "Darwin",    "lat": -12.46, "lon": 130.84, "avgRainfall": 1862},
+          {"city": "Brisbane",  "lat": -27.47, "lon": 153.02, "avgRainfall": 1146},
+          {"city": "Sydney",    "lat": -33.86, "lon": 151.21, "avgRainfall": 1213},
+          {"city": "Perth",     "lat": -31.95, "lon": 115.86, "avgRainfall": 697},
+          {"city": "Adelaide",  "lat": -34.93, "lon": 138.60, "avgRainfall": 580},
+          {"city": "Melbourne", "lat": -37.81, "lon": 144.96, "avgRainfall": 648},
+          {"city": "Hobart",    "lat": -42.88, "lon": 147.33, "avgRainfall": 624}
+        ]
+      },
+      "mark": { "type": "circle", "opacity": 0.9, "size": 350 },
+      "encoding": {
+        "longitude": { "field": "lon", "type": "quantitative" },
+        "latitude":  { "field": "lat", "type": "quantitative" },
+        "color": {
+          "field": "avgRainfall",
+          "type": "quantitative",
+          "title": "Average Rainfall (mm)",
+          "scale": {
+            "type": "threshold",
+            "domain": [600, 900, 1200, 1500, 1800],
+            "scheme": "blues"
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "values": [500, 600, 900, 1200, 1500, 1800, 1900]
+          }
+        },
+        "tooltip": [
+          { "field": "city",        "type": "nominal",     "title": "Capital City" },
+          { "field": "avgRainfall", "type": "quantitative","title": "Average Rainfall (mm)" }
+        ]
+      }
+    }
+  ]
+}

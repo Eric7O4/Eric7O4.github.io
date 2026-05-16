@@ -1,0 +1,155 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": { "url": "data/weather_cities.csv" },
+
+  "params": [
+    {
+      "name": "selectedYear",
+      "value": 2015,
+      "bind": {
+        "input": "range",
+        "min": 2009,
+        "max": 2016,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+
+  "transform": [
+    { "filter": "year(datum.Date) == selectedYear" }
+  ],
+
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "cityHighlight",
+          "select": { "type": "point", "fields": ["Location"], "on": "click" },
+          "bind": "legend"
+        }
+      ],
+      "transform": [
+        { "calculate": "month(datum.Date)", "as": "monthNum" },
+        {
+          "aggregate": [{ "op": "average", "field": "MaxTemp", "as": "avgTemp" }],
+          "groupby": ["monthNum", "Location"]
+        },
+        {
+          "impute": "avgTemp",
+          "key": "monthNum",
+          "keyvals": [0,1,2,3,4,5,6,7,8,9,10,11],
+          "groupby": ["Location"],
+          "method": "mean",
+          "frame": [null, null]
+        }
+      ],
+      "mark": { "type": "line" },
+      "encoding": {
+        "x": {
+          "field": "monthNum",
+          "type": "ordinal",
+          "title": "Month",
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.value]"
+          }
+        },
+        "y": {
+          "field": "avgTemp",
+          "type": "quantitative",
+          "title": ["Average Max", "Temperature (°C)"],
+          "axis": {
+            "titleAngle": 0,
+            "titleAnchor": "end",
+            "titleAlign": "right"
+          }
+        },
+        "color": {
+          "field": "Location",
+          "type": "nominal",
+          "title": "Capital City",
+          "scale": {
+            "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+            "range": ["#c0392b","#e67e22","#17a589","#e84393","#8e44ad","#2980b9","#34495e"]
+          }
+        },
+        "opacity": {
+          "condition": { "param": "cityHighlight", "value": 1 },
+          "value": 0.15
+        }
+      }
+    },
+    {
+      "transform": [
+        { "calculate": "month(datum.Date)", "as": "monthNum" },
+        {
+          "aggregate": [{ "op": "average", "field": "MaxTemp", "as": "avgTemp" }],
+          "groupby": ["monthNum", "Location"]
+        },
+        {
+          "impute": "avgTemp",
+          "key": "monthNum",
+          "keyvals": [0,1,2,3,4,5,6,7,8,9,10,11],
+          "groupby": ["Location"],
+          "method": "mean",
+          "frame": [null, null]
+        },
+        { "calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.monthNum]", "as": "monthLabel" },
+        { "pivot": "Location", "value": "avgTemp", "groupby": ["monthNum", "monthLabel"] }
+      ],
+      "mark": { "type": "rule", "strokeWidth": 1.5 },
+      "params": [
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "encodings": ["x"],
+            "nearest": true,
+            "on": "mousemove",
+            "clear": "mouseout"
+          }
+        }
+      ],
+      "encoding": {
+        "x": { "field": "monthNum", "type": "ordinal" },
+        "color": {
+          "condition": { "param": "hover", "empty": false, "value": "#888" },
+          "value": "transparent"
+        },
+        "tooltip": [
+          { "field": "monthLabel",  "type": "nominal",     "title": "Month" },
+          { "field": "Darwin",      "type": "quantitative","title": "Darwin (°C)",    "format": ".1f" },
+          { "field": "Brisbane",    "type": "quantitative","title": "Brisbane (°C)",  "format": ".1f" },
+          { "field": "Perth",       "type": "quantitative","title": "Perth (°C)",     "format": ".1f" },
+          { "field": "Sydney",      "type": "quantitative","title": "Sydney (°C)",    "format": ".1f" },
+          { "field": "Adelaide",    "type": "quantitative","title": "Adelaide (°C)",  "format": ".1f" },
+          { "field": "Melbourne",   "type": "quantitative","title": "Melbourne (°C)", "format": ".1f" },
+          { "field": "Hobart",      "type": "quantitative","title": "Hobart (°C)",    "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "data": {"values": [{"m": 6, "t": 34.5}]},
+      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 9, "fontStyle": "italic", "color": "#555", "lineHeight": 11},
+      "encoding": {
+        "x": {"field": "m", "type": "ordinal"},
+        "y": {"field": "t", "type": "quantitative"},
+        "text": {"value": ["Darwin: tropical", "stability all year"]}
+      }
+    },
+    {
+      "data": {"values": [{"m": 6, "t": 11}]},
+      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 9, "fontStyle": "italic", "color": "#555", "lineHeight": 11},
+      "encoding": {
+        "x": {"field": "m", "type": "ordinal"},
+        "y": {"field": "t", "type": "quantitative"},
+        "text": {"value": ["July — all southern", "cities at their coldest"]}
+      }
+    }
+  ]
+}

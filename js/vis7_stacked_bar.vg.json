@@ -1,0 +1,104 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": {
+    "values": [
+      { "city": "Adelaide",  "windSpeed": 15.5, "rainfall": 1.59, "humidity": 44.8 },
+      { "city": "Brisbane",  "windSpeed": 11.0, "rainfall": 3.14, "humidity": 53.9 },
+      { "city": "Darwin",    "windSpeed": 20.8, "rainfall": 5.09, "humidity": 51.8 },
+      { "city": "Hobart",    "windSpeed": 19.8, "rainfall": 1.60, "humidity": 52.9 },
+      { "city": "Melbourne", "windSpeed": 22.1, "rainfall": 1.99, "humidity": 51.2 },
+      { "city": "Perth",     "windSpeed": 14.5, "rainfall": 1.91, "humidity": 46.9 },
+      { "city": "Sydney",    "windSpeed": 19.3, "rainfall": 3.32, "humidity": 54.7 }
+    ]
+  },
+
+  "encoding": {
+    "x": {
+      "field": "windSpeed",
+      "type": "quantitative",
+      "title": "Average Wind Speed at 3pm (km/h)"
+    },
+    "y": {
+      "field": "rainfall",
+      "type": "quantitative",
+      "title": ["Average Daily", "Rainfall (mm)"],
+      "axis": {
+        "titleAngle": 0,
+        "titleAnchor": "end",
+        "titleAlign": "right"
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "cityHighlight",
+          "select": { "type": "point", "fields": ["city"], "on": "click" },
+          "bind": "legend"
+        }
+      ],
+      "mark": { "type": "circle" },
+      "encoding": {
+        "size": {
+          "field": "humidity",
+          "type": "quantitative",
+          "title": "Average Humidity 3pm (%)",
+          "scale": {
+            "type": "threshold",
+            "domain": [48, 52],
+            "range": [350, 1000, 2200]
+          }
+        },
+        "color": {
+          "field": "city",
+          "type": "nominal",
+          "title": "Capital City",
+          "scale": {
+            "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+            "range": ["#c0392b","#e67e22","#17a589","#e84393","#8e44ad","#2980b9","#34495e"]
+          }
+        },
+        "opacity": {
+          "condition": { "param": "cityHighlight", "value": 1 },
+          "value": 0.15
+        },
+        "tooltip": [
+          { "field": "city",      "type": "nominal",     "title": "Capital City" },
+          { "field": "windSpeed", "type": "quantitative","title": "Average Wind Speed (km/h)" },
+          { "field": "rainfall",  "type": "quantitative","title": "Average Rainfall (mm)" },
+          { "field": "humidity",  "type": "quantitative","title": "Average Humidity 3pm (%)" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "dy": -32, "fontSize": 10, "fontWeight": "bold", "color": "#222" },
+      "encoding": {
+        "text": { "field": "humidity", "type": "quantitative", "format": ".1f" }
+      }
+    },
+    {
+      "data": {"values": [{"windSpeed": 20.8, "rainfall": 5.09}]},
+      "mark": { "type": "text", "dy": 24, "fontSize": 9, "fontStyle": "italic", "color": "#666", "lineHeight": 13 },
+      "encoding": {
+        "x": { "field": "windSpeed", "type": "quantitative" },
+        "y": { "field": "rainfall",  "type": "quantitative" },
+        "text": { "value": ["Highest rainfall", "of any capital"] }
+      }
+    },
+    {
+      "data": {"values": [{"windSpeed": 15.5, "rainfall": 1.59}]},
+      "mark": { "type": "text", "dy": 24, "fontSize": 9, "fontStyle": "italic", "color": "#666" },
+      "encoding": {
+        "x": { "field": "windSpeed", "type": "quantitative" },
+        "y": { "field": "rainfall",  "type": "quantitative" },
+        "text": { "value": "Driest capital city" }
+      }
+    }
+  ]
+}

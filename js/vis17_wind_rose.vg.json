@@ -1,0 +1,132 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 431,
+  "view": {"stroke": null},
+
+  "params": [
+    {
+      "name": "selectedCity",
+      "value": "Darwin",
+      "bind": {
+        "input": "select",
+        "options": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+        "name": "City: "
+      }
+    }
+  ],
+
+  "resolve": {
+    "scale": {"color": "independent", "radius": "independent"},
+    "legend": {"color": "independent"}
+  },
+
+  "layer": [
+    {
+      "description": "Grid rings",
+      "data": {
+        "values": [
+          {"r": 36},
+          {"r": 72},
+          {"r": 108}
+        ]
+      },
+      "mark": {
+        "type": "arc",
+        "fillOpacity": 0,
+        "stroke": "#e0e0e0",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "theta":  {"value": 0},
+        "theta2": {"value": 6.2832},
+        "radius":  {"field": "r", "type": "quantitative", "scale": null},
+        "radius2": {"value": 0}
+      }
+    },
+    {
+      "description": "Wind direction bars",
+      "data": {
+        "url": "data/weather_cities.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "filter": "isValid(datum.WindDir3pm) && datum.WindDir3pm != '' && datum.WindDir3pm != 'Calm' && datum.Location == selectedCity"
+        },
+        {
+          "aggregate": [{"op": "count", "field": "WindDir3pm", "as": "count"}],
+          "groupby": ["WindDir3pm"]
+        },
+        {
+          "calculate": "{'N':0,'NNE':22.5,'NE':45,'ENE':67.5,'E':90,'ESE':112.5,'SE':135,'SSE':157.5,'S':180,'SSW':202.5,'SW':225,'WSW':247.5,'W':270,'WNW':292.5,'NW':315,'NNW':337.5}[datum.WindDir3pm]",
+          "as": "dirDeg"
+        },
+        {"filter": "isValid(datum.dirDeg)"},
+        {"calculate": "datum.dirDeg * PI / 180", "as": "dirRad"},
+        {"calculate": "datum.dirRad - PI / 16", "as": "startAngle"},
+        {"calculate": "datum.dirRad + PI / 16", "as": "endAngle"}
+      ],
+      "mark": {
+        "type": "arc",
+        "stroke": "white",
+        "strokeWidth": 0.5,
+        "fillOpacity": 0.85
+      },
+      "encoding": {
+        "theta":  {"field": "startAngle", "type": "quantitative", "scale": null, "stack": null},
+        "theta2": {"field": "endAngle",   "type": "quantitative"},
+        "radius": {
+          "field": "count",
+          "type": "quantitative",
+          "scale": {"type": "sqrt", "range": [10, 144]},
+          "legend": null
+        },
+        "radius2": {"value": 10},
+        "color": {
+          "condition": [
+            {"test": "selectedCity == 'Darwin'",    "value": "#c0392b"},
+            {"test": "selectedCity == 'Brisbane'",  "value": "#e67e22"},
+            {"test": "selectedCity == 'Perth'",     "value": "#17a589"},
+            {"test": "selectedCity == 'Sydney'",    "value": "#e84393"},
+            {"test": "selectedCity == 'Adelaide'",  "value": "#8e44ad"},
+            {"test": "selectedCity == 'Melbourne'", "value": "#2980b9"}
+          ],
+          "value": "#34495e"
+        },
+        "tooltip": [
+          {"field": "WindDir3pm", "title": "Direction"},
+          {"field": "count",      "title": "Days"}
+        ]
+      }
+    },
+    {
+      "description": "Cardinal direction labels",
+      "data": {
+        "values": [
+          {"label": "N",  "angle": 0},
+          {"label": "NE", "angle": 0.7854},
+          {"label": "E",  "angle": 1.5708},
+          {"label": "SE", "angle": 2.3562},
+          {"label": "S",  "angle": 3.1416},
+          {"label": "SW", "angle": 3.9270},
+          {"label": "W",  "angle": 4.7124},
+          {"label": "NW", "angle": 5.4978}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": "600",
+        "fill": "#555",
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "theta":  {"field": "angle", "type": "quantitative", "scale": null},
+        "radius": {"value": 170},
+        "text":   {"field": "label"}
+      }
+    }
+  ]
+}

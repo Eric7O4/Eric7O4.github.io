@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": 400,
+
+  "data": { "url": "data/weather_cities.csv" },
+
+  "layer": [
+    {
+      "mark": { "type": "boxplot", "extent": "min-max" },
+      "encoding": {
+        "x": {
+          "field": "Location",
+          "type": "nominal",
+          "title": "Capital City",
+          "axis": { "labelAngle": 0 }
+        },
+        "y": {
+          "field": "MaxTemp",
+          "type": "quantitative",
+          "title": ["Max", "Temperature (°C)"],
+          "scale": { "domain": [5, 50] },
+          "axis": {
+            "titleAngle": 0,
+            "titleAnchor": "end",
+            "titleAlign": "right"
+          }
+        },
+        "color": {
+          "field": "Location",
+          "type": "nominal",
+          "title": "Capital City",
+          "scale": {
+            "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+            "range": ["#c0392b","#e67e22","#17a589","#e84393","#8e44ad","#2980b9","#34495e"]
+          }
+        }
+      }
+    },
+    {
+      "mark": { "type": "text", "dy": -12, "fontSize": 10, "color": "#444" },
+      "encoding": {
+        "x": { "field": "Location", "type": "nominal" },
+        "y": { "aggregate": "max", "field": "MaxTemp", "type": "quantitative" },
+        "text": { "aggregate": "max", "field": "MaxTemp", "type": "quantitative", "format": ".1f" }
+      }
+    },
+    {
+      "mark": { "type": "text", "dx": 24, "fontSize": 10, "color": "#444" },
+      "encoding": {
+        "x": { "field": "Location", "type": "nominal" },
+        "y": { "aggregate": "median", "field": "MaxTemp", "type": "quantitative" },
+        "text": { "aggregate": "median", "field": "MaxTemp", "type": "quantitative", "format": ".1f" }
+      }
+    },
+    {
+      "mark": { "type": "text", "dy": 12, "fontSize": 10, "color": "#444" },
+      "encoding": {
+        "x": { "field": "Location", "type": "nominal" },
+        "y": { "aggregate": "min", "field": "MaxTemp", "type": "quantitative" },
+        "text": { "aggregate": "min", "field": "MaxTemp", "type": "quantitative", "format": ".1f" }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"Location": "Adelaide", "y": 48.5, "note": "← Widest range: 35°C between seasons"},
+          {"Location": "Darwin",   "y":  7.5, "note": "All 12 months within 3°C of each other →"}
+        ]
+      },
+      "mark": { "type": "text", "fontSize": 9, "fontStyle": "italic", "color": "#555", "align": "left" },
+      "encoding": {
+        "x": { "field": "Location", "type": "nominal" },
+        "y": { "field": "y",        "type": "quantitative" },
+        "text": { "field": "note",  "type": "nominal" }
+      }
+    }
+  ]
+}

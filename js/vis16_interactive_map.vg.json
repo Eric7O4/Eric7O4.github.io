@@ -1,0 +1,207 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 349,
+  "padding": 0,
+  "projection": {"type": "mercator", "center": [134, -27], "scale": 436},
+
+  "params": [
+    {
+      "name": "metric",
+      "value": "MaxTemp",
+      "bind": {
+        "input": "select",
+        "options": ["MaxTemp","Rainfall","WindSpeed3pm","Humidity3pm"],
+        "labels": ["Max Temperature (°C)","Rainfall (mm/day)","Wind Speed (km/h)","Humidity (%)"],
+        "name": "Metric: "
+      }
+    },
+    {
+      "name": "selectedMonth",
+      "value": -1,
+      "bind": {
+        "input": "select",
+        "options": [-1,0,1,2,3,4,5,6,7,8,9,10,11],
+        "labels": ["Full year","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        "name": "Month: "
+      }
+    }
+  ],
+
+  "data": {
+    "url": "data/weather_cities.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Date": "date",
+        "MaxTemp": "number",
+        "Rainfall": "number",
+        "WindSpeed3pm": "number",
+        "Humidity3pm": "number"
+      }
+    }
+  },
+  "transform": [
+    {"filter": "datum.MaxTemp != null"},
+    {"filter": "selectedMonth == -1 || month(datum.Date) == selectedMonth"},
+    {
+      "aggregate": [
+        {"op": "mean", "field": "MaxTemp",       "as": "avgMaxTemp"},
+        {"op": "mean", "field": "Rainfall",       "as": "avgRainfall"},
+        {"op": "mean", "field": "WindSpeed3pm",   "as": "avgWindSpeed"},
+        {"op": "mean", "field": "Humidity3pm",    "as": "avgHumidity"}
+      ],
+      "groupby": ["Location"]
+    },
+    {
+      "joinaggregate": [
+        {"op": "mean", "field": "avgMaxTemp",    "as": "globalMaxTemp"},
+        {"op": "mean", "field": "avgRainfall",   "as": "globalRainfall"},
+        {"op": "mean", "field": "avgWindSpeed",  "as": "globalWindSpeed"},
+        {"op": "mean", "field": "avgHumidity",   "as": "globalHumidity"}
+      ]
+    },
+    {"calculate": "isValid(datum.avgMaxTemp)   ? datum.avgMaxTemp   : datum.globalMaxTemp",   "as": "avgMaxTemp"},
+    {"calculate": "isValid(datum.avgRainfall)  ? datum.avgRainfall  : datum.globalRainfall",  "as": "avgRainfall"},
+    {"calculate": "isValid(datum.avgWindSpeed) ? datum.avgWindSpeed : datum.globalWindSpeed", "as": "avgWindSpeed"},
+    {"calculate": "isValid(datum.avgHumidity)  ? datum.avgHumidity  : datum.globalHumidity",  "as": "avgHumidity"},
+    {
+      "lookup": "Location",
+      "from": {
+        "data": {
+          "values": [
+            {"city": "Perth",     "lat": -31.95, "lon": 115.86},
+            {"city": "Darwin",    "lat": -12.46, "lon": 130.84},
+            {"city": "Brisbane",  "lat": -27.47, "lon": 153.02},
+            {"city": "Sydney",    "lat": -33.86, "lon": 151.21},
+            {"city": "Melbourne", "lat": -37.81, "lon": 144.96},
+            {"city": "Adelaide",  "lat": -34.93, "lon": 138.60},
+            {"city": "Hobart",    "lat": -42.88, "lon": 147.33}
+          ]
+        },
+        "key": "city",
+        "fields": ["lat", "lon"]
+      }
+    }
+  ],
+
+  "resolve": {"scale": {"color": "independent"}, "legend": {"color": "independent"}},
+
+  "layer": [
+    {
+      "data": {
+        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "transform": [{"filter": "datum.id == 36"}],
+      "mark": {"type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {"type": "geoshape", "fill": null, "stroke": "#bbb", "strokeWidth": 0.8}
+    },
+    {
+      "transform": [{"filter": "metric == 'MaxTemp'"}],
+      "mark": {"type": "circle", "size": 300, "stroke": "#555", "strokeWidth": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "color": {
+          "field": "avgMaxTemp", "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [20,24,28,32], "range": ["#fee5d9","#fcae91","#fb6a4a","#de2d26","#a50f15"]},
+          "legend": null
+        },
+        "tooltip": [{"field": "Location", "title": "City"}, {"field": "avgMaxTemp", "title": "Average Max Temp (°C)", "format": ".1f"}]
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Rainfall'"}],
+      "mark": {"type": "circle", "size": 300, "stroke": "#555", "strokeWidth": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "color": {
+          "field": "avgRainfall", "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [1,2,3,4], "range": ["#eff3ff","#bdd7e7","#6baed6","#2171b5","#084594"]},
+          "legend": null
+        },
+        "tooltip": [{"field": "Location", "title": "City"}, {"field": "avgRainfall", "title": "Average Rainfall (mm/day)", "format": ".1f"}]
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'WindSpeed3pm'"}],
+      "mark": {"type": "circle", "size": 300, "stroke": "#555", "strokeWidth": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "color": {
+          "field": "avgWindSpeed", "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [13,16,19,22], "range": ["#f2f0f7","#cbc9e2","#9e9ac8","#756bb1","#54278f"]},
+          "legend": null
+        },
+        "tooltip": [{"field": "Location", "title": "City"}, {"field": "avgWindSpeed", "title": "Average Wind Speed (km/h)", "format": ".1f"}]
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Humidity3pm'"}],
+      "mark": {"type": "circle", "size": 300, "stroke": "#555", "strokeWidth": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "color": {
+          "field": "avgHumidity", "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [47,49,51,53], "range": ["#edf8e9","#bae4b3","#74c476","#31a354","#006d2c"]},
+          "legend": null
+        },
+        "tooltip": [{"field": "Location", "title": "City"}, {"field": "avgHumidity", "title": "Average Humidity (%)", "format": ".1f"}]
+      }
+    },
+    {
+      "mark": {"type": "text", "dy": -22, "fontSize": 11, "fontWeight": "bold", "fill": "#000", "align": "center", "baseline": "bottom"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "Location"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'MaxTemp'"}],
+      "mark": {"type": "text", "dx": -14, "fontSize": 10, "fontWeight": "500", "fill": "#333", "align": "right", "baseline": "middle"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "avgMaxTemp", "type": "quantitative", "format": ".1f"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Rainfall'"}],
+      "mark": {"type": "text", "dx": -14, "fontSize": 10, "fontWeight": "500", "fill": "#333", "align": "right", "baseline": "middle"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "avgRainfall", "type": "quantitative", "format": ".1f"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'WindSpeed3pm'"}],
+      "mark": {"type": "text", "dx": -14, "fontSize": 10, "fontWeight": "500", "fill": "#333", "align": "right", "baseline": "middle"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "avgWindSpeed", "type": "quantitative", "format": ".1f"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Humidity3pm'"}],
+      "mark": {"type": "text", "dx": -14, "fontSize": 10, "fontWeight": "500", "fill": "#333", "align": "right", "baseline": "middle"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "avgHumidity", "type": "quantitative", "format": ".1f"}
+      }
+    }
+  ]
+}

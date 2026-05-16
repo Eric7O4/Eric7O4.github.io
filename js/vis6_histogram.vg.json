@@ -1,0 +1,70 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": { "url": "data/weather_cities.csv" },
+
+  "transform": [
+    { "filter": "datum.Humidity3pm != null && datum.MaxTemp != null && datum.RainTomorrow != null && datum.RainTomorrow != 'NA'" }
+  ],
+
+  "layer": [
+    {
+      "mark": { "type": "point", "opacity": 0.25, "size": 15 },
+      "encoding": {
+        "x": {
+          "field": "Humidity3pm",
+          "type": "quantitative",
+          "title": "Humidity at 3pm (%)"
+        },
+        "y": {
+          "field": "MaxTemp",
+          "type": "quantitative",
+          "title": ["Max", "Temperature (°C)"],
+          "axis": {
+            "titleAngle": 0,
+            "titleAnchor": "end",
+            "titleAlign": "right"
+          }
+        },
+        "color": {
+          "field": "RainTomorrow",
+          "type": "nominal",
+          "title": "Rain Tomorrow?",
+          "scale": { "domain": ["No","Yes"], "range": ["#aaaaaa","#2980b9"] },
+          "legend": {
+            "orient": "top-right",
+            "titleFontSize": 10,
+            "labelFontSize": 10,
+            "symbolSize": 60,
+            "padding": 4,
+            "offset": 4
+          }
+        },
+        "tooltip": [
+          { "field": "Location",     "type": "nominal",     "title": "City" },
+          { "field": "MaxTemp",      "type": "quantitative","title": "Max Temp (°C)" },
+          { "field": "Humidity3pm",  "type": "quantitative","title": "Humidity 3pm (%)" },
+          { "field": "RainTomorrow", "type": "nominal",     "title": "Rain Tomorrow?" }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"x": 15, "y": 47.5, "note": "Higher humidity → lower max temperatures", "col": "#333"},
+          {"x": 15, "y": 44.5, "note": "Blue dots cluster at high humidity — rain typically follows", "col": "#2980b9"}
+        ]
+      },
+      "mark": { "type": "text", "align": "left", "fontSize": 10, "fontStyle": "italic" },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative" },
+        "y": { "field": "y", "type": "quantitative" },
+        "text": { "field": "note", "type": "nominal" },
+        "color": { "field": "col", "type": "nominal", "scale": null, "legend": null }
+      }
+    }
+  ]
+}

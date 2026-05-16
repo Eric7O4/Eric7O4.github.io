@@ -1,0 +1,190 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": "container",
+
+  "params": [
+    {
+      "name": "selectedMetric",
+      "value": "MaxTemp",
+      "bind": {
+        "input": "select",
+        "options": ["MaxTemp", "Rainfall"],
+        "labels": ["Max Temperature (°C)", "Average Daily Rainfall (mm)"],
+        "name": "Show: "
+      }
+    }
+  ],
+
+  "data": {
+    "url": "data/weather_cities.csv",
+    "format": {
+      "type": "csv",
+      "parse": {"Date": "date", "MaxTemp": "number", "Rainfall": "number"}
+    }
+  },
+
+  "transform": [
+    {"filter": "isValid(datum.MaxTemp) && isValid(datum.Rainfall)"},
+    {"timeUnit": "month", "field": "Date", "as": "month"},
+    {
+      "aggregate": [
+        {"op": "mean", "field": "MaxTemp", "as": "avgMaxTemp"},
+        {"op": "mean", "field": "Rainfall", "as": "avgRainfall"}
+      ],
+      "groupby": ["Location", "month"]
+    },
+    {
+      "calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month(datum.month)]",
+      "as": "monthName"
+    },
+    {
+      "joinaggregate": [
+        {"op": "mean", "field": "avgMaxTemp", "as": "globalMeanTemp"},
+        {"op": "mean", "field": "avgRainfall", "as": "globalMeanRain"}
+      ]
+    },
+    {
+      "calculate": "isValid(datum.avgMaxTemp) ? datum.avgMaxTemp : datum.globalMeanTemp",
+      "as": "avgMaxTemp"
+    },
+    {
+      "calculate": "isValid(datum.avgRainfall) ? datum.avgRainfall : datum.globalMeanRain",
+      "as": "avgRainfall"
+    }
+  ],
+
+  "resolve": {
+    "scale": {"color": "independent"},
+    "legend": {"color": "independent"}
+  },
+
+  "layer": [
+    {
+      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
+      "mark": {"type": "rect"},
+      "encoding": {
+        "x": {
+          "field": "monthName",
+          "type": "ordinal",
+          "sort": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+          "axis": {"labelAngle": 0, "title": null, "domain": false, "ticks": false, "labelFontSize": 11}
+        },
+        "y": {
+          "field": "Location",
+          "type": "nominal",
+          "sort": ["Darwin","Perth","Brisbane","Sydney","Adelaide","Melbourne","Hobart"],
+          "axis": {"title": null, "domain": false, "ticks": false, "labelFontWeight": "bold", "labelFontSize": 11}
+        },
+        "color": {
+          "field": "avgMaxTemp",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [16, 20, 24, 28, 32],
+            "range": ["#fff5eb","#fdd0a2","#fdae6b","#fd8d3c","#e6550d","#a63603"]
+          },
+          "legend": {
+            "title": "Average Max Temp (°C)",
+            "orient": "top",
+            "direction": "horizontal",
+            "gradientLength": 220,
+            "gradientThickness": 12,
+            "titleFontSize": 11,
+            "labelFontSize": 10,
+            "values": [12, 16, 20, 24, 28, 32, 34]
+          }
+        },
+        "tooltip": [
+          {"field": "Location", "title": "City"},
+          {"field": "monthName", "title": "Month"},
+          {"field": "avgMaxTemp", "title": "Average Max Temp (°C)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "selectedMetric == 'Rainfall'"}],
+      "mark": {"type": "rect"},
+      "encoding": {
+        "x": {
+          "field": "monthName",
+          "type": "ordinal",
+          "sort": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+          "axis": {"labelAngle": 0, "title": null, "domain": false, "ticks": false, "labelFontSize": 11}
+        },
+        "y": {
+          "field": "Location",
+          "type": "nominal",
+          "sort": ["Darwin","Perth","Brisbane","Sydney","Adelaide","Melbourne","Hobart"],
+          "axis": {"title": null, "domain": false, "ticks": false, "labelFontWeight": "bold", "labelFontSize": 11}
+        },
+        "color": {
+          "field": "avgRainfall",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [1, 3, 5, 7, 9],
+            "range": ["#eff3ff","#c6dbef","#9ecae1","#6baed6","#2171b5","#084594"]
+          },
+          "legend": {
+            "title": "Average Daily Rainfall (mm)",
+            "orient": "top",
+            "direction": "horizontal",
+            "gradientLength": 220,
+            "gradientThickness": 12,
+            "titleFontSize": 11,
+            "labelFontSize": 10,
+            "values": [0, 1, 3, 5, 7, 9, 12]
+          }
+        },
+        "tooltip": [
+          {"field": "Location", "title": "City"},
+          {"field": "monthName", "title": "Month"},
+          {"field": "avgRainfall", "title": "Average Daily Rainfall (mm)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
+      "mark": {"type": "text", "fontSize": 9, "baseline": "middle"},
+      "encoding": {
+        "x": {
+          "field": "monthName",
+          "type": "ordinal",
+          "sort": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+        },
+        "y": {
+          "field": "Location",
+          "type": "nominal",
+          "sort": ["Darwin","Perth","Brisbane","Sydney","Adelaide","Melbourne","Hobart"]
+        },
+        "text": {"field": "avgMaxTemp", "type": "quantitative", "format": ".1f"},
+        "color": {
+          "condition": {"test": "datum.avgMaxTemp >= 28", "value": "white"},
+          "value": "#333"
+        }
+      }
+    },
+    {
+      "transform": [{"filter": "selectedMetric == 'Rainfall'"}],
+      "mark": {"type": "text", "fontSize": 9, "baseline": "middle"},
+      "encoding": {
+        "x": {
+          "field": "monthName",
+          "type": "ordinal",
+          "sort": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+        },
+        "y": {
+          "field": "Location",
+          "type": "nominal",
+          "sort": ["Darwin","Perth","Brisbane","Sydney","Adelaide","Melbourne","Hobart"]
+        },
+        "text": {"field": "avgRainfall", "type": "quantitative", "format": ".1f"},
+        "color": {
+          "condition": {"test": "datum.avgRainfall >= 5", "value": "white"},
+          "value": "#333"
+        }
+      }
+    }
+  ]
+}

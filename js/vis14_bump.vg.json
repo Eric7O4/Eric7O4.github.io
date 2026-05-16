@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": {
+    "values": [
+      {"city":"Darwin","month":0,"monthLabel":"Jan","rank":2},{"city":"Darwin","month":1,"monthLabel":"Feb","rank":2},{"city":"Darwin","month":2,"monthLabel":"Mar","rank":1},{"city":"Darwin","month":3,"monthLabel":"Apr","rank":1},{"city":"Darwin","month":4,"monthLabel":"May","rank":1},{"city":"Darwin","month":5,"monthLabel":"Jun","rank":1},{"city":"Darwin","month":6,"monthLabel":"Jul","rank":1},{"city":"Darwin","month":7,"monthLabel":"Aug","rank":1},{"city":"Darwin","month":8,"monthLabel":"Sep","rank":1},{"city":"Darwin","month":9,"monthLabel":"Oct","rank":1},{"city":"Darwin","month":10,"monthLabel":"Nov","rank":1},{"city":"Darwin","month":11,"monthLabel":"Dec","rank":1},
+      {"city":"Perth","month":0,"monthLabel":"Jan","rank":1},{"city":"Perth","month":1,"monthLabel":"Feb","rank":1},{"city":"Perth","month":2,"monthLabel":"Mar","rank":2},{"city":"Perth","month":3,"monthLabel":"Apr","rank":3},{"city":"Perth","month":4,"monthLabel":"May","rank":3},{"city":"Perth","month":5,"monthLabel":"Jun","rank":3},{"city":"Perth","month":6,"monthLabel":"Jul","rank":3},{"city":"Perth","month":7,"monthLabel":"Aug","rank":3},{"city":"Perth","month":8,"monthLabel":"Sep","rank":4},{"city":"Perth","month":9,"monthLabel":"Oct","rank":3},{"city":"Perth","month":10,"monthLabel":"Nov","rank":3},{"city":"Perth","month":11,"monthLabel":"Dec","rank":2},
+      {"city":"Brisbane","month":0,"monthLabel":"Jan","rank":4},{"city":"Brisbane","month":1,"monthLabel":"Feb","rank":3},{"city":"Brisbane","month":2,"monthLabel":"Mar","rank":3},{"city":"Brisbane","month":3,"monthLabel":"Apr","rank":2},{"city":"Brisbane","month":4,"monthLabel":"May","rank":2},{"city":"Brisbane","month":5,"monthLabel":"Jun","rank":2},{"city":"Brisbane","month":6,"monthLabel":"Jul","rank":2},{"city":"Brisbane","month":7,"monthLabel":"Aug","rank":2},{"city":"Brisbane","month":8,"monthLabel":"Sep","rank":2},{"city":"Brisbane","month":9,"monthLabel":"Oct","rank":2},{"city":"Brisbane","month":10,"monthLabel":"Nov","rank":2},{"city":"Brisbane","month":11,"monthLabel":"Dec","rank":3},
+      {"city":"Adelaide","month":0,"monthLabel":"Jan","rank":3},{"city":"Adelaide","month":1,"monthLabel":"Feb","rank":4},{"city":"Adelaide","month":2,"monthLabel":"Mar","rank":4},{"city":"Adelaide","month":3,"monthLabel":"Apr","rank":5},{"city":"Adelaide","month":4,"monthLabel":"May","rank":5},{"city":"Adelaide","month":5,"monthLabel":"Jun","rank":5},{"city":"Adelaide","month":6,"monthLabel":"Jul","rank":6},{"city":"Adelaide","month":7,"monthLabel":"Aug","rank":6},{"city":"Adelaide","month":8,"monthLabel":"Sep","rank":5},{"city":"Adelaide","month":9,"monthLabel":"Oct","rank":5},{"city":"Adelaide","month":10,"monthLabel":"Nov","rank":4},{"city":"Adelaide","month":11,"monthLabel":"Dec","rank":4},
+      {"city":"Sydney","month":0,"monthLabel":"Jan","rank":5},{"city":"Sydney","month":1,"monthLabel":"Feb","rank":5},{"city":"Sydney","month":2,"monthLabel":"Mar","rank":5},{"city":"Sydney","month":3,"monthLabel":"Apr","rank":4},{"city":"Sydney","month":4,"monthLabel":"May","rank":4},{"city":"Sydney","month":5,"monthLabel":"Jun","rank":4},{"city":"Sydney","month":6,"monthLabel":"Jul","rank":4},{"city":"Sydney","month":7,"monthLabel":"Aug","rank":4},{"city":"Sydney","month":8,"monthLabel":"Sep","rank":3},{"city":"Sydney","month":9,"monthLabel":"Oct","rank":4},{"city":"Sydney","month":10,"monthLabel":"Nov","rank":5},{"city":"Sydney","month":11,"monthLabel":"Dec","rank":5},
+      {"city":"Melbourne","month":0,"monthLabel":"Jan","rank":6},{"city":"Melbourne","month":1,"monthLabel":"Feb","rank":6},{"city":"Melbourne","month":2,"monthLabel":"Mar","rank":6},{"city":"Melbourne","month":3,"monthLabel":"Apr","rank":6},{"city":"Melbourne","month":4,"monthLabel":"May","rank":6},{"city":"Melbourne","month":5,"monthLabel":"Jun","rank":6},{"city":"Melbourne","month":6,"monthLabel":"Jul","rank":5},{"city":"Melbourne","month":7,"monthLabel":"Aug","rank":5},{"city":"Melbourne","month":8,"monthLabel":"Sep","rank":6},{"city":"Melbourne","month":9,"monthLabel":"Oct","rank":6},{"city":"Melbourne","month":10,"monthLabel":"Nov","rank":6},{"city":"Melbourne","month":11,"monthLabel":"Dec","rank":6},
+      {"city":"Hobart","month":0,"monthLabel":"Jan","rank":7},{"city":"Hobart","month":1,"monthLabel":"Feb","rank":7},{"city":"Hobart","month":2,"monthLabel":"Mar","rank":7},{"city":"Hobart","month":3,"monthLabel":"Apr","rank":7},{"city":"Hobart","month":4,"monthLabel":"May","rank":7},{"city":"Hobart","month":5,"monthLabel":"Jun","rank":7},{"city":"Hobart","month":6,"monthLabel":"Jul","rank":7},{"city":"Hobart","month":7,"monthLabel":"Aug","rank":7},{"city":"Hobart","month":8,"monthLabel":"Sep","rank":7},{"city":"Hobart","month":9,"monthLabel":"Oct","rank":7},{"city":"Hobart","month":10,"monthLabel":"Nov","rank":7},{"city":"Hobart","month":11,"monthLabel":"Dec","rank":7}
+    ]
+  },
+
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "cityHighlight",
+          "select": { "type": "point", "fields": ["city"], "on": "click" },
+          "bind": "legend"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "point": { "filled": true, "size": 60 }
+      },
+      "encoding": {
+        "x": {
+          "field": "month",
+          "type": "ordinal",
+          "title": "Month",
+          "axis": {
+            "labelAngle": 0,
+            "labelExpr": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.value]"
+          }
+        },
+        "y": {
+          "field": "rank",
+          "type": "quantitative",
+          "title": ["Temperature Rank", "(1 = hottest, 7 = coolest)"],
+          "scale": { "domain": [7.5, 0.5] },
+          "axis": {
+            "values": [1, 2, 3, 4, 5, 6, 7],
+            "tickCount": 7,
+            "titleAngle": 0,
+            "titleAnchor": "end",
+            "titleAlign": "right"
+          }
+        },
+        "color": {
+          "field": "city",
+          "type": "nominal",
+          "title": "Capital City",
+          "scale": {
+            "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+            "range": ["#c0392b","#e67e22","#17a589","#e84393","#8e44ad","#2980b9","#34495e"]
+          }
+        },
+        "opacity": {
+          "condition": { "param": "cityHighlight", "value": 1 },
+          "value": 0.08
+        },
+        "tooltip": [
+          { "field": "city",       "type": "nominal",     "title": "Capital City" },
+          { "field": "monthLabel", "type": "nominal",     "title": "Month" },
+          { "field": "rank",       "type": "quantitative","title": "Temperature Rank" }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "month": 4, "rank": 0.65, "note": "Darwin leads all cities Mar–Dec" },
+          { "month": 5, "rank": 5.65, "note": "Adelaide & Melbourne swap Jun–Aug" }
+        ]
+      },
+      "mark": { "type": "text", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "align": "center" },
+      "encoding": {
+        "x": { "field": "month", "type": "ordinal" },
+        "y": { "field": "rank", "type": "quantitative" },
+        "text": { "field": "note", "type": "nominal" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 450,
+  "padding": 0,
+  "projection": {"type": "mercator", "center": [134, -28], "scale": 580},
+
+  "params": [
+    {
+      "name": "selectedMonth",
+      "value": -1,
+      "bind": {
+        "input": "select",
+        "options": [-1,0,1,2,3,4,5,6,7,8,9,10,11],
+        "labels": ["Full year","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        "name": "Month: "
+      }
+    }
+  ],
+
+  "data": {
+    "url": "data/weather_cities.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Date": "date",
+        "MaxTemp": "number",
+        "Rainfall": "number"
+      }
+    }
+  },
+  "transform": [
+    {"filter": "datum.MaxTemp != null"},
+    {"filter": "selectedMonth == -1 || month(datum.Date) == selectedMonth"},
+    {
+      "aggregate": [
+        {"op": "mean", "field": "MaxTemp",  "as": "avgMaxTemp"},
+        {"op": "mean", "field": "Rainfall", "as": "avgRainfall"}
+      ],
+      "groupby": ["Location"]
+    },
+    {
+      "joinaggregate": [
+        {"op": "mean", "field": "avgMaxTemp",  "as": "globalMaxTemp"},
+        {"op": "mean", "field": "avgRainfall", "as": "globalRainfall"}
+      ]
+    },
+    {"calculate": "isValid(datum.avgMaxTemp)   ? datum.avgMaxTemp   : datum.globalMaxTemp",   "as": "avgMaxTemp"},
+    {"calculate": "isValid(datum.avgRainfall)  ? datum.avgRainfall  : datum.globalRainfall",  "as": "avgRainfall"},
+    {
+      "lookup": "Location",
+      "from": {
+        "data": {
+          "values": [
+            {"city": "Perth",     "lat": -31.95, "lon": 115.86},
+            {"city": "Darwin",    "lat": -12.46, "lon": 130.84},
+            {"city": "Brisbane",  "lat": -27.47, "lon": 153.02},
+            {"city": "Sydney",    "lat": -33.86, "lon": 151.21},
+            {"city": "Melbourne", "lat": -37.81, "lon": 144.96},
+            {"city": "Adelaide",  "lat": -34.93, "lon": 138.60},
+            {"city": "Hobart",    "lat": -42.88, "lon": 147.33}
+          ]
+        },
+        "key": "city",
+        "fields": ["lat", "lon"]
+      }
+    }
+  ],
+
+  "resolve": {
+    "scale": {"color": "independent", "size": "independent"},
+    "legend": {"color": "independent", "size": "independent"}
+  },
+
+  "layer": [
+    {
+      "data": {
+        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "transform": [{"filter": "datum.id == 36"}],
+      "mark": {"type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {"type": "geoshape", "fill": null, "stroke": "#bbb", "strokeWidth": 0.8}
+    },
+    {
+      "mark": {"type": "circle", "stroke": "#555", "strokeWidth": 1, "opacity": 0.85},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "avgRainfall",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [2.5, 4.0],
+            "range": [200, 650, 1400]
+          },
+          "legend": {
+            "title": "Average Rainfall (mm/day)",
+            "orient": "none",
+            "legendX": 8,
+            "legendY": 338,
+            "direction": "horizontal",
+            "titleFontSize": 11,
+            "labelFontSize": 10,
+            "values": [1.8, 3.0, 5.0],
+            "format": ".1f"
+          }
+        },
+        "color": {
+          "field": "avgMaxTemp",
+          "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [20,24,28,32], "range": ["#fee5d9","#fcae91","#fb6a4a","#de2d26","#a50f15"]},
+          "legend": {
+            "title": "Average Max Temp (°C)",
+            "orient": "none",
+            "legendX": 8,
+            "legendY": 395,
+            "direction": "horizontal",
+            "titleFontSize": 11,
+            "labelFontSize": 10
+          }
+        },
+        "tooltip": [
+          {"field": "Location",    "title": "City"},
+          {"field": "avgMaxTemp",  "title": "Average Max Temp (°C)", "format": ".1f"},
+          {"field": "avgRainfall", "title": "Average Rainfall (mm/day)", "format": ".2f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "dy": -18, "fontSize": 11, "fontWeight": "bold", "fill": "#000", "align": "center", "baseline": "bottom"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "Location"}
+      }
+    }
+  ]
+}

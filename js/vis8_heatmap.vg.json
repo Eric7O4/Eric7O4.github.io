@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": { "url": "data/weather_cities.csv" },
+
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "cityHighlight",
+          "select": { "type": "point", "fields": ["Location"], "on": "click" },
+          "bind": "legend"
+        }
+      ],
+      "mark": "area",
+      "encoding": {
+        "x": {
+          "field": "Date",
+          "type": "temporal",
+          "timeUnit": "yearmonth",
+          "title": "Date",
+          "axis": { "labelAngle": -30 }
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "Rainfall",
+          "type": "quantitative",
+          "stack": true,
+          "axis": {
+            "title": ["Total Rainfall", "(mm)"],
+            "titleAngle": 0,
+            "titleAnchor": "end",
+            "titleAlign": "right"
+          }
+        },
+        "color": {
+          "field": "Location",
+          "type": "nominal",
+          "title": "Capital City",
+          "scale": {
+            "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+            "range": ["#c0392b","#e67e22","#17a589","#e84393","#8e44ad","#2980b9","#34495e"]
+          }
+        },
+        "opacity": {
+          "condition": { "param": "cityHighlight", "value": 1 },
+          "value": 0.15
+        },
+        "tooltip": [
+          { "field": "Location", "type": "nominal", "title": "Capital City" },
+          { "field": "Date", "type": "temporal", "timeUnit": "yearmonth", "title": "Month" },
+          { "aggregate": "sum", "field": "Rainfall", "type": "quantitative", "title": "Total Rainfall (mm)", "format": ".1f" }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "d": "2012-02-01", "note": "Darwin's wet season (Nov–Apr) dominates the annual rainfall surge" }
+        ]
+      },
+      "mark": { "type": "text", "align": "left", "fontSize": 9, "fontStyle": "italic", "color": "#555", "lineHeight": 13 },
+      "encoding": {
+        "x": { "field": "d", "type": "temporal" },
+        "y": { "value": 28 },
+        "text": { "value": ["Darwin's wet season (Nov–Apr)", "dominates the annual rainfall surge"] }
+      }
+    }
+  ]
+}

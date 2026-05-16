@@ -1,0 +1,128 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": {
+    "values": [
+      {"city":"Adelaide", "metric":"Max Temp",  "norm":0.342, "raw":"22.9°C"},
+      {"city":"Adelaide", "metric":"Rainfall",  "norm":0.000, "raw":"1.6 mm/day"},
+      {"city":"Adelaide", "metric":"Wind Speed","norm":0.405, "raw":"15.5 km/h"},
+      {"city":"Adelaide", "metric":"Humidity",  "norm":0.000, "raw":"44.8%"},
+      {"city":"Adelaide", "metric":"Rain Days", "norm":0.000, "raw":"15%"},
+
+      {"city":"Brisbane", "metric":"Max Temp",  "norm":0.582, "raw":"26.4°C"},
+      {"city":"Brisbane", "metric":"Rainfall",  "norm":0.443, "raw":"3.1 mm/day"},
+      {"city":"Brisbane", "metric":"Wind Speed","norm":0.000, "raw":"11.0 km/h"},
+      {"city":"Brisbane", "metric":"Humidity",  "norm":0.919, "raw":"53.9%"},
+      {"city":"Brisbane", "metric":"Rain Days", "norm":0.542, "raw":"28%"},
+
+      {"city":"Darwin",   "metric":"Max Temp",  "norm":1.000, "raw":"32.5°C"},
+      {"city":"Darwin",   "metric":"Rainfall",  "norm":1.000, "raw":"5.1 mm/day"},
+      {"city":"Darwin",   "metric":"Wind Speed","norm":0.883, "raw":"20.8 km/h"},
+      {"city":"Darwin",   "metric":"Humidity",  "norm":0.707, "raw":"51.8%"},
+      {"city":"Darwin",   "metric":"Rain Days", "norm":1.000, "raw":"39%"},
+
+      {"city":"Hobart",   "metric":"Max Temp",  "norm":0.000, "raw":"17.9°C"},
+      {"city":"Hobart",   "metric":"Rainfall",  "norm":0.003, "raw":"1.6 mm/day"},
+      {"city":"Hobart",   "metric":"Wind Speed","norm":0.793, "raw":"19.8 km/h"},
+      {"city":"Hobart",   "metric":"Humidity",  "norm":0.818, "raw":"52.9%"},
+      {"city":"Hobart",   "metric":"Rain Days", "norm":0.542, "raw":"28%"},
+
+      {"city":"Melbourne","metric":"Max Temp",  "norm":0.219, "raw":"21.1°C"},
+      {"city":"Melbourne","metric":"Rainfall",  "norm":0.114, "raw":"2.0 mm/day"},
+      {"city":"Melbourne","metric":"Wind Speed","norm":1.000, "raw":"22.1 km/h"},
+      {"city":"Melbourne","metric":"Humidity",  "norm":0.646, "raw":"51.2%"},
+      {"city":"Melbourne","metric":"Rain Days", "norm":0.458, "raw":"26%"},
+
+      {"city":"Perth",    "metric":"Max Temp",  "norm":0.486, "raw":"25.0°C"},
+      {"city":"Perth",    "metric":"Rainfall",  "norm":0.091, "raw":"1.9 mm/day"},
+      {"city":"Perth",    "metric":"Wind Speed","norm":0.315, "raw":"14.5 km/h"},
+      {"city":"Perth",    "metric":"Humidity",  "norm":0.212, "raw":"46.9%"},
+      {"city":"Perth",    "metric":"Rain Days", "norm":0.125, "raw":"18%"},
+
+      {"city":"Sydney",   "metric":"Max Temp",  "norm":0.349, "raw":"23.0°C"},
+      {"city":"Sydney",   "metric":"Rainfall",  "norm":0.494, "raw":"3.3 mm/day"},
+      {"city":"Sydney",   "metric":"Wind Speed","norm":0.748, "raw":"19.3 km/h"},
+      {"city":"Sydney",   "metric":"Humidity",  "norm":1.000, "raw":"54.7%"},
+      {"city":"Sydney",   "metric":"Rain Days", "norm":0.625, "raw":"30%"}
+    ]
+  },
+
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "cityHighlight",
+          "select": { "type": "point", "fields": ["city"], "on": "click" },
+          "bind": "legend"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "point": { "filled": true, "size": 80 }
+      },
+      "encoding": {
+        "x": {
+          "field": "metric",
+          "type": "nominal",
+          "sort": ["Max Temp","Rainfall","Wind Speed","Humidity","Rain Days"],
+          "axis": { "labelAngle": 0, "labelFontSize": 12, "labelFontWeight": "bold" },
+          "title": null
+        },
+        "y": {
+          "field": "norm",
+          "type": "quantitative",
+          "scale": { "domain": [0, 1] },
+          "axis": {
+            "title": ["Normalised Score", "(0 = lowest, 1 = highest)"],
+            "tickCount": 5,
+            "grid": true,
+            "titleAngle": 0,
+            "titleAnchor": "end",
+            "titleAlign": "right"
+          }
+        },
+        "color": {
+          "field": "city",
+          "type": "nominal",
+          "title": "Capital City",
+          "scale": {
+            "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+            "range": ["#c0392b","#e67e22","#17a589","#e84393","#8e44ad","#2980b9","#34495e"]
+          }
+        },
+        "detail": { "field": "city", "type": "nominal" },
+        "opacity": {
+          "condition": { "param": "cityHighlight", "value": 1 },
+          "value": 0.08
+        },
+        "tooltip": [
+          { "field": "city",   "type": "nominal", "title": "Capital City" },
+          { "field": "metric", "type": "nominal", "title": "Metric" },
+          { "field": "raw",    "type": "nominal", "title": "Value" }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "metric": "Max Temp",  "norm": 0.96, "note": "↑ Darwin leads" },
+          { "metric": "Wind Speed","norm": 0.96, "note": "↑ Melbourne leads" },
+          { "metric": "Humidity",  "norm": 0.96, "note": "↑ Sydney leads" }
+        ]
+      },
+      "mark": { "type": "text", "align": "center", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "dy": -10 },
+      "encoding": {
+        "x": {
+          "field": "metric",
+          "type": "nominal",
+          "sort": ["Max Temp","Rainfall","Wind Speed","Humidity","Rain Days"]
+        },
+        "y": { "field": "norm", "type": "quantitative" },
+        "text": { "field": "note", "type": "nominal" }
+      }
+    }
+  ]
+}

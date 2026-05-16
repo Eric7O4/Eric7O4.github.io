@@ -1,0 +1,81 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": { "url": "data/weather_cities.csv" },
+
+  "params": [
+    {
+      "name": "selectedMetric",
+      "value": "MaxTemp",
+      "bind": {
+        "input": "select",
+        "options": ["MaxTemp", "Rainfall", "Humidity3pm"],
+        "labels": ["Max Temperature (°C)", "Daily Rainfall (mm)", "Humidity at 3pm (%)"],
+        "name": "Weather Metric: "
+      }
+    },
+    {
+      "name": "cityHighlight",
+      "select": { "type": "point", "fields": ["Location"], "on": "click" },
+      "bind": "legend"
+    }
+  ],
+
+  "transform": [
+    {
+      "fold": ["MaxTemp", "Rainfall", "Humidity3pm"],
+      "as": ["metric", "value"]
+    },
+    { "filter": "datum.metric == selectedMetric && datum.value != null" },
+    { "timeUnit": "month", "field": "Date", "as": "monthBucket" },
+    {
+      "aggregate": [
+        { "op": "average", "field": "value", "as": "avgValue" }
+      ],
+      "groupby": ["monthBucket", "Location"]
+    }
+  ],
+
+  "mark": {
+    "type": "line",
+    "point": { "filled": true, "size": 70 }
+  },
+
+  "encoding": {
+    "x": {
+      "field": "monthBucket",
+      "type": "temporal",
+      "timeUnit": "month",
+      "title": "Month",
+      "axis": { "format": "%b", "labelAngle": -30 }
+    },
+    "y": {
+      "field": "avgValue",
+      "type": "quantitative",
+      "axis": {
+        "title": {"expr": "selectedMetric == 'MaxTemp' ? 'Average Max Temperature (°C)' : selectedMetric == 'Rainfall' ? 'Average Daily Rainfall (mm)' : 'Average Humidity at 3pm (%)'"}
+      }
+    },
+    "color": {
+      "field": "Location",
+      "type": "nominal",
+      "title": "Capital City",
+      "scale": {
+        "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+        "range": ["#c0392b","#e67e22","#17a589","#27ae60","#8e44ad","#2980b9","#34495e"]
+      }
+    },
+    "opacity": {
+      "condition": { "param": "cityHighlight", "value": 1 },
+      "value": 0.08
+    },
+    "tooltip": [
+      { "field": "Location",   "type": "nominal",     "title": "Capital City" },
+      { "field": "monthBucket","type": "temporal",    "timeUnit": "month", "title": "Month", "format": "%B" },
+      { "field": "avgValue",   "type": "quantitative","title": "Average", "format": ".2f" }
+    ]
+  }
+}

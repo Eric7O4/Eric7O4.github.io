@@ -1,0 +1,99 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": {
+    "values": [
+      {"city": "Adelaide",  "summer": 31.0, "winter": 15.4, "range": 15.6},
+      {"city": "Perth",     "summer": 32.4, "winter": 18.4, "range": 14.0},
+      {"city": "Melbourne", "summer": 26.7, "winter": 15.8, "range": 10.9},
+      {"city": "Hobart",    "summer": 23.1, "winter": 12.8, "range": 10.3},
+      {"city": "Sydney",    "summer": 27.5, "winter": 18.0, "range": 9.5},
+      {"city": "Brisbane",  "summer": 30.3, "winter": 21.6, "range": 8.7},
+      {"city": "Darwin",    "summer": 32.0, "winter": 31.4, "range": 0.6}
+    ]
+  },
+
+  "encoding": {
+    "y": {
+      "field": "city",
+      "type": "nominal",
+      "sort": {"field": "range", "order": "descending"},
+      "title": null
+    }
+  },
+
+  "layer": [
+    {
+      "mark": {"type": "rule", "strokeWidth": 4, "opacity": 0.55},
+      "encoding": {
+        "x": {
+          "field": "winter",
+          "type": "quantitative",
+          "title": "Average Maximum Temperature (°C)",
+          "scale": {"domain": [10, 36]}
+        },
+        "x2": {"field": "summer"},
+        "color": { "value": "#aaaaaa" }
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 130, "opacity": 1},
+      "encoding": {
+        "x": {"field": "winter", "type": "quantitative"},
+        "color": {"value": "#4a90d9"},
+        "tooltip": [
+          {"field": "city",   "type": "nominal",     "title": "Capital City"},
+          {"field": "winter", "type": "quantitative","title": "July average (°C)",         "format": ".1f"},
+          {"field": "range",  "type": "quantitative","title": "Seasonal range (°C)",   "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 130, "opacity": 1},
+      "encoding": {
+        "x": {"field": "summer", "type": "quantitative"},
+        "color": {"value": "#e05c40"},
+        "tooltip": [
+          {"field": "city",   "type": "nominal",     "title": "Capital City"},
+          {"field": "summer", "type": "quantitative","title": "January average (°C)",       "format": ".1f"},
+          {"field": "range",  "type": "quantitative","title": "Seasonal range (°C)",    "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "dx": -9, "fontSize": 9, "align": "right", "color": "#4a90d9"},
+      "encoding": {
+        "x": {"field": "winter", "type": "quantitative"},
+        "text": {"field": "winter", "type": "quantitative", "format": ".1f"}
+      }
+    },
+    {
+      "mark": {"type": "text", "dx": 9, "fontSize": 9, "align": "left", "color": "#e05c40"},
+      "encoding": {
+        "x": {"field": "summer", "type": "quantitative"},
+        "text": {"field": "summer", "type": "quantitative", "format": ".1f"}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "city": "Adelaide", "x": 23.2, "note": "Widest swing — 15.6°C" },
+          { "city": "Darwin",   "x": 31.7, "note": "Nearly stable — 0.6°C" }
+        ]
+      },
+      "mark": { "type": "text", "dy": -14, "fontSize": 9, "fontStyle": "italic", "color": "#555", "align": "center" },
+      "encoding": {
+        "x": { "field": "x", "type": "quantitative" },
+        "y": {
+          "field": "city",
+          "type": "nominal",
+          "sort": ["Adelaide", "Perth", "Melbourne", "Hobart", "Sydney", "Brisbane", "Darwin"]
+        },
+        "text": { "field": "note", "type": "nominal" }
+      }
+    }
+  ]
+}

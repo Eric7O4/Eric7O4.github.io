@@ -1,0 +1,97 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": 400,
+
+  "data": {
+    "values": [
+      {"city": "Perth",     "avgMaxTemp": 25.0},
+      {"city": "Adelaide",  "avgMaxTemp": 22.9},
+      {"city": "Melbourne", "avgMaxTemp": 21.1},
+      {"city": "Hobart",    "avgMaxTemp": 17.9},
+      {"city": "Sydney",    "avgMaxTemp": 23.0},
+      {"city": "Brisbane",  "avgMaxTemp": 26.4},
+      {"city": "Darwin",    "avgMaxTemp": 32.5}
+    ]
+  },
+
+  "encoding": {
+    "x": {
+      "field": "city",
+      "type": "nominal",
+      "sort": "-y",
+      "axis": { "labelAngle": 0 },
+      "title": "City"
+    },
+    "y": {
+      "field": "avgMaxTemp",
+      "type": "quantitative",
+      "title": ["Average Max", "Temperature (°C)"],
+      "axis": {
+        "titleAngle": 0,
+        "titleAnchor": "end",
+        "titleAlign": "right"
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "mark": { "type": "bar", "color": "#d73027" },
+      "encoding": {
+        "tooltip": [
+          { "field": "city", "type": "nominal", "title": "City" },
+          { "field": "avgMaxTemp", "type": "quantitative", "title": "Average Max Temp (°C)" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "dy": -8, "fontSize": 12, "fontWeight": "bold", "color": "#333" },
+      "encoding": {
+        "text": { "field": "avgMaxTemp", "type": "quantitative", "format": ".1f" }
+      }
+    },
+    {
+      "mark": { "type": "rule", "strokeDash": [6, 4], "color": "#555", "strokeWidth": 2 },
+      "encoding": {
+        "y": { "datum": 24.1, "type": "quantitative" }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "dx": 6, "dy": -32, "fontSize": 9, "color": "#555", "lineHeight": 13 },
+      "encoding": {
+        "y": { "datum": 24.1, "type": "quantitative" },
+        "x": { "value": 0 },
+        "text": { "value": ["National average:", "24.1°C"] }
+      }
+    },
+    {
+      "data": {"values": [{"city": "Darwin", "avgMaxTemp": 32.5}]},
+      "mark": {"type": "text", "dy": -26, "fontSize": 8.5, "fontStyle": "italic", "color": "#666", "lineHeight": 9},
+      "encoding": {
+        "x": {"field": "city", "type": "nominal"},
+        "y": {"field": "avgMaxTemp", "type": "quantitative"},
+        "text": {"value": ["Tropical monsoon leads to", "8.4°C above average"]}
+      }
+    },
+    {
+      "data": {"values": [{"city": "Hobart", "avgMaxTemp": 17.9}]},
+      "mark": {"type": "text", "dy": -110, "fontSize": 8.5, "fontStyle": "italic", "color": "#666", "lineHeight": 11},
+      "encoding": {
+        "x": {"field": "city", "type": "nominal"},
+        "y": {"field": "avgMaxTemp", "type": "quantitative"},
+        "text": {"value": ["Cool maritime of", "6.2°C below average"]}
+      }
+    },
+    {
+      "data": {"values": [{"city": "Melbourne", "avgMaxTemp": 21.1}]},
+      "mark": {"type": "text", "dy": -130, "fontSize": 8.5, "fontStyle": "italic", "color": "#666", "lineHeight": 11},
+      "encoding": {
+        "x": {"field": "city", "type": "nominal"},
+        "y": {"field": "avgMaxTemp", "type": "quantitative"},
+        "text": {"value": ["Most 'four seasons'", "climate"]}
+      }
+    }
+  ]
+}

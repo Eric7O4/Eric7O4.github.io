@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": "container",
+
+  "data": { "url": "data/weather_cities.csv" },
+
+  "transform": [
+    { "calculate": "datum.RainToday == 'Yes' ? 1 : 0", "as": "rainy" },
+    { "calculate": "month(datum.Date)", "as": "monthNum" },
+    {
+      "aggregate": [{ "op": "mean", "field": "rainy", "as": "pctRain" }],
+      "groupby": ["monthNum", "Location"]
+    },
+    {
+      "calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.monthNum]",
+      "as": "monthLabel"
+    }
+  ],
+
+  "layer": [
+    {
+      "mark": "rect",
+      "encoding": {
+        "x": {
+          "field": "monthNum",
+          "type": "ordinal",
+          "title": "Month",
+          "sort": [0,1,2,3,4,5,6,7,8,9,10,11],
+          "axis": {
+            "labelAngle": -30,
+            "labelExpr": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.value]"
+          }
+        },
+        "y": {
+          "field": "Location",
+          "type": "nominal",
+          "title": "Capital City",
+          "sort": ["Darwin","Sydney","Brisbane","Perth","Melbourne","Hobart","Adelaide"]
+        },
+        "color": {
+          "field": "pctRain",
+          "type": "quantitative",
+          "title": "Rain Day Rate",
+          "scale": { "scheme": "blues", "domain": [0, 0.5] },
+          "legend": { "format": ".0%" }
+        },
+        "tooltip": [
+          { "field": "Location",  "type": "nominal",     "title": "Capital City" },
+          { "field": "monthLabel","type": "nominal",     "title": "Month" },
+          { "field": "pctRain",   "type": "quantitative","title": "Rain Days", "format": ".1%" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "fontSize": 9 },
+      "encoding": {
+        "x": {
+          "field": "monthNum",
+          "type": "ordinal",
+          "sort": [0,1,2,3,4,5,6,7,8,9,10,11]
+        },
+        "y": {
+          "field": "Location",
+          "type": "nominal",
+          "sort": ["Darwin","Sydney","Brisbane","Perth","Melbourne","Hobart","Adelaide"]
+        },
+        "text": { "field": "pctRain", "type": "quantitative", "format": ".0%" },
+        "color": {
+          "condition": { "test": "datum.pctRain > 0.25", "value": "white" },
+          "value": "#333"
+        }
+      }
+    }
+  ]
+}

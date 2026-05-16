@@ -1,0 +1,66 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": 407,
+
+  "data": { "url": "data/weather_cities.csv" },
+
+  "params": [
+    {
+      "name": "selectedCity",
+      "value": "All Cities",
+      "bind": {
+        "input": "select",
+        "options": ["All Cities", "Darwin", "Brisbane", "Perth", "Sydney", "Adelaide", "Melbourne", "Hobart"],
+        "name": "Capital City: "
+      }
+    }
+  ],
+
+  "transform": [
+    { "filter": "datum.MaxTemp != null" },
+    { "filter": "selectedCity == 'All Cities' || datum.Location == selectedCity" }
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "MaxTemp",
+      "type": "quantitative",
+      "bin": {"extent": [5, 50], "step": 2},
+      "scale": {"domain": [5, 50]},
+      "title": "Max Temperature (°C)"
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "title": ["Number", "of Days"],
+      "axis": {
+        "titleAngle": 0,
+        "titleAnchor": "end",
+        "titleAlign": "right"
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": { "expr": "{'Darwin':'#c0392b','Brisbane':'#e67e22','Perth':'#17a589','Sydney':'#27ae60','Adelaide':'#8e44ad','Melbourne':'#2980b9','Hobart':'#34495e','All Cities':'#d73027'}[selectedCity]" }
+      },
+      "encoding": {
+        "tooltip": [
+          { "field": "MaxTemp", "type": "quantitative", "bin": true, "title": "Temp Range (°C)" },
+          { "aggregate": "count", "type": "quantitative", "title": "Days" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "text", "dy": -8, "fontSize": 11, "color": "#333" },
+      "encoding": {
+        "text": { "aggregate": "count", "type": "quantitative" }
+      }
+    }
+  ]
+}
