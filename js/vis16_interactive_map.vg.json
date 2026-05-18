@@ -202,6 +202,78 @@
         "latitude":  {"field": "lat", "type": "quantitative"},
         "text": {"field": "avgHumidity", "type": "quantitative", "format": ".1f"}
       }
+    },
+    {
+      "transform": [{"filter": "metric == 'MaxTemp' && datum.Location == 'Darwin'"}],
+      "mark": {"type": "text", "dy": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Hottest capital"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'MaxTemp' && datum.Location == 'Hobart'"}],
+      "mark": {"type": "text", "dy": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Coolest capital"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Rainfall' && datum.Location == 'Darwin'"}],
+      "mark": {"type": "text", "dy": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Wettest capital"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Rainfall' && datum.Location == 'Adelaide'"}],
+      "mark": {"type": "text", "dy": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Driest capital"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'WindSpeed3pm' && datum.Location == 'Melbourne'"}],
+      "mark": {"type": "text", "dx": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "left"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Windiest capital"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'WindSpeed3pm' && datum.Location == 'Brisbane'"}],
+      "mark": {"type": "text", "dx": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "left"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Calmest capital"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Humidity3pm' && datum.Location == 'Sydney'"}],
+      "mark": {"type": "text", "dy": 22, "fontSize": 9, "fontStyle": "italic", "fill": "#222", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Most humid capital"}
+      }
+    },
+    {
+      "transform": [{"filter": "metric == 'Humidity3pm' && datum.Location == 'Adelaide'"}],
+      "mark": {"type": "text", "dy": 22, "fontSize": 9, "fontStyle": "italic", "fill": "#222", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": "Least humid capital"}
+      }
     }
   ]
 }

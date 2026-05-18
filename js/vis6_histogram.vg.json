@@ -52,6 +52,16 @@
       }
     },
     {
+      "transform": [
+        {"regression": "MaxTemp", "on": "Humidity3pm"}
+      ],
+      "mark": {"type": "line", "color": "black", "strokeWidth": 3},
+      "encoding": {
+        "x": {"field": "Humidity3pm", "type": "quantitative"},
+        "y": {"field": "MaxTemp",     "type": "quantitative"}
+      }
+    },
+    {
       "data": {
         "values": [
           {"x": 15, "y": 47.5, "note": "Higher humidity → lower max temperatures", "col": "#333"},

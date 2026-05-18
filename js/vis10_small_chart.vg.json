@@ -47,7 +47,7 @@
     {
       "mark": {
         "type": "bar",
-        "color": { "expr": "{'Darwin':'#c0392b','Brisbane':'#e67e22','Perth':'#17a589','Sydney':'#27ae60','Adelaide':'#8e44ad','Melbourne':'#2980b9','Hobart':'#34495e','All Cities':'#d73027'}[selectedCity]" }
+        "color": { "expr": "{'Darwin':'#c0392b','Brisbane':'#e67e22','Perth':'#17a589','Sydney':'#e84393','Adelaide':'#8e44ad','Melbourne':'#2980b9','Hobart':'#34495e','All Cities':'#d73027'}[selectedCity]" }
       },
       "encoding": {
         "tooltip": [
@@ -60,6 +60,24 @@
       "mark": { "type": "text", "dy": -8, "fontSize": 11, "color": "#333" },
       "encoding": {
         "text": { "aggregate": "count", "type": "quantitative" }
+      }
+    },
+    {
+      "data": {"values": [{"t": 23}]},
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "lineHeight": 11},
+      "encoding": {
+        "x": {"field": "t", "type": "quantitative", "scale": {"domain": [5, 50]}},
+        "y": {"value": 8},
+        "text": {"value": ["Most days fall", "in this range"]}
+      }
+    },
+    {
+      "data": {"values": [{"t": 43}]},
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "lineHeight": 11},
+      "encoding": {
+        "x": {"field": "t", "type": "quantitative", "scale": {"domain": [5, 50]}},
+        "y": {"value": 8},
+        "text": {"value": ["Extreme", "heat events"]}
       }
     }
   ]

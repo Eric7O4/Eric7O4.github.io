@@ -28,9 +28,9 @@
           "aggregate": "sum",
           "field": "Rainfall",
           "type": "quantitative",
-          "stack": true,
+          "stack": null,
           "axis": {
-            "title": ["Total Rainfall", "(mm)"],
+            "title": ["Rainfall", "(mm)"],
             "titleAngle": 0,
             "titleAnchor": "end",
             "titleAlign": "right"
@@ -65,7 +65,7 @@
       "mark": { "type": "text", "align": "left", "fontSize": 9, "fontStyle": "italic", "color": "#555", "lineHeight": 13 },
       "encoding": {
         "x": { "field": "d", "type": "temporal" },
-        "y": { "value": 28 },
+        "y": { "value": 8 },
         "text": { "value": ["Darwin's wet season (Nov–Apr)", "dominates the annual rainfall surge"] }
       }
     }

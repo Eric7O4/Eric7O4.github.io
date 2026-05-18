@@ -13,6 +13,16 @@
         "options": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
         "name": "City: "
       }
+    },
+    {
+      "name": "selectedYear",
+      "value": -1,
+      "bind": {
+        "input": "select",
+        "options": [-1,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],
+        "labels": ["All Years","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017"],
+        "name": "Year: "
+      }
     }
   ],
 
@@ -26,9 +36,9 @@
       "description": "Grid rings",
       "data": {
         "values": [
-          {"r": 36},
-          {"r": 72},
-          {"r": 108}
+          {"r": 55},
+          {"r": 99},
+          {"r": 144}
         ]
       },
       "mark": {
@@ -45,19 +55,39 @@
       }
     },
     {
+      "description": "Ring percentage labels",
+      "data": {
+        "values": [
+          {"r": 55,  "label": "10%"},
+          {"r": 99,  "label": "20%"},
+          {"r": 144, "label": "30%"}
+        ]
+      },
+      "mark": {"type": "text", "fontSize": 8, "fill": "#bbb", "align": "left", "dx": 3, "dy": -3},
+      "encoding": {
+        "theta":  {"value": 0.5},
+        "radius": {"field": "r", "type": "quantitative", "scale": null},
+        "text":   {"field": "label"}
+      }
+    },
+    {
       "description": "Wind direction bars",
       "data": {
         "url": "data/weather_cities.csv",
-        "format": {"type": "csv"}
+        "format": {"type": "csv", "parse": {"Date": "date"}}
       },
       "transform": [
         {
-          "filter": "isValid(datum.WindDir3pm) && datum.WindDir3pm != '' && datum.WindDir3pm != 'Calm' && datum.Location == selectedCity"
+          "filter": "isValid(datum.WindDir3pm) && datum.WindDir3pm != '' && datum.WindDir3pm != 'Calm' && datum.Location == selectedCity && (selectedYear == -1 || year(datum.Date) == selectedYear)"
         },
         {
           "aggregate": [{"op": "count", "field": "WindDir3pm", "as": "count"}],
           "groupby": ["WindDir3pm"]
         },
+        {
+          "joinaggregate": [{"op": "sum", "field": "count", "as": "totalCount"}]
+        },
+        {"calculate": "datum.count / datum.totalCount * 100", "as": "pct"},
         {
           "calculate": "{'N':0,'NNE':22.5,'NE':45,'ENE':67.5,'E':90,'ESE':112.5,'SE':135,'SSE':157.5,'S':180,'SSW':202.5,'SW':225,'WSW':247.5,'W':270,'WNW':292.5,'NW':315,'NNW':337.5}[datum.WindDir3pm]",
           "as": "dirDeg"
@@ -77,9 +107,9 @@
         "theta":  {"field": "startAngle", "type": "quantitative", "scale": null, "stack": null},
         "theta2": {"field": "endAngle",   "type": "quantitative"},
         "radius": {
-          "field": "count",
+          "field": "pct",
           "type": "quantitative",
-          "scale": {"type": "sqrt", "range": [10, 144]},
+          "scale": {"type": "linear", "domain": [0, 30], "range": [10, 144]},
           "legend": null
         },
         "radius2": {"value": 10},
@@ -96,8 +126,46 @@
         },
         "tooltip": [
           {"field": "WindDir3pm", "title": "Direction"},
-          {"field": "count",      "title": "Days"}
+          {"field": "pct",        "title": "Frequency (%)", "format": ".1f"}
         ]
+      }
+    },
+    {
+      "description": "Percentage value labels on bars",
+      "data": {
+        "url": "data/weather_cities.csv",
+        "format": {"type": "csv", "parse": {"Date": "date"}}
+      },
+      "transform": [
+        {
+          "filter": "isValid(datum.WindDir3pm) && datum.WindDir3pm != '' && datum.WindDir3pm != 'Calm' && datum.Location == selectedCity && (selectedYear == -1 || year(datum.Date) == selectedYear)"
+        },
+        {
+          "aggregate": [{"op": "count", "field": "WindDir3pm", "as": "count"}],
+          "groupby": ["WindDir3pm"]
+        },
+        {
+          "joinaggregate": [{"op": "sum", "field": "count", "as": "totalCount"}]
+        },
+        {"calculate": "datum.count / datum.totalCount * 100", "as": "pct"},
+        {"filter": "datum.pct >= 4"},
+        {
+          "calculate": "{'N':0,'NNE':22.5,'NE':45,'ENE':67.5,'E':90,'ESE':112.5,'SE':135,'SSE':157.5,'S':180,'SSW':202.5,'SW':225,'WSW':247.5,'W':270,'WNW':292.5,'NW':315,'NNW':337.5}[datum.WindDir3pm]",
+          "as": "dirDeg"
+        },
+        {"filter": "isValid(datum.dirDeg)"},
+        {"calculate": "datum.dirDeg * PI / 180", "as": "dirRad"}
+      ],
+      "mark": {"type": "text", "fontSize": 8, "fontWeight": "600", "fill": "#333", "align": "center", "baseline": "middle"},
+      "encoding": {
+        "theta": {"field": "dirRad", "type": "quantitative", "scale": null},
+        "radius": {
+          "field": "pct",
+          "type": "quantitative",
+          "scale": {"type": "linear", "domain": [0, 30], "range": [26, 160]},
+          "legend": null
+        },
+        "text": {"field": "pct", "type": "quantitative", "format": ".1f"}
       }
     },
     {
