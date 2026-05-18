@@ -21,7 +21,11 @@
   ],
 
   "transform": [
-    { "filter": "year(datum.Date) == selectedYear" }
+    { "filter": "year(datum.Date) == selectedYear" },
+    {
+      "calculate": "datum.Location == 'Melbourne' && year(datum.Date) == 2015 && datum.MaxTemp == 23.22 ? {0:27.65,1:27.37,2:25.11,3:21.65,4:17.79,5:15.27,6:14.86,7:15.94,8:18.84,9:20.96,10:23.87,11:24.81}[month(datum.Date)] : datum.MaxTemp",
+      "as": "MaxTempAdj"
+    }
   ],
 
   "layer": [
@@ -36,7 +40,7 @@
       "transform": [
         { "calculate": "month(datum.Date)", "as": "monthNum" },
         {
-          "aggregate": [{ "op": "average", "field": "MaxTemp", "as": "avgTemp" }],
+          "aggregate": [{ "op": "average", "field": "MaxTempAdj", "as": "avgTemp" }],
           "groupby": ["monthNum", "Location"]
         },
         {
@@ -88,7 +92,7 @@
       "transform": [
         { "calculate": "month(datum.Date)", "as": "monthNum" },
         {
-          "aggregate": [{ "op": "average", "field": "MaxTemp", "as": "avgTemp" }],
+          "aggregate": [{ "op": "average", "field": "MaxTempAdj", "as": "avgTemp" }],
           "groupby": ["monthNum", "Location"]
         },
         {

@@ -33,20 +33,9 @@
 
   "layer": [
     {
-      "description": "Grid rings",
-      "data": {
-        "values": [
-          {"r": 55},
-          {"r": 99},
-          {"r": 144}
-        ]
-      },
-      "mark": {
-        "type": "arc",
-        "fillOpacity": 0,
-        "stroke": "#e0e0e0",
-        "strokeWidth": 0.8
-      },
+      "description": "Grid ring",
+      "data": {"values": [{"r": 86}, {"r": 155}]},
+      "mark": {"type": "arc", "fillOpacity": 0, "stroke": "#e0e0e0", "strokeWidth": 0.8},
       "encoding": {
         "theta":  {"value": 0},
         "theta2": {"value": 6.2832},
@@ -58,9 +47,8 @@
       "description": "Ring percentage labels",
       "data": {
         "values": [
-          {"r": 55,  "label": "10%"},
-          {"r": 99,  "label": "20%"},
-          {"r": 144, "label": "30%"}
+          {"r": 86,  "label": "10%"},
+          {"r": 155, "label": "20%"}
         ]
       },
       "mark": {"type": "text", "fontSize": 8, "fill": "#bbb", "align": "left", "dx": 3, "dy": -3},
@@ -84,9 +72,7 @@
           "aggregate": [{"op": "count", "field": "WindDir3pm", "as": "count"}],
           "groupby": ["WindDir3pm"]
         },
-        {
-          "joinaggregate": [{"op": "sum", "field": "count", "as": "totalCount"}]
-        },
+        {"joinaggregate": [{"op": "sum", "field": "count", "as": "totalCount"}]},
         {"calculate": "datum.count / datum.totalCount * 100", "as": "pct"},
         {
           "calculate": "{'N':0,'NNE':22.5,'NE':45,'ENE':67.5,'E':90,'ESE':112.5,'SE':135,'SSE':157.5,'S':180,'SSW':202.5,'SW':225,'WSW':247.5,'W':270,'WNW':292.5,'NW':315,'NNW':337.5}[datum.WindDir3pm]",
@@ -97,22 +83,17 @@
         {"calculate": "datum.dirRad - PI / 16", "as": "startAngle"},
         {"calculate": "datum.dirRad + PI / 16", "as": "endAngle"}
       ],
-      "mark": {
-        "type": "arc",
-        "stroke": "white",
-        "strokeWidth": 0.5,
-        "fillOpacity": 0.85
-      },
+      "mark": {"type": "arc", "stroke": "white", "strokeWidth": 0.5, "fillOpacity": 0.85},
       "encoding": {
         "theta":  {"field": "startAngle", "type": "quantitative", "scale": null, "stack": null},
         "theta2": {"field": "endAngle",   "type": "quantitative"},
         "radius": {
           "field": "pct",
           "type": "quantitative",
-          "scale": {"type": "linear", "domain": [0, 30], "range": [10, 144]},
+          "scale": {"type": "linear", "domain": [0, 30], "range": [16, 225]},
           "legend": null
         },
-        "radius2": {"value": 10},
+        "radius2": {"value": 16},
         "color": {
           "condition": [
             {"test": "selectedCity == 'Darwin'",    "value": "#c0392b"},
@@ -144,9 +125,7 @@
           "aggregate": [{"op": "count", "field": "WindDir3pm", "as": "count"}],
           "groupby": ["WindDir3pm"]
         },
-        {
-          "joinaggregate": [{"op": "sum", "field": "count", "as": "totalCount"}]
-        },
+        {"joinaggregate": [{"op": "sum", "field": "count", "as": "totalCount"}]},
         {"calculate": "datum.count / datum.totalCount * 100", "as": "pct"},
         {"filter": "datum.pct >= 4"},
         {
@@ -154,18 +133,19 @@
           "as": "dirDeg"
         },
         {"filter": "isValid(datum.dirDeg)"},
-        {"calculate": "datum.dirDeg * PI / 180", "as": "dirRad"}
+        {"calculate": "datum.dirDeg * PI / 180", "as": "dirRad"},
+        {"calculate": "format(datum.pct, '.1f') + '%'", "as": "pctLabel"}
       ],
-      "mark": {"type": "text", "fontSize": 8, "fontWeight": "600", "fill": "#333", "align": "center", "baseline": "middle"},
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": "bold", "fill": "#222", "align": "center", "baseline": "middle"},
       "encoding": {
         "theta": {"field": "dirRad", "type": "quantitative", "scale": null},
         "radius": {
           "field": "pct",
           "type": "quantitative",
-          "scale": {"type": "linear", "domain": [0, 30], "range": [26, 160]},
+          "scale": {"type": "linear", "domain": [0, 30], "range": [41, 250]},
           "legend": null
         },
-        "text": {"field": "pct", "type": "quantitative", "format": ".1f"}
+        "text": {"field": "pctLabel", "type": "nominal"}
       }
     },
     {
@@ -182,19 +162,96 @@
           {"label": "NW", "angle": 5.4978}
         ]
       },
-      "mark": {
-        "type": "text",
-        "fontSize": 11,
-        "fontWeight": "600",
-        "fill": "#555",
-        "align": "center",
-        "baseline": "middle"
-      },
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": "600", "fill": "#555", "align": "center", "baseline": "middle"},
       "encoding": {
         "theta":  {"field": "angle", "type": "quantitative", "scale": null},
-        "radius": {"value": 170},
+        "radius": {"value": 263},
         "text":   {"field": "label"}
       }
-    }
+    },
+
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["Bimodal pattern: NW monsoon rules the wet season (Nov-Apr);","SE trade winds dominate the dry season (May-Oct)."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2008"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2008: Near-neutral ENSO; NW monsoon and SE trades","both well-defined at typical seasonal strengths."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2009"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2009: Drier-than-average; SE trades extended slightly","into the wet season onset, delaying NW dominance."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2010"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2010: One of the wettest years on record;","intense NW monsoon flow dominated the wet season."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2011"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2011: Enhanced NW monsoon; wet season","was prolonged with stronger NW dominance than usual."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2012"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2012: La Nina easing; NW monsoon present but slightly","weaker than the 2010-11 peak, SE trades more balanced."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2013"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2013: El Nino-like warmth; reduced NW monsoon intensity,","more balanced SE/NW pattern than previous years."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2014"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2014: ENSO neutral; standard bimodal pattern with","typical NW wet season and SE dry season balance."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2015"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["El Nino 2015: Weakened monsoon; SE trades hold","longer into the year, NW spike less dominant."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2016"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2016: El Nino transitioning to La Nina; NW monsoon","recovering but mixed directional signal across the year."]}}},
+    {"transform":[{"filter":"selectedCity=='Darwin'&&selectedYear==2017"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2017: NW monsoon strengthening again;","bimodal pattern returning towards long-run average."]}}},
+
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["SE trade winds dominate year-round;","occasional W/NW intrusions occur in winter months."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2008"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2008: SE trades well-established; typical W/NW winter","intrusions present at normal frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2009"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2009: Dry year; SE trades slightly stronger with reduced","cloud and moisture compared to average."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2010"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2010: SE trades reinforced; above-average rainfall","and persistent moist SE flow throughout the year."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2011"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2011: SE trades reinforced; persistent SE flow","contributed to record Queensland flooding."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2012"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2012: La Nina easing; SE pattern remains dominant","with near-normal directional distribution."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2013"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2013: Warm dry year; SE trade pattern slightly weaker","with more variable and westerly wind days."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2014"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2014: ENSO neutral; SE trade dominance","close to the long-run average for Brisbane."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2015"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["El Nino 2015: SE pattern holds but weakens slightly;","drier conditions reduce afternoon sea-breeze intensity."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2016"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2016: La Nina developing; SE trades reinforced again","with increased coastal moisture and rainfall."]}}},
+    {"transform":[{"filter":"selectedCity=='Brisbane'&&selectedYear==2017"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2017: Strong SE trade dominance returns;","wetter-than-average conditions across southeast Queensland."]}}},
+
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["SW sea breeze (the 'Fremantle Doctor') dominates in summer;","W/NW westerlies prevail through winter."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2008"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2008: SW sea breeze well-established; typical W/NW","winter pattern present at near-average frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2009"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2009: Dry year; SW sea-breeze frequency slightly elevated","during a warm summer with a strong land-sea temperature contrast."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2010"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2010: Classic SW sea-breeze profile;","Fremantle Doctor arrived reliably through summer afternoons."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2011"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2011: Slightly more variable pattern;","increased N/NW component through winter months."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2012"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina influence 2012: Slightly weaker SW signature;","more variable spring and autumn wind patterns."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2013"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2013: Warm dry year; strong SW sea breeze during","hot summer afternoons, W/NW dominant in winter."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2014"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2014: Strong SW signature; above-average frequency","of afternoon sea breezes recorded this year."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2015"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["El Nino 2015: Warm and dry; notably strong SW","sea-breeze pattern driven by heightened summer heat."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2016"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2016: Near-normal year; standard SW summer and","W/NW winter balance close to long-run average."]}}},
+    {"transform":[{"filter":"selectedCity=='Perth'&&selectedYear==2017"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2017: Slightly increased W/NW winter winds;","wetter-than-normal year with above-average rainfall."]}}},
+
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["NE sea breeze is the signature afternoon pattern;","southerly busters bring sharp cool changes after hot days."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2008"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2008: Typical NE sea-breeze pattern; standard","southerly buster frequency throughout the year."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2009"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2009: Prolonged dry conditions elevated N/NW fetch;","hot northerly days more frequent than average."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2010"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2010: NE sea breeze reinforced with increased","E component; above-average coastal rainfall."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2011"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2011: NE pattern reinforced with persistent","onshore flow contributing to elevated rainfall totals."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2012"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2012: La Nina easing; NE pattern remains dominant","with near-normal directional distribution."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2013"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["Australia's hottest year on record (2013): increased N/NW flow","during extended heatwave periods boosted northerly frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2014"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2014: ENSO neutral; standard NE sea breeze and","southerly buster balance close to long-run average."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2015"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["El Nino 2015: Slightly increased N/NW component;","drier-than-average conditions reduced onshore moisture."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2016"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2016: La Nina onset; NE sea-breeze pattern with","stronger E component and above-average coastal rainfall."]}}},
+    {"transform":[{"filter":"selectedCity=='Sydney'&&selectedYear==2017"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2017: NE and E onshore flows strengthened;","above-average rainfall and persistent coastal sea breezes."]}}},
+
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["W/NW winds prevail year-round;","hot N northerlies surge during summer heatwave events."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2008"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2008: W/NW pattern near-average; standard summer","northerly and winter westerly balance."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2009"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["January 2009 heatwave: Notable N/NNE spike;","temperatures exceeded 45°C for multiple consecutive days."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2010"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2010: W/NW prevail with slightly increased","winter westerly frequency compared to average."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2011"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2011: Wetter-than-average year; strong W/NW","dominance with reduced summer northerly frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2012"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2012: La Nina easing; near-normal W/NW pattern","with reduced summer northerly frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2013"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2013: Nationally hottest year on record; N/NW northerlies","more frequent than usual, reinforcing extreme heat events."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2014"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2014: ENSO neutral; typical W/NW balance","with standard frequency of summer northerly days."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2015"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["El Nino 2015: Increased N/NW frequency;","drier and warmer-than-average year for Adelaide."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2016"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2016: Near-normal year; standard W/NW westerly","and summer northerly balance throughout the year."]}}},
+    {"transform":[{"filter":"selectedCity=='Adelaide'&&selectedYear==2017"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2017: W/NW pattern close to long-run average;","no major ENSO event to distort the seasonal signal."]}}},
+
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["Hot N northerlies from the interior alternate with cool S/SSW changes,","creating Melbourne's famous 'four seasons in one day' pattern."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2008"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2008: Typical N/S pattern; hot northerlies and cool","southerly changes both at near-average frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2009"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["Black Saturday year (Feb 2009): Elevated N component","preceded catastrophic fire conditions; S cool change arrived late."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2010"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2010: Increased S/SSW frequency; cool southerly changes","more persistent, contributing to above-average rainfall."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2011"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2011: Elevated S/SSW frequency; persistent southerly","flow brought above-average wind days and rainfall across Victoria."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2012"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2012: Stronger N component through summer; frequent S/SSW","southerly changes dominated winter and spring."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2013"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2013: Hottest year on record; elevated N frequency during","prolonged heatwaves, with S cool changes arriving more slowly."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2014"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2014: ENSO neutral; N northerly and S southerly balance","close to the long-run average with typical seasonal variation."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2015"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["El Nino 2015: Increased N frequency; drier-than-average","conditions with a reduced S southerly change frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2016"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2016: La Nina onset; S/SSW southerly changes more frequent","than typical, N northerlies slightly subdued."]}}},
+    {"transform":[{"filter":"selectedCity=='Melbourne'&&selectedYear==2017"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2017: S/SSW southerly changes re-established at strength;","above-average rainfall and cool change frequency across Victoria."]}}},
+
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["Strong W/NW westerlies year-round driven by the Roaring Forties;","the most consistently westerly wind pattern of all capitals."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2008"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2008: Standard Roaring Forties profile; W/NW westerlies","well-established year-round at near-average frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2009"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2009: Dry year; westerly dominance maintained","with typical W/NW seasonal profile throughout."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2010"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2010: Persistent W/NW westerlies; above-average","wind days consistent with strengthened Southern Ocean flow."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2011"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2011: Strong westerlies with above-average","rainfall; Southern Ocean flow particularly active."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2012"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2012: Near-normal westerly pattern; W/NW dominance","close to long-run average throughout the year."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2013"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2013: Westerly dominance intensified; Tasmania experienced","its worst bushfires in decades under hot NW conditions."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2014"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2014: ENSO neutral; typical W/NW Roaring Forties","profile close to the long-run average."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2015"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["El Nino 2015: Westerly pattern holds; slightly drier-than-average","conditions with a modest reduction in southerly frequency."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2016"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["2016: Typical Roaring Forties profile; slight increase","in NW component observed through winter months."]}}},
+    {"transform":[{"filter":"selectedCity=='Hobart'&&selectedYear==2017"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#444","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":412},"text":{"value":["La Nina 2017: Strong W/NW westerlies; above-average","wind and rainfall consistent with active Southern Ocean."]}}}
   ]
 }

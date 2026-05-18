@@ -108,12 +108,12 @@
     {
       "data": {
         "values": [
-          { "metric": "Max Temp",  "norm": 0.96, "note": "↑ Darwin leads" },
-          { "metric": "Wind Speed","norm": 0.96, "note": "↑ Melbourne leads" },
-          { "metric": "Humidity",  "norm": 0.96, "note": "↑ Sydney leads" }
+          { "metric": "Max Temp",  "norm": 1.000, "note": "Darwin leads" },
+          { "metric": "Wind Speed","norm": 1.000, "note": "Melbourne leads" },
+          { "metric": "Humidity",  "norm": 1.000, "note": "Sydney leads" }
         ]
       },
-      "mark": { "type": "text", "align": "center", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "dy": -10 },
+      "mark": { "type": "text", "align": "center", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "dy": 14 },
       "encoding": {
         "x": {
           "field": "metric",

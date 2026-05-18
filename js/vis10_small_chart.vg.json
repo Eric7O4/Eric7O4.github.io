@@ -4,7 +4,10 @@
   "width": "container",
   "height": 407,
 
-  "data": { "url": "data/weather_cities.csv" },
+  "data": {
+    "url": "data/weather_cities.csv",
+    "format": {"type": "csv", "parse": {"Date": "date"}}
+  },
 
   "params": [
     {
@@ -15,30 +18,47 @@
         "options": ["All Cities", "Darwin", "Brisbane", "Perth", "Sydney", "Adelaide", "Melbourne", "Hobart"],
         "name": "Capital City: "
       }
+    },
+    {
+      "name": "selectedYear",
+      "value": -1,
+      "bind": {
+        "input": "select",
+        "options": [-1, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017],
+        "labels": ["All Years", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"],
+        "name": "Year: "
+      }
     }
   ],
 
   "transform": [
     { "filter": "datum.MaxTemp != null" },
-    { "filter": "selectedCity == 'All Cities' || datum.Location == selectedCity" }
+    { "filter": "selectedCity == 'All Cities' || datum.Location == selectedCity" },
+    { "filter": "selectedYear == -1 || year(datum.Date) == selectedYear" },
+    { "bin": {"extent": [5, 50], "step": 2}, "field": "MaxTemp", "as": ["bin_start", "bin_end"] },
+    { "aggregate": [{"op": "count", "as": "dayCount"}], "groupby": ["bin_start", "bin_end"] },
+    { "joinaggregate": [{"op": "sum", "field": "dayCount", "as": "totalDays"}] },
+    { "calculate": "datum.dayCount / datum.totalDays * 100", "as": "pct" }
   ],
 
   "encoding": {
     "x": {
-      "field": "MaxTemp",
+      "field": "bin_start",
       "type": "quantitative",
-      "bin": {"extent": [5, 50], "step": 2},
+      "bin": "binned",
       "scale": {"domain": [5, 50]},
       "title": "Max Temperature (°C)"
     },
+    "x2": {"field": "bin_end"},
     "y": {
-      "aggregate": "count",
+      "field": "pct",
       "type": "quantitative",
-      "title": ["Number", "of Days"],
+      "title": "% of Days",
       "axis": {
         "titleAngle": 0,
         "titleAnchor": "end",
-        "titleAlign": "right"
+        "titleAlign": "right",
+        "format": ".1f"
       }
     }
   },
@@ -51,24 +71,43 @@
       },
       "encoding": {
         "tooltip": [
-          { "field": "MaxTemp", "type": "quantitative", "bin": true, "title": "Temp Range (°C)" },
-          { "aggregate": "count", "type": "quantitative", "title": "Days" }
+          { "field": "bin_start", "type": "quantitative", "bin": "binned", "title": "Temp Range (°C)" },
+          { "field": "pct", "type": "quantitative", "title": "% of Days", "format": ".1f" }
         ]
       }
     },
     {
-      "mark": { "type": "text", "dy": -8, "fontSize": 11, "color": "#333" },
+      "mark": { "type": "text", "dy": -8, "fontSize": 10, "color": "#333", "clip": false },
       "encoding": {
-        "text": { "aggregate": "count", "type": "quantitative" }
+        "text": { "field": "pct", "type": "quantitative", "format": ".1f" }
       }
     },
     {
-      "data": {"values": [{"t": 23}]},
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "lineHeight": 11},
+      "data": {"values": [{"t": 11}]},
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "lineHeight": 11, "align": "left", "clip": false},
       "encoding": {
         "x": {"field": "t", "type": "quantitative", "scale": {"domain": [5, 50]}},
-        "y": {"value": 8},
+        "y": {"value": 10},
         "text": {"value": ["Most days fall", "in this range"]}
+      }
+    },
+    {
+      "data": {"values": [{"x1": 15, "x2": 18.5}]},
+      "mark": {"type": "rule", "color": "#888", "strokeWidth": 1},
+      "encoding": {
+        "x": {"field": "x1", "type": "quantitative", "scale": {"domain": [5, 50]}},
+        "x2": {"field": "x2"},
+        "y": {"value": 18},
+        "y2": {"value": 18}
+      }
+    },
+    {
+      "data": {"values": [{"t": 18.5}]},
+      "mark": {"type": "text", "fontSize": 9, "color": "#888"},
+      "encoding": {
+        "x": {"field": "t", "type": "quantitative", "scale": {"domain": [5, 50]}},
+        "y": {"value": 19},
+        "text": {"value": "▶"}
       }
     },
     {

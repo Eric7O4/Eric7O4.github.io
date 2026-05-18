@@ -1,0 +1,194 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": 520,
+  "padding": 0,
+  "view": {"stroke": null},
+  "config": {
+    "axis": {"domain": false, "grid": false, "ticks": false, "labels": false},
+    "view": {"stroke": null, "strokeWidth": 0}
+  },
+  "projection": {"type": "mercator", "center": [134, -28], "scale": 580},
+
+  "params": [
+    {
+      "name": "era",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "name": "Historical (2008–17)  ◄──────────────────────►  2024"
+      }
+    }
+  ],
+
+  "data": {
+    "url": "data/weather_map_compare.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "lat": "number", "lon": "number",
+        "HistMaxTemp": "number", "MaxTemp2024": "number",
+        "HistRainfall": "number", "Rainfall2024": "number"
+      }
+    }
+  },
+
+  "transform": [
+    {"calculate": "datum.HistMaxTemp + era * (datum.MaxTemp2024 - datum.HistMaxTemp)", "as": "curTemp"},
+    {"calculate": "datum.HistRainfall + era * (datum.Rainfall2024 - datum.HistRainfall)", "as": "curRain"},
+    {"calculate": "round((datum.MaxTemp2024 - datum.HistMaxTemp) * 10) / 10", "as": "diff"},
+    {"calculate": "(datum.diff >= 0 ? '+' : '') + format(datum.diff, '.1f') + '°C'", "as": "diffLabel"},
+    {"calculate": "format(datum.curTemp, '.1f') + '°C'", "as": "curTempLabel"}
+  ],
+
+  "layer": [
+    {
+      "data": {
+        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "transform": [{"filter": "datum.id == 36"}],
+      "mark": {"type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {"type": "geoshape", "fill": null, "stroke": "#bbb", "strokeWidth": 0.8}
+    },
+    {
+      "mark": {"type": "circle", "stroke": "#555", "strokeWidth": 1, "opacity": 0.85},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "curRain",
+          "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [1.5, 3.0, 5.0], "range": [90, 320, 780, 1500]},
+          "legend": {
+            "title": "Avg Rainfall (mm/day)",
+            "orient": "none", "legendX": 8, "legendY": 368,
+            "direction": "horizontal", "titleFontSize": 10, "labelFontSize": 9,
+            "values": [1.5, 3.0, 5.0], "format": ".1f"
+          }
+        },
+        "color": {
+          "field": "curTemp",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [20, 24, 28, 32],
+            "range": ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"]
+          },
+          "legend": {
+            "title": "Avg Max Temp (°C)",
+            "orient": "none", "legendX": 8, "legendY": 424,
+            "direction": "horizontal", "titleFontSize": 10, "labelFontSize": 9
+          }
+        },
+        "tooltip": [
+          {"field": "Location",    "title": "City"},
+          {"field": "curTemp",     "title": "Current Max Temp (°C)", "format": ".1f"},
+          {"field": "curRain",     "title": "Current Rainfall (mm/day)", "format": ".2f"},
+          {"field": "HistMaxTemp", "title": "Historical avg (°C)",  "format": ".1f"},
+          {"field": "MaxTemp2024", "title": "2024 avg (°C)",        "format": ".1f"},
+          {"field": "diffLabel",   "title": "Change"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "dy": -20, "fontSize": 11, "fontWeight": "bold", "fill": "#111", "align": "center"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "Location"}
+      }
+    },
+    {
+      "mark": {"type": "text", "dy": 28, "fontSize": 10, "fill": "#222", "align": "center", "fontWeight": "bold"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "curTempLabel"}
+      }
+    },
+    {
+      "mark": {"type": "text", "dy": 43, "fontSize": 9, "align": "center", "fontStyle": "italic"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "diffLabel"},
+        "color": {
+          "condition": {"test": "datum.diff >= 0", "value": "#c0392b"},
+          "value": "#2471a3"
+        },
+        "opacity": {"expr": "era"}
+      }
+    },
+
+    {
+      "data": {"values": [{}]},
+      "mark": {"type": "text", "align": "left", "fontSize": 13, "fontWeight": "bold", "fill": "#111"},
+      "encoding": {
+        "x": {"value": 8},
+        "y": {"value": 18},
+        "text": {"expr": "era < 0.02 ? 'Showing: Historical average (2008–2017)' : era > 0.98 ? 'Showing: 2024 weather' : 'Transitioning…'"}
+      }
+    },
+    {
+      "data": {"values": [{}]},
+      "mark": {"type": "text", "align": "left", "fontSize": 8.5, "fontStyle": "italic", "fill": "#555"},
+      "encoding": {
+        "x": {"value": 8},
+        "y": {"value": 34},
+        "text": {"value": "Bubble colour = avg max temperature · Bubble size = avg daily rainfall · Coloured label = 2024 change"}
+      }
+    },
+
+    {
+      "data": {"values": [{"lat": -12.46, "lon": 130.84}]},
+      "mark": {"type": "text", "dx": 42, "dy": -18, "align": "left", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "lineHeight": 13},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": ["Hottest capital,", "even hotter in 2024"]},
+        "opacity": {"expr": "era"}
+      }
+    },
+    {
+      "data": {"values": [{"lat": -33.86, "lon": 151.21}]},
+      "mark": {"type": "text", "dx": 22, "dy": 14, "align": "left", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "lineHeight": 13},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": ["Biggest temperature", "rise of any capital"]},
+        "opacity": {"expr": "era"}
+      }
+    },
+    {
+      "data": {"values": [{"lat": -31.95, "lon": 115.86}]},
+      "mark": {"type": "text", "dx": -14, "dy": -32, "align": "right", "fontSize": 8.5, "fontStyle": "italic", "fill": "#2471a3", "lineHeight": 13},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": ["Only capital", "cooler in 2024"]},
+        "opacity": {"expr": "era"}
+      }
+    },
+    {
+      "data": {"values": [{"lat": -42.88, "lon": 147.33}]},
+      "mark": {"type": "text", "dx": 22, "dy": 0, "align": "left", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "lineHeight": 13},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"value": ["Coolest capital,", "+0.9°C in 2024"]},
+        "opacity": {"expr": "era"}
+      }
+    }
+  ]
+}

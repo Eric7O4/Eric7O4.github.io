@@ -74,7 +74,9 @@ const charts = [
   { id: "#vis14", file: "js/vis14_bump.vg.json" },
   { id: "#vis16", file: "js/vis16_interactive_map.vg.json" },
   { id: "#vis17", file: "js/vis17_wind_rose.vg.json" },
-  { id: "#vis18", file: "js/vis18_bivariate_map.vg.json" }
+  { id: "#vis18", file: "js/vis18_bivariate_map.vg.json" },
+  { id: "#vis19", file: "js/vis19_comparison.vg.json" },
+  { id: "#vis20", file: "js/vis20_map_slider.vg.json" }
 ];
 
 const vegaConfig = {
@@ -110,6 +112,16 @@ requestAnimationFrame(() => {
     } else if (chart.id === '#vis18') {
       opts.bind = document.getElementById('vis18-controls');
       vegaEmbed(chart.id, chart.file, opts).catch(console.error);
+    } else if (chart.id === '#vis20') {
+      const ctrl = document.getElementById('vis20-controls');
+      opts.bind = ctrl;
+      vegaEmbed(chart.id, chart.file, opts).then(() => {
+        ctrl.style.cssText += ';display:block;';
+        const bind = ctrl.querySelector('.vega-bind');
+        if (bind) {
+          bind.style.cssText = 'display:flex;flex-direction:column;gap:3px;';
+        }
+      }).catch(console.error);
     } else {
       vegaEmbed(chart.id, chart.file, opts).catch(console.error);
     }

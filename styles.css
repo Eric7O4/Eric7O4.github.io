@@ -155,6 +155,22 @@ body {
   border-color: #2980b9;
 }
 
+#vis20-controls .vega-bind label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+#vis20-controls .vega-bind input[type="range"] {
+  width: 280px;
+}
+
+#vis20 .vega-embed svg .background {
+  stroke: none !important;
+  stroke-width: 0 !important;
+}
+
 .references {
   background: white;
   border-radius: 12px;

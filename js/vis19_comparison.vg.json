@@ -1,0 +1,185 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "width": "container",
+  "height": 550,
+
+  "data": {"url": "data/weather_compare.csv"},
+
+  "params": [
+    {
+      "name": "selectedMetric",
+      "value": "MaxTemp",
+      "bind": {
+        "input": "select",
+        "options": ["MaxTemp", "Rainfall", "Humidity3pm", "WindSpeed3pm"],
+        "labels": ["Max Temperature (°C)", "Rainfall (mm/day)", "3pm Humidity (%)", "3pm Wind Speed (km/h)"],
+        "name": "Metric: "
+      }
+    }
+  ],
+
+  "transform": [
+    {
+      "fold": ["MaxTemp", "Rainfall", "Humidity3pm", "WindSpeed3pm"],
+      "as": ["metricName", "metricValue"]
+    },
+    {"filter": "datum.metricName == selectedMetric"}
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "MonthNum",
+      "type": "ordinal",
+      "title": "Month",
+      "axis": {
+        "labelAngle": 0,
+        "labelExpr": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.value - 1]"
+      }
+    },
+    "color": {
+      "field": "Location",
+      "type": "nominal",
+      "title": "Capital City",
+      "scale": {
+        "domain": ["Darwin","Brisbane","Perth","Sydney","Adelaide","Melbourne","Hobart"],
+        "range": ["#c0392b","#e67e22","#17a589","#e84393","#8e44ad","#2980b9","#34495e"]
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "cityHighlight",
+          "select": {"type": "point", "fields": ["Location"], "on": "click"},
+          "bind": "legend"
+        }
+      ],
+      "transform": [{"filter": "datum.Period == 'Historical (2008–2017)'"}],
+      "mark": {"type": "line", "strokeDash": [5, 3], "strokeWidth": 1.5},
+      "encoding": {
+        "y": {
+          "field": "metricValue",
+          "type": "quantitative",
+          "title": ["Monthly", "average"],
+          "axis": {
+            "titleAngle": 0,
+            "titleAnchor": "end",
+            "titleAlign": "right"
+          }
+        },
+        "opacity": {
+          "condition": {"param": "cityHighlight", "value": 0.7},
+          "value": 0.08
+        },
+        "tooltip": [
+          {"field": "Location",    "title": "City",   "type": "nominal"},
+          {"field": "Month",       "title": "Month",  "type": "nominal"},
+          {"field": "Period",      "title": "Period",  "type": "nominal"},
+          {"field": "metricValue", "title": "Value",  "type": "quantitative", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.Period == '2024'"}],
+      "mark": {"type": "line", "strokeWidth": 2.5, "point": {"filled": true, "size": 60}},
+      "encoding": {
+        "y": {"field": "metricValue", "type": "quantitative"},
+        "opacity": {
+          "condition": {"param": "cityHighlight", "value": 1},
+          "value": 0.08
+        },
+        "tooltip": [
+          {"field": "Location",    "title": "City",   "type": "nominal"},
+          {"field": "Month",       "title": "Month",  "type": "nominal"},
+          {"field": "Period",      "title": "Period",  "type": "nominal"},
+          {"field": "metricValue", "title": "Value",  "type": "quantitative", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [{}]},
+      "mark": {"type": "text", "align": "left", "fontSize": 8.5, "fontStyle": "italic", "fill": "#666"},
+      "encoding": {
+        "x": {"value": 4},
+        "y": {"value": 14},
+        "text": {"value": "Solid = 2024   │   Dashed = Historical avg (2008–2017)   │   Click legend to isolate a city"}
+      }
+    },
+
+    {
+      "data": {"values": [{"MonthNum": 4, "val": 36.8}]},
+      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"field": "val", "type": "quantitative"},
+        "text": {"value": ["Darwin: hottest every month,", "+1.3°C warmer in 2024"]}
+      }
+    },
+    {
+      "data": {"values": [{"MonthNum": 11, "val": 32.5}]},
+      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#e84393", "align": "right", "dx": -4, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"field": "val", "type": "quantitative"},
+        "text": {"value": ["Sydney Dec 2024:", "biggest monthly spike (+4.6°C)"]}
+      }
+    },
+    {
+      "data": {"values": [{"MonthNum": 7, "val": 14.2}]},
+      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"field": "val", "type": "quantitative"},
+        "text": {"value": ["Perth: cooler", "in winter 2024"]}
+      }
+    },
+
+    {
+      "data": {"values": [{"MonthNum": 2, "val": 21.5}]},
+      "transform": [{"filter": "selectedMetric == 'Rainfall'"}],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"field": "val", "type": "quantitative"},
+        "text": {"value": ["Darwin wet season 2024:", "Jan surge +8.6 mm above historical"]}
+      }
+    },
+    {
+      "data": {"values": [{"MonthNum": 10, "val": 9.2}]},
+      "transform": [{"filter": "selectedMetric == 'Rainfall'"}],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#e67e22", "align": "right", "dx": -4, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"field": "val", "type": "quantitative"},
+        "text": {"value": ["Brisbane Nov 2024:", "unusually wet (+6.8 mm)"]}
+      }
+    },
+
+    {
+      "data": {"values": [{"MonthNum": 7, "val": 68.5}]},
+      "transform": [{"filter": "selectedMetric == 'Humidity3pm'"}],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"field": "val", "type": "quantitative"},
+        "text": {"value": ["Perth winter 2024:", "notably more humid (+14 to +16%)"]}
+      }
+    },
+    {
+      "data": {"values": [{"MonthNum": 9, "val": 28.5}]},
+      "transform": [{"filter": "selectedMetric == 'Humidity3pm'"}],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"field": "val", "type": "quantitative"},
+        "text": {"value": ["Darwin dry season 2024:", "significantly drier (−15.6%)"]}
+      }
+    }
+  ]
+}

@@ -33,8 +33,8 @@
         <div id="vis16-controls"></div>
       </section>
       <section class="block">
-        <h2>Distribution of Maximum Temperatures (Histogram)</h2>
-        <p class="description">Daily max temperatures pooled across all seven cities show that most days cluster between 18–28°C.</p>
+        <h2>Distribution of Maximum Temperatures</h2>
+        <p class="description">The histogram below shows daily max temperatures pooled across all seven cities show that most days cluster between 18–28°C.</p>
         <div id="vis10"></div>
       </section>
     </div>
@@ -47,7 +47,7 @@
       </section>
       <section class="block">
         <h2>Temperature Distribution by Capital City (Box Plot)</h2>
-        <p class="description">Darwin's narrow box reflects a consistently hot climate with little seasonal variation. Adelaide's wide spread stands out: it exceeds 45°C in summer yet drops near 10°C in winter. Hobart sits entirely below the rest.</p>
+        <p class="description">The boxplot below, shows the spread of temperatures per city with the vertical extremeties, and the middle of the box shows the average temperature. Narrower boxes such as Darwin's reflects a consistent climate with little seasonal variation. Adelaide's wide spread stands out: it exceeds 45°C in summer yet drops to near 10°C in winter.</p>
         <div id="vis3"></div>
       </section>
     </div>
@@ -110,14 +110,41 @@
     <div class="chart-row">
       <section class="block">
         <h2>Prevailing Wind Directions by Capital City (Wind Rose)</h2>
-        <p class="description">Each bar shows how often the wind blows from that compass direction at 3 pm. Longer bars mean more frequent winds from that bearing. Use the <strong>City dropdown</strong> to compare directional patterns across capitals: Darwin's trade winds differ markedly from Melbourne's westerlies.</p>
+        <p class="description">Each bar shows the <strong>percentage of days</strong> the wind blows from that compass direction at 3 pm. The rings mark the 10% and 20% thresholds. Use the <strong>City</strong> and <strong>Year</strong> dropdowns to explore how directional patterns shift across capitals and years: Darwin's trade winds differ substantially from Melbourne's North/Sourth prevailing winds.</p>
         <div id="vis17"></div>
       </section>
       <section class="block" style="padding-bottom: 0; overflow: hidden;">
-        <h2>Heat vs. Rain: A Bivariate City Map</h2>
-        <p class="description">Bubble <strong>colour</strong> shows average max temperature (pale to deep red); bubble <strong>size</strong> shows average daily rainfall (larger = wetter). Darwin stands apart as both the hottest and rainiest capital. Use the <strong>Month</strong> dropdown to watch Adelaide's summer heat or Darwin's wet-season surge.</p>
+        <h2>Heat vs Rain Bivariate City Map</h2>
+        <p class="description">Bubble <strong>colour</strong> shows average max temperature; bubble <strong>size</strong> shows average daily rainfall. Darwin stands apart as both the hottest and rainiest capital.</p>
         <div id="vis18"></div>
-        <div id="vis18-controls"></div>
+        <div id="vis18-controls" style="margin-top:-35px; position: relative; z-index: 100;"></div>
+      </section>
+    </div>
+
+    <div class="chart-row">
+      <section class="block">
+        <h2>2024 vs Historical Average: Monthly Weather by Capital City</h2>
+        <p class="description">
+          Solid lines show 2024 monthly averages; dashed lines show the 2008–2017 historical average for the same month.
+          Use the <strong>Metric</strong> dropdown to switch between max temperature, rainfall, afternoon humidity, and wind speed.
+          <em>Click a city in the legend to isolate it.</em>
+          Note: 2024 data uses the nearest available weather station as a proxy for each capital city.
+        </p>
+        <div id="vis19"></div>
+      </section>
+    </div>
+
+    <div class="chart-row">
+      <section class="block">
+        <h2>Then vs Now: Weather Shift Across Capital Cities (Slider Map)</h2>
+        <p class="description">
+          Drag the slider to transition smoothly from the <strong>historical average (2008–2017)</strong> to <strong>2024 weather</strong>.
+          Bubble <strong>colour</strong> encodes average max temperature (pale to deep red); bubble <strong>size</strong> encodes average daily rainfall.
+          As you slide toward 2024, coloured difference labels fade in — <span style="color:#c0392b;font-weight:600">red</span> for cities that warmed or got wetter, <span style="color:#2471a3;font-weight:600">blue</span> for cities that cooled or dried.
+          Hover any bubble for exact values.
+        </p>
+        <div id="vis20"></div>
+        <div id="vis20-controls" style="padding: 6px 0 2px;"></div>
       </section>
     </div>
   </main>
@@ -151,6 +178,7 @@
     <ul>
       <li>Data for temperature and rainfall: https://www.kaggle.com/datasets/sandhyapalaniappan/rainfall-prediction-dataset-cleaned-weatheraus</li>
       <li>Natural Earth / Vega Datasets. (n.d.). <em>World 110m TopoJSON</em> [Geographic boundary data used in the Australia map]. Retrieved from <a href="https://vega.github.io/vega-datasets/data/world-110m.json" target="_blank">https://vega.github.io/vega-datasets/data/world-110m.json</a></li>
+      <li>Thomas, N. A. (2024). <em>Australia Weather Data 2000–2024</em> [Dataset used for 2024 weather comparison]. Retrieved from <a href="https://www.kaggle.com/datasets/nadzmiagthomas/australia-weather-data-2000-2024?select=georef-australia-state-suburb.csv" target="_blank">https://www.kaggle.com/datasets/nadzmiagthomas/australia-weather-data-2000-2024</a></li>
     </ul>
   </footer>
 
