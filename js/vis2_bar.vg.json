@@ -47,12 +47,6 @@
       }
     },
     {
-      "mark": { "type": "text", "dy": -8, "fontSize": 12, "fontWeight": "bold", "color": "#333" },
-      "encoding": {
-        "text": { "field": "avgMaxTemp", "type": "quantitative", "format": ".1f" }
-      }
-    },
-    {
       "mark": { "type": "rule", "strokeDash": [6, 4], "color": "#555", "strokeWidth": 2 },
       "encoding": {
         "y": { "datum": 24.1, "type": "quantitative" }
@@ -81,7 +75,7 @@
       "encoding": {
         "x": {"field": "city", "type": "nominal"},
         "y": {"field": "avgMaxTemp", "type": "quantitative"},
-        "text": {"value": ["Cool maritime of", "6.2°C below average"]}
+        "text": {"value": ["Cool maritime", "of 6.2°C", "below average"]}
       }
     },
     {

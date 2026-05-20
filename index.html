@@ -24,19 +24,8 @@
       <img class="hero-image" src="images/image.png" alt="Australian sunset" />
     </section>
 
-    <div class="chart-row">
-      <section class="block" style="padding-bottom: 0; overflow: hidden;">
-        <h2>Interactive Weather Explorer: Metric &amp; Month</h2>
-        <p class="description"> The proportional symbol map below uses saturation encoding to show the distribution of weather metrics across Australian capital cities. Each bubble is coloured by value; each city shows its current reading.</p>
-        <div id="vis16"></div>
-        <div id="vis16-legend"></div>
-        <div id="vis16-controls"></div>
-      </section>
-      <section class="block">
-        <h2>Distribution of Maximum Temperatures</h2>
-        <p class="description">The histogram below shows daily max temperatures pooled across all seven cities show that most days cluster between 18–28°C.</p>
-        <div id="vis10"></div>
-      </section>
+    <div class="section-header">
+      <h2>Temperature</h2>
     </div>
 
     <div class="chart-row">
@@ -47,7 +36,7 @@
       </section>
       <section class="block">
         <h2>Temperature Distribution by Capital City (Box Plot)</h2>
-        <p class="description">The boxplot below, shows the spread of temperatures per city with the vertical extremeties, and the middle of the box shows the average temperature. Narrower boxes such as Darwin's reflects a consistent climate with little seasonal variation. Adelaide's wide spread stands out: it exceeds 45°C in summer yet drops to near 10°C in winter.</p>
+        <p class="description">The boxplot below shows the spread of temperatures per city. The middle of the box shows the median temperature. Shorter boxes such as Darwin's reflect a consistent climate with little seasonal variation. Adelaide's wide spread stands out: it exceeds 45°C in summer yet drops to near 10°C in winter.</p>
         <div id="vis3"></div>
       </section>
     </div>
@@ -59,36 +48,44 @@
         <div id="vis4"></div>
       </section>
       <section class="block">
+        <h2>Distribution of Maximum Temperatures</h2>
+        <p class="description">The histogram below shows daily max temperatures pooled across all seven cities show that most days cluster between 18–28°C.</p>
+        <div id="vis10"></div>
+      </section>
+    </div>
+
+    <div class="section-header">
+      <h2>Rainfall &amp; Humidity</h2>
+    </div>
+
+    <div class="chart-row">
+      <section class="block">
         <h2>Monthly Weather by Capital City (Heatmap)</h2>
         <p class="description">Each row shows a city's seasonal variation; each column compares cities in the same month. Use the <strong>Show</strong> dropdown to toggle between max temperature (oranges) and average daily rainfall (blues). Each cell shows its exact value.</p>
         <div id="vis5"></div>
       </section>
-    </div>
-
-    <div class="chart-row">
       <section class="block">
         <h2>Humidity vs Temperature (Scatter Plot)</h2>
         <p class="description">Each dot is one day: afternoon humidity vs. max temperature. Blue dots are days before rain; grey dots are dry days. Higher humidity correlates with cooler days, making afternoon humidity a reliable next-day rain predictor.</p>
         <div id="vis6"></div>
       </section>
+    </div>
+
+    <div class="chart-row">
       <section class="block">
         <h2>Wind Speed, Rainfall, and Humidity by Capital City (Bubble Chart)</h2>
         <p class="description">Wind speed (x), average daily rainfall (y), and bubble size (humidity) plotted together. Darwin is wet, windy, and humid. Melbourne is the windiest despite low rainfall. Adelaide is the driest overall. <em>Click a city in the legend to highlight it.</em></p>
         <div id="vis7"></div>
       </section>
-    </div>
-
-    <div class="chart-row">
       <section class="block">
         <h2>Rainfall Over Time by Capital City (Stacked Area Chart)</h2>
         <p class="description">Darwin's layer surges in the wet season (Nov–Apr) then nearly vanishes; its six wet months hold almost its entire annual total. Southern cities show the inverse: small winter peaks, dry summers. <em>Click a city in the legend to isolate it.</em></p>
         <div id="vis8"></div>
       </section>
-      <section class="block">
-        <h2>Seasonal Temperature Range by Capital City (Dumbbell Chart)</h2>
-        <p class="description"><span style="color:#e05c40;font-weight:600">Red</span> = January average, <span style="color:#4a90d9;font-weight:600">blue</span> = July average. Adelaide has the largest seasonal swing (15.6°C); Darwin the smallest (0.6°C). Longer bars mean more seasonally variable climates.</p>
-        <div id="vis9"></div>
-      </section>
+    </div>
+
+    <div class="section-header">
+      <h2>Seasonal Patterns &amp; Rankings</h2>
     </div>
 
     <div class="chart-row">
@@ -101,18 +98,37 @@
 
     <div class="chart-row">
       <section class="block">
+        <h2>Seasonal Temperature Range by Capital City (Dumbbell Chart)</h2>
+        <p class="description"><span style="color:#e05c40;font-weight:600">Red</span> = January average, <span style="color:#4a90d9;font-weight:600">blue</span> = July average. Adelaide has the largest seasonal swing (15.6°C); Darwin the smallest (0.6°C). Longer bars mean more seasonally variable climates.</p>
+        <div id="vis9"></div>
+      </section>
+      <section class="block">
         <h2>Monthly Temperature Rankings by Capital City (Bump Chart)</h2>
         <p class="description">Cities ranked 1 (hottest) to 7 (coolest) by average max temperature each month. Perth leads in January–February before Darwin takes over. Adelaide falls from 3rd in summer to 6th in winter. Hobart is 7th every month. <em>Click a city to isolate its trajectory.</em></p>
         <div id="vis14"></div>
       </section>
     </div>
 
+    <div class="section-header">
+      <h2>Maps &amp; 2024 Comparison</h2>
+    </div>
+
     <div class="chart-row">
+      <section class="block" style="padding-bottom: 0; overflow: hidden;">
+        <h2>Interactive Weather Explorer: Metric &amp; Month</h2>
+        <p class="description">The proportional symbol map below uses saturation encoding to show the distribution of weather metrics across Australian capital cities. Each bubble is coloured by value; each city shows its current reading.</p>
+        <div id="vis16"></div>
+        <div id="vis16-legend"></div>
+        <div id="vis16-controls"></div>
+      </section>
       <section class="block">
         <h2>Prevailing Wind Directions by Capital City (Wind Rose)</h2>
-        <p class="description">Each bar shows the <strong>percentage of days</strong> the wind blows from that compass direction at 3 pm. The rings mark the 10% and 20% thresholds. Use the <strong>City</strong> and <strong>Year</strong> dropdowns to explore how directional patterns shift across capitals and years: Darwin's trade winds differ substantially from Melbourne's North/Sourth prevailing winds.</p>
+        <p class="description">Each bar shows the <strong>percentage of days</strong> the wind blows from that compass direction at 3 pm. The rings mark the 10% and 20% thresholds. Use the <strong>City</strong> and <strong>Year</strong> dropdowns to explore how directional patterns shift across capitals and years: Darwin's trade winds differ substantially from Melbourne's North/South prevailing winds.</p>
         <div id="vis17"></div>
       </section>
+    </div>
+
+    <div class="chart-row">
       <section class="block" style="padding-bottom: 0; overflow: hidden;">
         <h2>Heat vs Rain Bivariate City Map</h2>
         <p class="description">Bubble <strong>colour</strong> shows average max temperature; bubble <strong>size</strong> shows average daily rainfall. Darwin stands apart as both the hottest and rainiest capital.</p>
