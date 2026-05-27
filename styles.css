@@ -63,7 +63,7 @@ body {
 }
 
 .section-header p {
-  font-size: 14px;
+  font-size: 15px;
   color: #444;
   line-height: 1.75;
   margin: 0 0 6px;
@@ -119,7 +119,6 @@ body {
   min-height: 0;
 }
 
-/* non-map charts grow to fill remaining block height */
 #vis2, #vis3 {
   flex: 1;
   min-height: 390px;
@@ -136,7 +135,6 @@ body {
   min-height: 0;
 }
 
-/* Vega-Lite interactive controls */
 .vega-bind {
   font-family: 'Inter', -apple-system, sans-serif;
   font-size: 13px;
