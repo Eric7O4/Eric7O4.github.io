@@ -22,12 +22,7 @@
         "y": {
           "field": "MaxTemp",
           "type": "quantitative",
-          "title": ["Max", "Temperature (°C)"],
-          "axis": {
-            "titleAngle": 0,
-            "titleAnchor": "end",
-            "titleAlign": "right"
-          }
+          "title": "Max Temperature (°C)"
         },
         "color": {
           "field": "RainTomorrow",

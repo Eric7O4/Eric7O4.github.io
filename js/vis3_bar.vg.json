@@ -19,13 +19,8 @@
         "y": {
           "field": "MaxTemp",
           "type": "quantitative",
-          "title": ["Max", "Temperature (°C)"],
-          "scale": { "domain": [5, 50] },
-          "axis": {
-            "titleAngle": 0,
-            "titleAnchor": "end",
-            "titleAlign": "right"
-          }
+          "title": "Max Temperature (°C)",
+          "scale": { "domain": [0, 50] }
         },
         "color": {"value": "#4a90d9"}
       }
@@ -58,7 +53,7 @@
       "data": {
         "values": [
           {"Location": "Adelaide", "y": 48.5, "note": "← Widest range: 35°C between seasons"},
-          {"Location": "Darwin",   "y":  7.5, "note": "All 12 months within 3°C of each other →"}
+          {"Location": "Darwin",   "y":  2.5, "note": "← Tightest box: consistent tropical warmth"}
         ]
       },
       "mark": { "type": "text", "fontSize": 9, "fontStyle": "italic", "color": "#555", "align": "left" },

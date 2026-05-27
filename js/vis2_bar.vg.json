@@ -16,30 +16,22 @@
     ]
   },
 
-  "encoding": {
-    "x": {
-      "field": "city",
-      "type": "nominal",
-      "sort": "-y",
-      "axis": { "labelAngle": 0 },
-      "title": "City"
-    },
-    "y": {
-      "field": "avgMaxTemp",
-      "type": "quantitative",
-      "title": ["Average Max", "Temperature (°C)"],
-      "axis": {
-        "titleAngle": 0,
-        "titleAnchor": "end",
-        "titleAlign": "right"
-      }
-    }
-  },
-
   "layer": [
     {
       "mark": { "type": "bar", "color": "#d73027" },
       "encoding": {
+        "x": {
+          "field": "city",
+          "type": "nominal",
+          "sort": "-y",
+          "axis": { "labelAngle": 0 },
+          "title": "City"
+        },
+        "y": {
+          "field": "avgMaxTemp",
+          "type": "quantitative",
+          "title": "Average Max Temperature (°C)"
+        },
         "tooltip": [
           { "field": "city", "type": "nominal", "title": "City" },
           { "field": "avgMaxTemp", "type": "quantitative", "title": "Average Max Temp (°C)" }

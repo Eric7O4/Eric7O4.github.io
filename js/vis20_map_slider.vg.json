@@ -2,8 +2,9 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
   "width": "container",
-  "height": 520,
-  "padding": 0,
+  "height": 500,
+  "padding": {"left": 0, "top": 0, "bottom": 0, "right": 8},
+  "background": "white",
   "view": {"stroke": null},
   "config": {
     "axis": {"domain": false, "grid": false, "ticks": false, "labels": false},
@@ -14,46 +15,17 @@
   "params": [
     {
       "name": "era",
-      "value": 0,
+      "value": 2024,
       "bind": {
-        "input": "range",
-        "min": 0,
-        "max": 1,
-        "step": 0.01,
-        "name": "Historical (2008–17)  ◄──────────────────────►  2024"
+        "input": "select",
+        "options": [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2024],
+        "labels": ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2024"],
+        "name": "Year: "
       }
     }
-  ],
-
-  "data": {
-    "url": "data/weather_map_compare.csv",
-    "format": {
-      "type": "csv",
-      "parse": {
-        "lat": "number", "lon": "number",
-        "HistMaxTemp": "number", "MaxTemp2024": "number",
-        "HistRainfall": "number", "Rainfall2024": "number"
-      }
-    }
-  },
-
-  "transform": [
-    {"calculate": "datum.HistMaxTemp + era * (datum.MaxTemp2024 - datum.HistMaxTemp)", "as": "curTemp"},
-    {"calculate": "datum.HistRainfall + era * (datum.Rainfall2024 - datum.HistRainfall)", "as": "curRain"},
-    {"calculate": "round((datum.MaxTemp2024 - datum.HistMaxTemp) * 10) / 10", "as": "diff"},
-    {"calculate": "(datum.diff >= 0 ? '+' : '') + format(datum.diff, '.1f') + '°C'", "as": "diffLabel"},
-    {"calculate": "format(datum.curTemp, '.1f') + '°C'", "as": "curTempLabel"}
   ],
 
   "layer": [
-    {
-      "data": {
-        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
-        "format": {"type": "topojson", "feature": "countries"}
-      },
-      "transform": [{"filter": "datum.id == 36"}],
-      "mark": {"type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5}
-    },
     {
       "data": {
         "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
@@ -62,12 +34,48 @@
       "mark": {"type": "geoshape", "fill": null, "stroke": "#bbb", "strokeWidth": 0.8}
     },
     {
+      "data": {
+        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "transform": [{"filter": "datum.id == 36"}],
+      "mark": {"type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5}
+    },
+
+    {
+      "data": {
+        "url": "data/weather_cities.csv",
+        "format": {"type": "csv", "parse": {"Date": "date"}}
+      },
+      "transform": [
+        {"filter": "datum.MaxTemp != null"},
+        {"filter": "era != 2024"},
+        {"filter": "year(datum.Date) == era"},
+        {
+          "aggregate": [
+            {"op": "mean", "field": "MaxTemp",  "as": "avgMaxTemp"},
+            {"op": "mean", "field": "Rainfall", "as": "avgRainfall"}
+          ],
+          "groupby": ["Location"]
+        },
+        {
+          "lookup": "Location",
+          "from": {
+            "data": {
+              "url": "data/weather_map_compare.csv",
+              "format": {"type": "csv", "parse": {"lat": "number", "lon": "number", "HistMaxTemp": "number"}}
+            },
+            "key": "Location",
+            "fields": ["lat", "lon", "HistMaxTemp"]
+          }
+        }
+      ],
       "mark": {"type": "circle", "stroke": "#555", "strokeWidth": 1, "opacity": 0.85},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude":  {"field": "lat", "type": "quantitative"},
         "size": {
-          "field": "curRain",
+          "field": "avgRainfall",
           "type": "quantitative",
           "scale": {"type": "threshold", "domain": [1.5, 3.0, 5.0], "range": [90, 320, 780, 1500]},
           "legend": {
@@ -78,7 +86,7 @@
           }
         },
         "color": {
-          "field": "curTemp",
+          "field": "avgMaxTemp",
           "type": "quantitative",
           "scale": {
             "type": "threshold",
@@ -93,15 +101,57 @@
         },
         "tooltip": [
           {"field": "Location",    "title": "City"},
-          {"field": "curTemp",     "title": "Current Max Temp (°C)", "format": ".1f"},
-          {"field": "curRain",     "title": "Current Rainfall (mm/day)", "format": ".2f"},
-          {"field": "HistMaxTemp", "title": "Historical avg (°C)",  "format": ".1f"},
-          {"field": "MaxTemp2024", "title": "2024 avg (°C)",        "format": ".1f"},
-          {"field": "diffLabel",   "title": "Change"}
+          {"field": "avgMaxTemp",  "title": "Avg Max Temp (°C)",      "format": ".1f"},
+          {"field": "avgRainfall", "title": "Avg Rainfall (mm/day)",  "format": ".2f"},
+          {"field": "HistMaxTemp", "title": "Historical avg (°C)",    "format": ".1f"}
         ]
       }
     },
+
     {
+      "data": {
+        "url": "data/weather_map_compare.csv",
+        "format": {"type": "csv", "parse": {"lat": "number", "lon": "number", "HistMaxTemp": "number", "MaxTemp2024": "number", "HistRainfall": "number", "Rainfall2024": "number"}}
+      },
+      "transform": [
+        {"calculate": "datum.MaxTemp2024",  "as": "avgMaxTemp"},
+        {"calculate": "datum.Rainfall2024", "as": "avgRainfall"},
+        {"calculate": "round((datum.MaxTemp2024 - datum.HistMaxTemp) * 10) / 10", "as": "diff"},
+        {"calculate": "(datum.diff >= 0 ? '+' : '') + format(datum.diff, '.1f') + '°C'", "as": "diffLabel"}
+      ],
+      "mark": {"type": "circle", "stroke": "#555", "strokeWidth": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "avgRainfall",
+          "type": "quantitative",
+          "scale": {"type": "threshold", "domain": [1.5, 3.0, 5.0], "range": [90, 320, 780, 1500]},
+          "legend": null
+        },
+        "color": {
+          "field": "avgMaxTemp",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [20, 24, 28, 32],
+            "range": ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"]
+          },
+          "legend": null
+        },
+        "opacity": {"condition": {"test": "era == 2024", "value": 0.85}, "value": 0},
+        "tooltip": [
+          {"field": "Location",    "title": "City"},
+          {"field": "avgMaxTemp",  "title": "2024 Avg Max Temp (°C)",     "format": ".1f"},
+          {"field": "avgRainfall", "title": "2024 Avg Rainfall (mm/day)", "format": ".2f"},
+          {"field": "HistMaxTemp", "title": "Historical avg (°C)",        "format": ".1f"},
+          {"field": "diffLabel",   "title": "Change vs historical"}
+        ]
+      }
+    },
+
+    {
+      "data": {"url": "data/weather_map_compare.csv"},
       "mark": {"type": "text", "dy": -20, "fontSize": 11, "fontWeight": "bold", "fill": "#111", "align": "center"},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
@@ -109,7 +159,30 @@
         "text": {"field": "Location"}
       }
     },
+
     {
+      "data": {
+        "url": "data/weather_cities.csv",
+        "format": {"type": "csv", "parse": {"Date": "date"}}
+      },
+      "transform": [
+        {"filter": "datum.MaxTemp != null"},
+        {"filter": "era != 2024"},
+        {"filter": "year(datum.Date) == era"},
+        {"aggregate": [{"op": "mean", "field": "MaxTemp", "as": "avgMaxTemp"}], "groupby": ["Location"]},
+        {
+          "lookup": "Location",
+          "from": {
+            "data": {
+              "url": "data/weather_map_compare.csv",
+              "format": {"type": "csv", "parse": {"lat": "number", "lon": "number"}}
+            },
+            "key": "Location",
+            "fields": ["lat", "lon"]
+          }
+        },
+        {"calculate": "format(datum.avgMaxTemp, '.1f') + '°C'", "as": "curTempLabel"}
+      ],
       "mark": {"type": "text", "dy": 28, "fontSize": 10, "fill": "#222", "align": "center", "fontWeight": "bold"},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
@@ -117,7 +190,33 @@
         "text": {"field": "curTempLabel"}
       }
     },
+
     {
+      "data": {
+        "url": "data/weather_map_compare.csv",
+        "format": {"type": "csv", "parse": {"lat": "number", "lon": "number", "MaxTemp2024": "number"}}
+      },
+      "transform": [
+        {"calculate": "format(datum.MaxTemp2024, '.1f') + '°C'", "as": "curTempLabel"}
+      ],
+      "mark": {"type": "text", "dy": 28, "fontSize": 10, "fill": "#222", "align": "center", "fontWeight": "bold"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude":  {"field": "lat", "type": "quantitative"},
+        "text": {"field": "curTempLabel"},
+        "opacity": {"condition": {"test": "era == 2024", "value": 1}, "value": 0}
+      }
+    },
+
+    {
+      "data": {
+        "url": "data/weather_map_compare.csv",
+        "format": {"type": "csv", "parse": {"lat": "number", "lon": "number", "MaxTemp2024": "number", "HistMaxTemp": "number"}}
+      },
+      "transform": [
+        {"calculate": "round((datum.MaxTemp2024 - datum.HistMaxTemp) * 10) / 10", "as": "diff"},
+        {"calculate": "(datum.diff >= 0 ? '+' : '') + format(datum.diff, '.1f') + '°C'", "as": "diffLabel"}
+      ],
       "mark": {"type": "text", "dy": 43, "fontSize": 9, "align": "center", "fontStyle": "italic"},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
@@ -127,7 +226,7 @@
           "condition": {"test": "datum.diff >= 0", "value": "#c0392b"},
           "value": "#2471a3"
         },
-        "opacity": {"expr": "era"}
+        "opacity": {"expr": "era == 2024 ? 1 : 0"}
       }
     },
 
@@ -137,7 +236,7 @@
       "encoding": {
         "x": {"value": 8},
         "y": {"value": 18},
-        "text": {"expr": "era < 0.02 ? 'Showing: Historical average (2008–2017)' : era > 0.98 ? 'Showing: 2024 weather' : 'Transitioning…'"}
+        "text": {"expr": "era == 2024 ? 'Showing: 2024 weather' : 'Showing: ' + era + ' annual averages'"}
       }
     },
     {
@@ -157,7 +256,7 @@
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude":  {"field": "lat", "type": "quantitative"},
         "text": {"value": ["Hottest capital,", "even hotter in 2024"]},
-        "opacity": {"expr": "era"}
+        "opacity": {"expr": "era == 2024 ? 1 : 0"}
       }
     },
     {
@@ -167,17 +266,17 @@
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude":  {"field": "lat", "type": "quantitative"},
         "text": {"value": ["Biggest temperature", "rise of any capital"]},
-        "opacity": {"expr": "era"}
+        "opacity": {"expr": "era == 2024 ? 1 : 0"}
       }
     },
     {
       "data": {"values": [{"lat": -31.95, "lon": 115.86}]},
-      "mark": {"type": "text", "dx": -14, "dy": -32, "align": "right", "fontSize": 8.5, "fontStyle": "italic", "fill": "#2471a3", "lineHeight": 13},
+      "mark": {"type": "text", "dx": -22, "dy": -32, "align": "right", "fontSize": 8.5, "fontStyle": "italic", "fill": "#2471a3", "lineHeight": 13},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude":  {"field": "lat", "type": "quantitative"},
         "text": {"value": ["Only capital", "cooler in 2024"]},
-        "opacity": {"expr": "era"}
+        "opacity": {"expr": "era == 2024 ? 1 : 0"}
       }
     },
     {
@@ -187,7 +286,7 @@
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude":  {"field": "lat", "type": "quantitative"},
         "text": {"value": ["Coolest capital,", "+0.9°C in 2024"]},
-        "opacity": {"expr": "era"}
+        "opacity": {"expr": "era == 2024 ? 1 : 0"}
       }
     }
   ]

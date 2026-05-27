@@ -25,12 +25,7 @@
     "y": {
       "field": "rainfall",
       "type": "quantitative",
-      "title": ["Average Daily", "Rainfall (mm)"],
-      "axis": {
-        "titleAngle": 0,
-        "titleAnchor": "end",
-        "titleAlign": "right"
-      }
+      "title": "Average Daily Rainfall (mm)"
     }
   },
 

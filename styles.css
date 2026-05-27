@@ -10,7 +10,7 @@ body {
 .page {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 28px 0px;
+  padding: 28px 10px;
 }
 
 .hero {
@@ -187,9 +187,39 @@ body {
   width: 280px;
 }
 
+#vis20-controls .vega-bind select {
+  width: 90px;
+}
+
+#vis18 .vega-embed svg .background,
 #vis20 .vega-embed svg .background {
   stroke: none !important;
   stroke-width: 0 !important;
+}
+
+#vis18 .vega-embed,
+#vis20 .vega-embed {
+  display: block !important;
+  width: 100% !important;
+}
+
+#vis18,
+#vis20 {
+  position: relative;
+  overflow: hidden;
+}
+
+#vis18::after,
+#vis20::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 4px;
+  background: white;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .references {

@@ -64,12 +64,7 @@
         "y": {
           "field": "metricValue",
           "type": "quantitative",
-          "title": ["Monthly", "average"],
-          "axis": {
-            "titleAngle": 0,
-            "titleAnchor": "end",
-            "titleAlign": "right"
-          }
+          "title": "Monthly average"
         },
         "opacity": {
           "condition": {"param": "cityHighlight", "value": 0.7},

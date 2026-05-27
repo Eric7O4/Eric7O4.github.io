@@ -32,10 +32,7 @@
           "type": "quantitative",
           "stack": null,
           "axis": {
-            "title": ["Rainfall", "(mm)"],
-            "titleAngle": 0,
-            "titleAnchor": "end",
-            "titleAlign": "right"
+            "title": "Rainfall (mm)"
           }
         },
         "color": {

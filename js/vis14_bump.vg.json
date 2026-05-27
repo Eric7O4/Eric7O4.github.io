@@ -42,14 +42,11 @@
         "y": {
           "field": "rank",
           "type": "quantitative",
-          "title": ["Temperature Rank", "(1 = hottest, 7 = coolest)"],
+          "title": "Temperature Rank (1 = hottest, 7 = coolest)",
           "scale": { "domain": [7.5, 0.5] },
           "axis": {
             "values": [1, 2, 3, 4, 5, 6, 7],
-            "tickCount": 7,
-            "titleAngle": 0,
-            "titleAnchor": "end",
-            "titleAlign": "right"
+            "tickCount": 7
           }
         },
         "color": {

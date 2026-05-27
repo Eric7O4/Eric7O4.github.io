@@ -78,12 +78,9 @@
           "type": "quantitative",
           "scale": { "domain": [0, 1] },
           "axis": {
-            "title": ["Normalised Score", "(0 = lowest, 1 = highest)"],
+            "title": "Normalised Score (0 = lowest, 1 = highest)",
             "tickCount": 5,
-            "grid": true,
-            "titleAngle": 0,
-            "titleAnchor": "end",
-            "titleAlign": "right"
+            "grid": true
           }
         },
         "color": {

@@ -51,7 +51,7 @@
         <div id="vis4"></div>
       </section>
       <section class="block">
-        <h2>Distribution of Maximum Temperatures</h2>
+        <h2>Distribution of Maximum Temperatures (Histogram)</h2>
         <p class="description">The histogram displays the frequency distribution of daily maximum temperatures pooled across all seven cities. The majority of observations fall between 18°C and 28°C.</p>
         <div id="vis10"></div>
       </section>
@@ -108,7 +108,7 @@
     <div class="chart-row">
       <section class="block">
         <h2>Seasonal Temperature Range by Capital City (Dumbbell Chart)</h2>
-        <p class="description"><span style="color:#4a90d9;font-weight:600">Blue</span> markers indicate July averages; <span style="color:#e05c40;font-weight:600">Red</span> markers indicate January averages. Adelaide records the largest seasonal range (15.6°C); Darwin records the smallest (0.6°C). A greater bar length indicates a more seasonally variable climate.</p>
+        <p class="description">Compares <span style="color:#4a90d9;font-weight:600">July averages</span> with <span style="color:#e05c40;font-weight:600">January averages</span> for each capital city. Adelaide records the largest seasonal range (15.6°C); Darwin records the smallest (0.6°C). A greater bar length indicates a more seasonally variable climate.</p>
         <div id="vis9"></div>
       </section>
       <section class="block">
@@ -141,15 +141,6 @@
     </div>
 
     <div class="chart-row">
-      <section class="block" style="padding-bottom: 0; overflow: hidden;">
-        <h2>Heat vs Rain Bivariate City Map</h2>
-        <p class="description">Bubble <strong>colour</strong> encodes average maximum temperature; bubble <strong>size</strong> encodes average daily rainfall. Darwin records the highest values for both variables of any capital city.</p>
-        <div id="vis18"></div>
-        <div id="vis18-controls" style="margin-top:-35px; position: relative; z-index: 100;"></div>
-      </section>
-    </div>
-
-    <div class="chart-row">
       <section class="block">
         <h2>2024 vs Historical Average: Monthly Weather by Capital City</h2>
         <p class="description">
@@ -164,15 +155,15 @@
     </div>
 
     <div class="chart-row">
+      <section class="block" style="padding-bottom: 0; overflow: hidden;">
+        <h2>Heat vs Rain by Capital City Map</h2>
+        <p class="description">Two climate extremes stand out immediately: Darwin dominates both dimensions — the hottest and the wettest capital by a wide margin, its monsoon season pushing daily rainfall nearly three times that of Adelaide. At the opposite corner, Hobart sits coolest and driest. The southern cities cluster tightly in the middle, while Perth breaks the pattern — nearly as hot as Brisbane but far drier, a signature of its Mediterranean climate. Bubble <strong>colour</strong> encodes average maximum temperature; bubble <strong>size</strong> encodes average daily rainfall.</p>
+        <div id="vis18"></div>
+        <div id="vis18-controls" style="margin-top:-35px; position: relative; z-index: 100;"></div>
+      </section>
       <section class="block">
         <h2>Then vs Now: Weather Shift Across Capital Cities (Slider Map)</h2>
-        <p class="description">
-          Drag the slider to transition between the <strong>historical average (2008–2017)</strong> and <strong>2024 weather</strong>.
-          Bubble <strong>colour</strong> encodes average maximum temperature (pale to deep red); bubble <strong>size</strong> encodes average daily rainfall.
-          As the slider moves toward 2024, difference labels become visible: <span style="color:#c0392b;font-weight:600">red</span> for cities that recorded higher temperatures or greater rainfall, <span style="color:#2471a3;font-weight:600">blue</span> for cities that recorded lower values.
-          Darwin's bubble increases in colour intensity, reflecting a higher 2024 temperature average, and increases in size due to above-average wet season rainfall. Sydney and Brisbane both shift toward deeper red, with Sydney recording one of the largest temperature increases among eastern capitals. Adelaide also records a higher 2024 temperature, consistent with its above-average summer maxima. Perth is the only exception, with its bubble decreasing slightly in both colour intensity and size, indicating it was both cooler and drier in 2024 than the historical average. Hobart and Melbourne show moderate temperature increases with minimal change in rainfall. The distribution of red labels across the northern and eastern seaboard, alongside the single blue label in the southwest, is consistent with a broad pattern of warming and increased rainfall in the north and reduced rainfall in the southwest.
-          Hover over any bubble for exact values.
-        </p>
+        <p class="description">Select a year to compare it against 2024. Bubble <strong>colour</strong> encodes average max temperature; bubble <strong>size</strong> encodes average daily rainfall. When viewing 2024, <span style="color:#c0392b;font-weight:600">red labels</span> mark cities that warmed relative to the historical average; <span style="color:#2471a3;font-weight:600">blue</span> marks cooling. Six of seven capitals were warmer in 2024 — Perth is the sole exception.</p>
         <div id="vis20"></div>
         <div id="vis20-controls" style="padding: 6px 0 2px;"></div>
       </section>

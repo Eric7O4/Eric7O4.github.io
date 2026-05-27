@@ -66,12 +66,7 @@
         "y": {
           "field": "avgTemp",
           "type": "quantitative",
-          "title": ["Average Max", "Temperature (°C)"],
-          "axis": {
-            "titleAngle": 0,
-            "titleAnchor": "end",
-            "titleAlign": "right"
-          }
+          "title": "Average Max Temperature (°C)"
         },
         "color": {
           "field": "Location",

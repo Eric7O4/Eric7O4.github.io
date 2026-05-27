@@ -2,8 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
   "height": 480,
-  "padding": 0,
+  "padding": {"left": 0, "top": 0, "bottom": 0, "right": 8},
+  "background": "white",
   "view": {"stroke": null},
+  "config": {"view": {"stroke": null}},
   "projection": {"type": "mercator", "center": [134, -28], "scale": 580},
 
   "params": [
@@ -76,18 +78,18 @@
   "layer": [
     {
       "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {"type": "geoshape", "fill": null, "stroke": "#bbb", "strokeWidth": 0.8}
+    },
+    {
+      "data": {
         "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
         "format": {"type": "topojson", "feature": "countries"}
       },
       "transform": [{"filter": "datum.id == 36"}],
       "mark": {"type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5}
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
-        "format": {"type": "json", "property": "features"}
-      },
-      "mark": {"type": "geoshape", "fill": null, "stroke": "#bbb", "strokeWidth": 0.8}
     },
     {
       "mark": {"type": "circle", "stroke": "#555", "strokeWidth": 1, "opacity": 0.85},
