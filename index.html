@@ -18,7 +18,7 @@
       <div class="hero-content">
         <h1>Weather Across Australian Capital Cities</h1>
         <p>
-          Australia's seven capital cities are far apart, spanning 30 degrees of latitude, from Darwin in the tropical north to Hobart near the Southern Ocean. This visualisation draws on 9 years of daily weather records  covering maximum temperature, rainfall, humidity, and wind. This visualisation explores the differences between the cities in temperature, windspeed, and rainfall over time.
+          Australia's seven capital cities span approximately 30 degrees of latitude, from Darwin in the tropical north to Hobart near the Southern Ocean. This visualisation draws on nine years of daily weather records covering maximum temperature, rainfall, humidity, and wind speed, and examines the differences between cities across these variables over time.
         </p>
       </div>
       <img class="hero-image" src="images/image.png" alt="Australian sunset" />
@@ -26,17 +26,20 @@
 
     <div class="section-header">
       <h2>Temperature</h2>
+      <p>
+        Of all dimensions of weather, temperature has the most significant differences across Australia. Darwin records an average maximum of 32.5°C year-round with minimal seasonal variation, consistent with a tropical climate. Hobart averages just 17.9°C, a difference of nearly 15 degrees from Darwin. Perth and Brisbane record warm average temperatures driven by subtropical high-pressure systems. Sydney is moderated by its coastal position, while Adelaide's semi-inland location produces extreme summer maxima regularly exceeding 45°C alongside cooler Mediterranean winters. Melbourne's proximity to the Southern Ocean results in frequent cold-front passages and notable day-to-day temperature variability. The four charts below each address a different aspect of temperature: the bar chart captures each city's mean, the box plot shows distributional spread, the line chart traces monthly seasonal patterns, and the histogram shows the frequency distribution of daily readings across all seven cities. Together, they confirm that latitude is the primary driver of temperature differences between Australian capitals.
+      </p>
     </div>
 
     <div class="chart-row">
       <section class="block">
         <h2>Average Maximum Temperature by Capital City (Bar Chart)</h2>
-        <p class="description">Darwin (32.5°C) is over 14°C hotter than Hobart (17.9°C), both capitals of the same country. The dashed line marks the national average; four cities cluster within 4°C of each other in the mid-20s.</p>
+        <p class="description">Darwin (32.5°C) records an average maximum more than 14°C above Hobart (17.9°C), the largest temperature gap between any two Australian capitals. The dashed line marks the national average across all seven cities. Four cities, Sydney, Adelaide, Perth, and Brisbane, fall within 4°C of each other in the low-to-mid 20s, forming a relatively close mid-range cluster. Melbourne sits just below the national average, reflecting the moderating influence of its southern latitude and proximity to the Southern Ocean. The bar chart provides the clearest single-number summary of each city's climate, and serves as a reference point for the more detailed distributional charts that follow.</p>
         <div id="vis2"></div>
       </section>
       <section class="block">
         <h2>Temperature Distribution by Capital City (Box Plot)</h2>
-        <p class="description">The boxplot below shows the spread of temperatures per city. The middle of the box shows the median temperature. Shorter boxes such as Darwin's reflect a consistent climate with little seasonal variation. Adelaide's wide spread stands out: it exceeds 45°C in summer yet drops to near 10°C in winter.</p>
+        <p class="description">Each box summarises the range of daily maximum temperatures recorded across all years for that city. The centre line marks the <strong>median</strong>, the temperature that half of all days fall above and half fall below. The top and bottom edges of the box show the temperatures that bound the middle 50% of days. The lines extending above and below show the full range, excluding extreme outliers. Shorter boxes, such as Darwin's, indicate that temperatures remain consistent throughout the year. Adelaide's tall box reflects a wide spread, with recorded values exceeding 45°C in summer and approaching 10°C in winter.</p>
         <div id="vis3"></div>
       </section>
     </div>
@@ -44,29 +47,32 @@
     <div class="chart-row">
       <section class="block">
         <h2>Temperature Trends Over Time (Line Chart)</h2>
-        <p class="description">Darwin's nearly flat line reflects its tropical character; Melbourne, Adelaide, and Hobart show deep V-shaped winter troughs. Hover over any month to compare all cities, or click a city in the legend to highlight it.</p>
+        <p class="description">Darwin's near-horizontal trend reflects the limited seasonal variation of a tropical climate. Melbourne, Adelaide, and Hobart show pronounced winter minima. Hover over any month to compare all cities, or <strong>click</strong> a city in the legend to highlight it.</p>
         <div id="vis4"></div>
       </section>
       <section class="block">
         <h2>Distribution of Maximum Temperatures</h2>
-        <p class="description">The histogram below shows daily max temperatures pooled across all seven cities show that most days cluster between 18–28°C.</p>
+        <p class="description">The histogram displays the frequency distribution of daily maximum temperatures pooled across all seven cities. The majority of observations fall between 18°C and 28°C.</p>
         <div id="vis10"></div>
       </section>
     </div>
 
     <div class="section-header">
       <h2>Rainfall &amp; Humidity</h2>
+      <p>
+        Rainfall is the most unequally distributed of Australia's weather metrics. Darwin's monsoon concentrates nearly all annual rainfall into the six months from November through April, with the northwest monsoon delivering over 15 mm per day during the wet season and negligible amounts during the dry. Adelaide is the driest capital, receiving under 1.5 mm per day annually, following a Mediterranean pattern of wet winters and dry summers. Perth records a similar distribution, while Sydney, Brisbane, and Melbourne receive moderate year-round rainfall through east-coast troughs, subtropical disturbances, and cold fronts respectively. Afternoon humidity is among the most reliable single-day predictors of next-day rainfall. The scatter plot illustrates this relationship, with rainy-day observations concentrated above 70% afternoon humidity. The heatmap allows temperature and rainfall to be examined month by month, enabling identification of Darwin's wet-season peak, the winter rainfall maximum for Adelaide and Perth, and the relatively uniform year-round distribution across eastern seaboard cities.
+      </p>
     </div>
 
     <div class="chart-row">
       <section class="block">
         <h2>Monthly Weather by Capital City (Heatmap)</h2>
-        <p class="description">Each row shows a city's seasonal variation; each column compares cities in the same month. Use the <strong>Show</strong> dropdown to toggle between max temperature (oranges) and average daily rainfall (blues). Each cell shows its exact value.</p>
+        <p class="description">The heatmap reveals distinct patterns depending on the metric selected. On temperature, Darwin's row is uniformly high-intensity across all twelve months, while Hobart consistently records the lowest values. Adelaide shows the greatest month-to-month variation, transitioning from peak values in January to its lowest in July. On rainfall, the pattern differs substantially: Darwin records high values during the wet season months and near-zero values from May to October, while southern cities maintain low, uniform values throughout the year. Use the <strong>Show</strong> dropdown to switch between temperature and rainfall views.</p>
         <div id="vis5"></div>
       </section>
       <section class="block">
         <h2>Humidity vs Temperature (Scatter Plot)</h2>
-        <p class="description">Each dot is one day: afternoon humidity vs. max temperature. Blue dots are days before rain; grey dots are dry days. Higher humidity correlates with cooler days, making afternoon humidity a reliable next-day rain predictor.</p>
+        <p class="description">Each point represents one observation: afternoon humidity plotted against maximum temperature. Blue points indicate days preceding rainfall; grey points indicate dry days. The dashed trend line indicates a negative relationship between the two variables: as afternoon humidity increases, maximum temperature tends to decrease. This is consistent with the observation that high afternoon humidity is a reliable predictor of rainfall the following day.</p>
         <div id="vis6"></div>
       </section>
     </div>
@@ -74,24 +80,27 @@
     <div class="chart-row">
       <section class="block">
         <h2>Wind Speed, Rainfall, and Humidity by Capital City (Bubble Chart)</h2>
-        <p class="description">Wind speed (x), average daily rainfall (y), and bubble size (humidity) plotted together. Darwin is wet, windy, and humid. Melbourne is the windiest despite low rainfall. Adelaide is the driest overall. <em>Click a city in the legend to highlight it.</em></p>
+        <p class="description">Wind speed (x-axis), average daily rainfall (y-axis), and afternoon humidity (bubble size) are plotted simultaneously. Darwin records the highest values for both rainfall and humidity, and ranks among the windiest capitals. Melbourne records the highest wind speed despite relatively low rainfall. Adelaide records the lowest average rainfall. <em><strong>Click</strong> a city in the legend to highlight it.</em></p>
         <div id="vis7"></div>
       </section>
       <section class="block">
         <h2>Rainfall Over Time by Capital City (Stacked Area Chart)</h2>
-        <p class="description">Darwin's layer surges in the wet season (Nov–Apr) then nearly vanishes; its six wet months hold almost its entire annual total. Southern cities show the inverse: small winter peaks, dry summers. <em>Click a city in the legend to isolate it.</em></p>
+        <p class="description">Darwin's contribution increases substantially during the wet season (November to April) and falls to near zero in the dry season; the six wet months account for almost the entire annual total. Southern cities show the opposite pattern, with modest winter maxima and low summer values. <em><strong>Click</strong> a city in the legend to isolate it.</em></p>
         <div id="vis8"></div>
       </section>
     </div>
 
     <div class="section-header">
       <h2>Seasonal Patterns &amp; Rankings</h2>
+      <p>
+        Seasonal variation, defined as the difference between a city's warmest and coolest monthly averages, provides a more complete picture of climate than annual averages alone. Adelaide records the widest range of any capital: its January average maximum of 29.5°C falls to 13.9°C in July, a 15.6°C range attributable to its semi-inland position and limited oceanic moderation. Darwin records the narrowest range, with monthly averages varying by under 3°C throughout the year, consistent with a tropical climate that lacks a distinct cool season. Melbourne and Hobart both show substantial seasonal ranges due to their exposure to the Southern Ocean. The ranking chart presents temperatures in relative terms, identifying which city ranks highest each month rather than reporting absolute values. Perth ranks first in summer before Darwin assumes that position during the dry season. Adelaide falls from third in summer to sixth in winter. Hobart ranks last in every month, reflecting its consistently lower thermal baseline. The parallel coordinates chart combines all five metrics, enabling cross-dimensional comparisons across cities.
+      </p>
     </div>
 
     <div class="chart-row">
       <section class="block">
         <h2>Multi-Metric Weather Comparison Across Capital Cities (Parallel Coordinates)</h2>
-        <p class="description">Each city is a line crossing five normalised axes (0 = lowest, 1 = highest across all cities). Darwin leads on temperature, rainfall, and rain days. Melbourne peaks on wind. Adelaide and Perth sit near the bottom on rainfall. <em>Click a city to bring it to the foreground.</em></p>
+        <p class="description">Each city is represented as a line crossing five normalised axes (0 = lowest, 1 = highest across all cities). Darwin records the highest values for temperature, rainfall, and rain days. Melbourne records the highest wind speed. Adelaide and Perth record the lowest rainfall values. <em><strong>Click</strong> a city to bring it to the foreground.</em></p>
         <div id="vis12"></div>
       </section>
     </div>
@@ -99,31 +108,34 @@
     <div class="chart-row">
       <section class="block">
         <h2>Seasonal Temperature Range by Capital City (Dumbbell Chart)</h2>
-        <p class="description"><span style="color:#e05c40;font-weight:600">Red</span> = January average, <span style="color:#4a90d9;font-weight:600">blue</span> = July average. Adelaide has the largest seasonal swing (15.6°C); Darwin the smallest (0.6°C). Longer bars mean more seasonally variable climates.</p>
+        <p class="description"><span style="color:#4a90d9;font-weight:600">Blue</span> markers indicate July averages; <span style="color:#e05c40;font-weight:600">Red</span> markers indicate January averages. Adelaide records the largest seasonal range (15.6°C); Darwin records the smallest (0.6°C). A greater bar length indicates a more seasonally variable climate.</p>
         <div id="vis9"></div>
       </section>
       <section class="block">
         <h2>Monthly Temperature Rankings by Capital City (Bump Chart)</h2>
-        <p class="description">Cities ranked 1 (hottest) to 7 (coolest) by average max temperature each month. Perth leads in January–February before Darwin takes over. Adelaide falls from 3rd in summer to 6th in winter. Hobart is 7th every month. <em>Click a city to isolate its trajectory.</em></p>
+        <p class="description">Cities are ranked 1 (highest) to 7 (lowest) by average maximum temperature for each month. Perth holds the highest rank in January and February before Darwin assumes that position. Adelaide falls from third in summer to sixth in winter. Hobart ranks seventh in every month. <em><strong>Click</strong> a city to isolate its trajectory.</em></p>
         <div id="vis14"></div>
       </section>
     </div>
 
     <div class="section-header">
       <h2>Maps &amp; 2024 Comparison</h2>
+      <p>
+        Geographic representation of weather data reveals spatial patterns that other chart types cannot adequately convey, including the temperature gradient from north to south, the lower rainfall of inland capitals relative to coastal cities, and the substantial differences in prevailing wind direction between cities. The interactive weather explorer allows any metric and month to be examined simultaneously, while the wind rose displays directional wind frequency for any selected city and year. Darwin's monsoon-driven wind pattern differs substantially from Sydney's predominantly north-easterly winds or Hobart's westerly dominance. The final two charts incorporate 2024 data to assess whether recent conditions represent a departure from the 2008 to 2017 baseline. Six of seven capitals recorded higher average maximum temperatures in 2024, with Sydney's December exceeding its historical average by 4.6°C. Perth was the only city to record a lower average. The slider map allows direct comparison between historical and 2024 values, with the magnitude of change visualised through colour and size transitions.
+      </p>
     </div>
 
     <div class="chart-row">
       <section class="block" style="padding-bottom: 0; overflow: hidden;">
         <h2>Interactive Weather Explorer: Metric &amp; Month</h2>
-        <p class="description">The proportional symbol map below uses saturation encoding to show the distribution of weather metrics across Australian capital cities. Each bubble is coloured by value; each city shows its current reading.</p>
+        <p class="description">The proportional symbol map uses colour saturation to display the selected weather metric across Australian capital cities. Each bubble is coloured according to its recorded value for the selected month and metric.</p>
         <div id="vis16"></div>
         <div id="vis16-legend"></div>
         <div id="vis16-controls"></div>
       </section>
       <section class="block">
         <h2>Prevailing Wind Directions by Capital City (Wind Rose)</h2>
-        <p class="description">Each bar shows the <strong>percentage of days</strong> the wind blows from that compass direction at 3 pm. The rings mark the 10% and 20% thresholds. Use the <strong>City</strong> and <strong>Year</strong> dropdowns to explore how directional patterns shift across capitals and years: Darwin's trade winds differ substantially from Melbourne's North/South prevailing winds.</p>
+        <p class="description">Each bar represents the <strong>percentage of days</strong> on which wind was recorded from that compass direction at 3 pm. The reference rings mark the 10% and 20% thresholds. Use the <strong>City</strong> and <strong>Year</strong> dropdowns to compare directional patterns across capitals and years. Darwin's monsoon-driven wind pattern differs substantially from Melbourne's predominantly north-south distribution.</p>
         <div id="vis17"></div>
       </section>
     </div>
@@ -131,7 +143,7 @@
     <div class="chart-row">
       <section class="block" style="padding-bottom: 0; overflow: hidden;">
         <h2>Heat vs Rain Bivariate City Map</h2>
-        <p class="description">Bubble <strong>colour</strong> shows average max temperature; bubble <strong>size</strong> shows average daily rainfall. Darwin stands apart as both the hottest and rainiest capital.</p>
+        <p class="description">Bubble <strong>colour</strong> encodes average maximum temperature; bubble <strong>size</strong> encodes average daily rainfall. Darwin records the highest values for both variables of any capital city.</p>
         <div id="vis18"></div>
         <div id="vis18-controls" style="margin-top:-35px; position: relative; z-index: 100;"></div>
       </section>
@@ -142,8 +154,9 @@
         <h2>2024 vs Historical Average: Monthly Weather by Capital City</h2>
         <p class="description">
           Solid lines show 2024 monthly averages; dashed lines show the 2008–2017 historical average for the same month.
+          On temperature, six of seven capitals recorded higher averages in 2024 than the historical baseline, with the largest departures occurring in spring and summer months. Sydney's December average exceeded its historical value, while Perth was the only city to record a lower annual average than the baseline. On rainfall, Darwin's 2024 wet season exceeded the historical average, while Adelaide and Melbourne recorded below-average winter rainfall. Departures in humidity and wind speed were comparatively smaller, though Sydney's afternoon humidity remained above its historical baseline across most months. Overall, 2024 represents a warmer year than the long-run average for the majority of capitals, with above-average rainfall concentrated in tropical cities.
           Use the <strong>Metric</strong> dropdown to switch between max temperature, rainfall, afternoon humidity, and wind speed.
-          <em>Click a city in the legend to isolate it.</em>
+          <em><strong>Click</strong> a city in the legend to isolate it.</em>
           Note: 2024 data uses the nearest available weather station as a proxy for each capital city.
         </p>
         <div id="vis19"></div>
@@ -154,37 +167,25 @@
       <section class="block">
         <h2>Then vs Now: Weather Shift Across Capital Cities (Slider Map)</h2>
         <p class="description">
-          Drag the slider to transition smoothly from the <strong>historical average (2008–2017)</strong> to <strong>2024 weather</strong>.
-          Bubble <strong>colour</strong> encodes average max temperature (pale to deep red); bubble <strong>size</strong> encodes average daily rainfall.
-          As you slide toward 2024, coloured difference labels fade in — <span style="color:#c0392b;font-weight:600">red</span> for cities that warmed or got wetter, <span style="color:#2471a3;font-weight:600">blue</span> for cities that cooled or dried.
-          Hover any bubble for exact values.
+          Drag the slider to transition between the <strong>historical average (2008–2017)</strong> and <strong>2024 weather</strong>.
+          Bubble <strong>colour</strong> encodes average maximum temperature (pale to deep red); bubble <strong>size</strong> encodes average daily rainfall.
+          As the slider moves toward 2024, difference labels become visible: <span style="color:#c0392b;font-weight:600">red</span> for cities that recorded higher temperatures or greater rainfall, <span style="color:#2471a3;font-weight:600">blue</span> for cities that recorded lower values.
+          Darwin's bubble increases in colour intensity, reflecting a higher 2024 temperature average, and increases in size due to above-average wet season rainfall. Sydney and Brisbane both shift toward deeper red, with Sydney recording one of the largest temperature increases among eastern capitals. Adelaide also records a higher 2024 temperature, consistent with its above-average summer maxima. Perth is the only exception, with its bubble decreasing slightly in both colour intensity and size, indicating it was both cooler and drier in 2024 than the historical average. Hobart and Melbourne show moderate temperature increases with minimal change in rainfall. The distribution of red labels across the northern and eastern seaboard, alongside the single blue label in the southwest, is consistent with a broad pattern of warming and increased rainfall in the north and reduced rainfall in the southwest.
+          Hover over any bubble for exact values.
         </p>
         <div id="vis20"></div>
         <div id="vis20-controls" style="padding: 6px 0 2px;"></div>
       </section>
     </div>
-  </main>
 
-  <section class="page references" style="margin-top: 10px;">
-    <h2>Conclusion</h2>
+  <section class="references" style="margin-top: 10px;">
+    <h2 style="font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; color: #1a1a1a;">Conclusion</h2>
     <p>
-      Across a decade of daily weather records, four clear narratives emerge from Australia's
-      capital cities. <strong>Latitude rules temperature:</strong> Darwin's average maximum of
-      32.5°C is 14.6°C hotter than Hobart's 17.9°C, making north-south position the dominant driver of each city's thermal character.
-    </p>
-    <p>
-      <strong>The monsoon distorts rainfall comparisons:</strong> Darwin's wet season (November–April)
-      delivers roughly 5 mm per day, nearly triple Adelaide's annual rate, and its six wet months account for almost all of its annual total.
-    </p>
-    <p>
-      <strong>Seasonal swings reveal climate character:</strong> Adelaide's 15.6°C January-to-July gap marks it as Australia's most continental capital, while Darwin barely shifts 0.6°C, the hallmark of a true tropical climate.
-    </p>
-    <p>
-      <strong>Wind and humidity tell the final story:</strong> Melbourne is the windiest capital despite modest rainfall. Sydney leads on afternoon humidity, which is the most reliable single-day predictor of next-day rain across all cities.
+      Analysis of nine years of daily weather records indicates that latitude and geographic position are the primary determinants of climate difference across Australia's capital cities. Darwin records an average maximum temperature 14.6°C above Hobart, and this north-south gradient is reflected in nearly all other variables. Darwin's monsoon produces a wet season average of approximately 5 mm per day, nearly three times Adelaide's annual rate, with the majority of its annual total concentrated in six months. Seasonal range provides further differentiation: Adelaide's January-to-July spread of 15.6°C identifies it as the most seasonally variable capital, while Darwin's range of 0.6°C is consistent with a tropical climate lacking a defined cool season. Melbourne records the highest wind speed of any capital despite relatively low rainfall, and Sydney records the highest afternoon humidity, which is the most reliable predictor of next-day rainfall across all cities. These findings indicate that no two Australian capitals share the same climate profile, and that proximity to the tropics and the ocean are the dominant factors shaping each city's weather characteristics.
     </p>
   </section>
 
-  <footer class="page references">
+  <footer class="references">
     <h2>References</h2>
     <p>AI Acknowledgement: Claude was used for formatting datasets, and ChatGPT was used for ideas.
     </p>
@@ -194,9 +195,10 @@
     <ul>
       <li>Data for temperature and rainfall: https://www.kaggle.com/datasets/sandhyapalaniappan/rainfall-prediction-dataset-cleaned-weatheraus</li>
       <li>Natural Earth / Vega Datasets. (n.d.). <em>World 110m TopoJSON</em> [Geographic boundary data used in the Australia map]. Retrieved from <a href="https://vega.github.io/vega-datasets/data/world-110m.json" target="_blank">https://vega.github.io/vega-datasets/data/world-110m.json</a></li>
-      <li>Thomas, N. A. (2024). <em>Australia Weather Data 2000–2024</em> [Dataset used for 2024 weather comparison]. Retrieved from <a href="https://www.kaggle.com/datasets/nadzmiagthomas/australia-weather-data-2000-2024?select=georef-australia-state-suburb.csv" target="_blank">https://www.kaggle.com/datasets/nadzmiagthomas/australia-weather-data-2000-2024</a></li>
+      <li>Thomas, N. A. (2024). <em>Australia Weather Data 2000-2024</em> [Dataset used for 2024 weather comparison]. Retrieved from <a href="https://www.kaggle.com/datasets/nadzmiagthomas/australia-weather-data-2000-2024?select=georef-australia-state-suburb.csv" target="_blank">https://www.kaggle.com/datasets/nadzmiagthomas/australia-weather-data-2000-2024</a></li>
     </ul>
   </footer>
+  </main>
 
   <script src="js/main.js"></script>
 </body>

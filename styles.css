@@ -10,7 +10,7 @@ body {
 .page {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 28px 24px;
+  padding: 28px 0px;
 }
 
 .hero {
@@ -44,7 +44,7 @@ body {
   min-width: 0;
   height: 260px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 10px;
   box-shadow: 0 4px 18px rgba(0,0,0,0.18);
 }
 
@@ -55,11 +55,18 @@ body {
 }
 
 .section-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0;
-  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.section-header p {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.75;
+  margin: 0 0 6px;
 }
 
 .chart-row {
@@ -76,7 +83,7 @@ body {
 
 .block {
   background: white;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 20px 22px 22px;
   margin: 10px 0;
   box-shadow: 0 1px 6px rgba(0,0,0,0.07);
@@ -187,8 +194,8 @@ body {
 
 .references {
   background: white;
-  border-radius: 12px;
-  padding: 20px 24px;
+  border-radius: 10px;
+  padding: 20px 22px;
   margin-top: 10px;
   box-shadow: 0 1px 6px rgba(0,0,0,0.07);
   font-size: 13.5px;

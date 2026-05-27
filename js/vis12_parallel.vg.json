@@ -4,6 +4,8 @@
   "width": "container", 
   "height": "container",
 
+  "resolve": {"legend": {"color": "independent"}},
+
   "data": {
     "values": [
       {"city":"Adelaide", "metric":"Max Temp",  "norm":0.342, "raw":"22.9°C"},
@@ -108,20 +110,32 @@
     {
       "data": {
         "values": [
-          { "metric": "Max Temp",  "norm": 1.000, "note": "Darwin leads" },
-          { "metric": "Wind Speed","norm": 1.000, "note": "Melbourne leads" },
-          { "metric": "Humidity",  "norm": 1.000, "note": "Sydney leads" }
+          { "metric": "Rainfall",   "norm": 1.000, "note": "Darwin: heaviest rainfall", "col": "#c0392b" },
+          { "metric": "Wind Speed", "norm": 1.000, "note": "Melbourne: windiest",       "col": "#2980b9" },
+          { "metric": "Humidity",   "norm": 1.000, "note": "Sydney: most humid",        "col": "#e84393" },
+          { "metric": "Rain Days",  "norm": 1.000, "note": "Darwin: most rain days",    "col": "#c0392b" }
         ]
       },
-      "mark": { "type": "text", "align": "center", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "dy": 14 },
+      "mark": { "type": "text", "align": "center", "fontSize": 8.5, "fontStyle": "italic", "dy": -10 },
       "encoding": {
-        "x": {
-          "field": "metric",
-          "type": "nominal",
-          "sort": ["Max Temp","Rainfall","Wind Speed","Humidity","Rain Days"]
-        },
+        "x": { "field": "metric", "type": "nominal", "sort": ["Max Temp","Rainfall","Wind Speed","Humidity","Rain Days"] },
         "y": { "field": "norm", "type": "quantitative" },
-        "text": { "field": "note", "type": "nominal" }
+        "text": { "field": "note", "type": "nominal" },
+        "color": { "field": "col", "type": "nominal", "scale": null, "legend": null }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "metric": "Max Temp", "norm": 0.000, "note": "Hobart: coolest", "col": "#34495e" }
+        ]
+      },
+      "mark": { "type": "text", "align": "center", "fontSize": 8.5, "fontStyle": "italic", "dy": -10 },
+      "encoding": {
+        "x": { "field": "metric", "type": "nominal", "sort": ["Max Temp","Rainfall","Wind Speed","Humidity","Rain Days"] },
+        "y": { "field": "norm", "type": "quantitative" },
+        "text": { "field": "note", "type": "nominal" },
+        "color": { "field": "col", "type": "nominal", "scale": null, "legend": null }
       }
     }
   ]

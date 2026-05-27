@@ -31,6 +31,7 @@
     "x": {
       "field": "MonthNum",
       "type": "ordinal",
+      "sort": [1,2,3,4,5,6,7,8,9,10,11,12],
       "title": "Month",
       "axis": {
         "labelAngle": 0,
@@ -105,80 +106,219 @@
       "encoding": {
         "x": {"value": 4},
         "y": {"value": 14},
-        "text": {"value": "Solid = 2024   │   Dashed = Historical avg (2008–2017)   │   Click legend to isolate a city"}
+        "text": {"value": "Solid = 2024   │   Dashed = Historical average (2008–2017)   │   Click legend to isolate a city"}
       }
     },
 
     {
-      "data": {"values": [{"MonthNum": 4, "val": 36.8}]},
-      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "lineHeight": 12, "clip": false},
+      "transform": [
+        {"filter": "selectedMetric == 'MaxTemp'"},
+        {"filter": "datum.MonthNum == 4"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "dy": 14, "lineHeight": 12, "clip": false},
       "encoding": {
         "x": {"field": "MonthNum", "type": "ordinal"},
-        "y": {"field": "val", "type": "quantitative"},
+        "y": {"value": 505},
         "text": {"value": ["Darwin: hottest every month,", "+1.3°C warmer in 2024"]}
       }
     },
     {
-      "data": {"values": [{"MonthNum": 11, "val": 32.5}]},
-      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#e84393", "align": "right", "dx": -4, "lineHeight": 12, "clip": false},
+      "transform": [
+        {"filter": "selectedMetric == 'MaxTemp'"},
+        {"filter": "datum.MonthNum == 10"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "dy": 14, "lineHeight": 12, "clip": false},
       "encoding": {
         "x": {"field": "MonthNum", "type": "ordinal"},
-        "y": {"field": "val", "type": "quantitative"},
-        "text": {"value": ["Sydney Dec 2024:", "biggest monthly spike (+4.6°C)"]}
+        "y": {"value": 505},
+        "text": {"value": ["Perth: cooler", "in winter 2024"]}
       }
     },
     {
-      "data": {"values": [{"MonthNum": 7, "val": 14.2}]},
-      "transform": [{"filter": "selectedMetric == 'MaxTemp'"}],
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "lineHeight": 12, "clip": false},
+      "transform": [
+        {"filter": "selectedMetric == 'MaxTemp'"},
+        {"filter": "datum.MonthNum == 2"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#34495e", "align": "left", "dx": 5, "dy": 14, "lineHeight": 12, "clip": false},
       "encoding": {
         "x": {"field": "MonthNum", "type": "ordinal"},
-        "y": {"field": "val", "type": "quantitative"},
-        "text": {"value": ["Perth: cooler", "in winter 2024"]}
+        "y": {"value": 505},
+        "text": {"value": ["Hobart: coolest capital,", "summer peak ~22°C"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'MaxTemp'"},
+        {"filter": "datum.MonthNum == 6"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#e67e22", "align": "center", "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 505},
+        "text": {"value": ["Brisbane: warm year-round,", "winter minimum ~21°C"]}
       }
     },
 
     {
-      "data": {"values": [{"MonthNum": 2, "val": 21.5}]},
-      "transform": [{"filter": "selectedMetric == 'Rainfall'"}],
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "lineHeight": 12, "clip": false},
+      "transform": [
+        {"filter": "selectedMetric == 'Rainfall'"},
+        {"filter": "datum.MonthNum == 2"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "dy": 14, "lineHeight": 12, "clip": false},
       "encoding": {
         "x": {"field": "MonthNum", "type": "ordinal"},
-        "y": {"field": "val", "type": "quantitative"},
+        "y": {"value": 35},
         "text": {"value": ["Darwin wet season 2024:", "Jan surge +8.6 mm above historical"]}
       }
     },
     {
-      "data": {"values": [{"MonthNum": 10, "val": 9.2}]},
-      "transform": [{"filter": "selectedMetric == 'Rainfall'"}],
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#e67e22", "align": "right", "dx": -4, "lineHeight": 12, "clip": false},
+      "transform": [
+        {"filter": "selectedMetric == 'Rainfall'"},
+        {"filter": "datum.MonthNum == 10"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#e67e22", "align": "left", "dx": 90, "dy": 14, "lineHeight": 12, "clip": false},
       "encoding": {
         "x": {"field": "MonthNum", "type": "ordinal"},
-        "y": {"field": "val", "type": "quantitative"},
+        "y": {"value": 90},
         "text": {"value": ["Brisbane Nov 2024:", "unusually wet (+6.8 mm)"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'Rainfall'"},
+        {"filter": "datum.MonthNum == 7"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 35},
+        "text": {"value": ["Perth: peak winter rainfall,", "Mediterranean climate"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'Rainfall'"},
+        {"filter": "datum.MonthNum == 9"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#e84393", "align": "left", "dx": 80, "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 55},
+        "text": {"value": ["Brisbane & Sydney:", "spring rain surge Oct–Nov"]}
       }
     },
 
     {
-      "data": {"values": [{"MonthNum": 7, "val": 68.5}]},
-      "transform": [{"filter": "selectedMetric == 'Humidity3pm'"}],
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "lineHeight": 12, "clip": false},
+      "transform": [
+        {"filter": "selectedMetric == 'Humidity3pm'"},
+        {"filter": "datum.MonthNum == 7"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "dy": 14, "lineHeight": 12, "clip": false},
       "encoding": {
         "x": {"field": "MonthNum", "type": "ordinal"},
-        "y": {"field": "val", "type": "quantitative"},
+        "y": {"value": 505},
         "text": {"value": ["Perth winter 2024:", "notably more humid (+14 to +16%)"]}
       }
     },
     {
-      "data": {"values": [{"MonthNum": 9, "val": 28.5}]},
-      "transform": [{"filter": "selectedMetric == 'Humidity3pm'"}],
-      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "lineHeight": 12, "clip": false},
+      "transform": [
+        {"filter": "selectedMetric == 'Humidity3pm'"},
+        {"filter": "datum.MonthNum == 10"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "right", "dx": -4, "dy": 14, "lineHeight": 12, "clip": false},
       "encoding": {
         "x": {"field": "MonthNum", "type": "ordinal"},
-        "y": {"field": "val", "type": "quantitative"},
+        "y": {"value": 505},
         "text": {"value": ["Darwin dry season 2024:", "significantly drier (−15.6%)"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'Humidity3pm'"},
+        {"filter": "datum.MonthNum == 2"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#8e44ad", "align": "left", "dx": 5, "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 505},
+        "text": {"value": ["Adelaide: driest 3pm humidity", "during summer months"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'Humidity3pm'"},
+        {"filter": "datum.MonthNum == 11"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#17a589", "align": "center", "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 505},
+        "text": {"value": ["Perth: humidity drops sharply", "into dry summer months"]}
+      }
+    },
+
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'WindSpeed3pm'"},
+        {"filter": "datum.MonthNum == 3"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#2980b9", "align": "left", "dx": 5, "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 470},
+        "text": {"value": ["Melbourne: windiest capital,", "consistent across both periods"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'WindSpeed3pm'"},
+        {"filter": "datum.MonthNum == 11"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#8e44ad", "align": "right", "dx": -4, "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 505},
+        "text": {"value": ["Adelaide:", "calmest capital,", "lowest wind speed", "year-round"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'WindSpeed3pm'"},
+        {"filter": "datum.MonthNum == 2"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#34495e", "align": "left", "dx": 5, "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 505},
+        "text": {"value": ["Hobart: second windiest capital,", "strongest in summer"]}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "selectedMetric == 'WindSpeed3pm'"},
+        {"filter": "datum.MonthNum == 6"},
+        {"aggregate": [{"op": "min", "field": "metricValue", "as": "minV"}], "groupby": ["MonthNum"]}
+      ],
+      "mark": {"type": "text", "fontSize": 8.5, "fontStyle": "italic", "fill": "#c0392b", "align": "left", "dx": 5, "dy": 14, "lineHeight": 12, "clip": false},
+      "encoding": {
+        "x": {"field": "MonthNum", "type": "ordinal"},
+        "y": {"value": 505},
+        "text": {"value": ["Darwin: calmest winds", "during dry season"]}
       }
     }
   ]

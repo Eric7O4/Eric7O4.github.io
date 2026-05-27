@@ -52,7 +52,7 @@
           "scale": {
             "type": "threshold",
             "domain": [48, 52],
-            "range": [350, 1000, 2200]
+            "range": [200, 600, 1400]
           }
         },
         "color": {

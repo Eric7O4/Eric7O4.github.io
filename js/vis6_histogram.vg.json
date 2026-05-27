@@ -52,13 +52,20 @@
       }
     },
     {
-      "transform": [
-        {"regression": "MaxTemp", "on": "Humidity3pm"}
-      ],
-      "mark": {"type": "line", "color": "black", "strokeWidth": 3},
+      "data": {"values": [{"hum": 10, "temp": 33}, {"hum": 92, "temp": 23}]},
+      "mark": {"type": "line", "color": "#111", "strokeWidth": 2, "strokeDash": [5, 3]},
       "encoding": {
-        "x": {"field": "Humidity3pm", "type": "quantitative"},
-        "y": {"field": "MaxTemp",     "type": "quantitative"}
+        "x": {"field": "hum",  "type": "quantitative"},
+        "y": {"field": "temp", "type": "quantitative"}
+      }
+    },
+    {
+      "data": {"values": [{"hum": 32, "temp": 33}]},
+      "mark": {"type": "text", "align": "left", "fontSize": 9.5, "fontWeight": "bold", "fontStyle": "italic", "color": "#111", "dx": 4, "dy": -7, "lineHeight": 13},
+      "encoding": {
+        "x": {"field": "hum",  "type": "quantitative"},
+        "y": {"field": "temp", "type": "quantitative"},
+        "text": {"value": ["Negative trend: higher temperatures", "come with less humidity and more rain"]}
       }
     },
     {

@@ -77,7 +77,7 @@
         "values": [
           { "month": 4, "rank": 0.65, "note": "Darwin leads all cities Mar–Dec" },
           { "month": 5, "rank": 5.65, "note": "Adelaide & Melbourne swap Jun–Aug" },
-          { "month": 5, "rank": 6.65, "note": "Hobart: avg. max 17.9°C — coolest capital every month" }
+          { "month": 5, "rank": 6.65, "note": "Hobart: avg. max 17.9°C, coolest capital every month" }
         ]
       },
       "mark": { "type": "text", "fontSize": 8.5, "fontStyle": "italic", "color": "#555", "align": "center" },
