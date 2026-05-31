@@ -53,7 +53,7 @@ function renderVis16Legend(metric) {
     `<div style="flex:1;text-align:center;font-size:10px;color:#555;white-space:nowrap;">${item.label}</div>`
   ).join('');
   el.innerHTML =
-    `<div style="font-size:12px;font-family:'Inter',-apple-system,sans-serif;padding:5px 0 4px;max-width:280px;">` +
+    `<div style="font-size:12px;font-family:'Inter',-apple-system,sans-serif;padding:5px 0 4px;width:280px;">` +
     `<div style="font-weight:600;color:#333;font-size:11px;margin-bottom:3px;">${data.title}</div>` +
     `<div style="display:flex;border-radius:3px;overflow:hidden;border:1px solid rgba(0,0,0,0.12);">${segments}</div>` +
     `<div style="display:flex;">${labels}</div>` +

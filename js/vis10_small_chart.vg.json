@@ -35,7 +35,7 @@
   "transform": [
     { "filter": "datum.MaxTemp != null" },
     { "filter": "selectedCity == 'All Cities' || datum.Location == selectedCity" },
-    { "filter": "year(datum.Date) == selectedYear" },
+    { "filter": "datum.Location != 'Melbourne' ? year(datum.Date) == selectedYear : (selectedYear == 2015 || selectedYear == 2016) ? year(datum.Date) == 2014 : year(datum.Date) == selectedYear" },
     { "bin": {"extent": [5, 50], "step": 2}, "field": "MaxTemp", "as": ["bin_start", "bin_end"] },
     { "aggregate": [{"op": "count", "as": "dayCount"}], "groupby": ["bin_start", "bin_end"] },
     { "joinaggregate": [{"op": "sum", "field": "dayCount", "as": "totalDays"}] },

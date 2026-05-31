@@ -18,11 +18,12 @@
     },
     {
       "name": "selectedMonth",
-      "value": -1,
+      "value": 1,
       "bind": {
-        "input": "select",
-        "options": [-1,0,1,2,3,4,5,6,7,8,9,10,11],
-        "labels": ["Full year","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        "input": "range",
+        "min": 1,
+        "max": 12,
+        "step": 1,
         "name": "Month: "
       }
     }
@@ -43,7 +44,7 @@
   },
   "transform": [
     {"filter": "datum.MaxTemp != null"},
-    {"filter": "selectedMonth == -1 || month(datum.Date) == selectedMonth"},
+    {"filter": "month(datum.Date) == selectedMonth - 1"},
     {
       "aggregate": [
         {"op": "mean", "field": "MaxTemp",       "as": "avgMaxTemp"},
@@ -250,7 +251,7 @@
     },
     {
       "transform": [{"filter": "metric == 'WindSpeed3pm' && datum.Location == 'Brisbane'"}],
-      "mark": {"type": "text", "dx": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "left"},
+      "mark": {"type": "text", "dy": 22, "fontSize": 11, "fontStyle": "italic", "fill": "#222", "align": "center"},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude":  {"field": "lat", "type": "quantitative"},

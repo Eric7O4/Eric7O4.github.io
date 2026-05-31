@@ -11,11 +11,12 @@
   "params": [
     {
       "name": "selectedMonth",
-      "value": -1,
+      "value": 1,
       "bind": {
-        "input": "select",
-        "options": [-1,0,1,2,3,4,5,6,7,8,9,10,11],
-        "labels": ["Full year","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        "input": "range",
+        "min": 1,
+        "max": 12,
+        "step": 1,
         "name": "Month: "
       }
     }
@@ -34,7 +35,7 @@
   },
   "transform": [
     {"filter": "datum.MaxTemp != null"},
-    {"filter": "selectedMonth == -1 || month(datum.Date) == selectedMonth"},
+    {"filter": "month(datum.Date) == selectedMonth - 1"},
     {
       "aggregate": [
         {"op": "mean", "field": "MaxTemp",  "as": "avgMaxTemp"},
@@ -146,18 +147,17 @@
       }
     },
 
-    {"transform":[{"filter":"selectedMonth==-1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["Full year: Darwin is both the hottest and wettest capital; Hobart the coolest.","Bubble size reveals Darwin's rainfall dwarfs every other city."]}}},
-    {"transform":[{"filter":"selectedMonth==0"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["January: Peak summer; all capitals are hot. Darwin's monsoon","delivers its highest monthly rainfall; Adelaide often the hottest inland."]}}},
-    {"transform":[{"filter":"selectedMonth==1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["February: Darwin's wettest month; monsoon at full force.","Southern capitals remain hot before autumn cooling begins."]}}},
-    {"transform":[{"filter":"selectedMonth==2"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["March: Darwin's wet season still strong but winding down.","Southern capitals begin cooling into autumn; temperature gaps narrow."]}}},
-    {"transform":[{"filter":"selectedMonth==3"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["April: Darwin's wet season ends sharply; rainfall collapses.","Southern capitals cool steadily; Perth still holds late-summer warmth."]}}},
-    {"transform":[{"filter":"selectedMonth==4"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["May: Darwin dry season establishes, warm and bone dry.","Southern capitals cool toward winter; Hobart already cold."]}}},
-    {"transform":[{"filter":"selectedMonth==5"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["June: Darwin mild and dry, peak tourist season. Melbourne,","Sydney and Hobart are at mid-winter cold; Darwin barely notices."]}}},
-    {"transform":[{"filter":"selectedMonth==6"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["July: Coldest month for all southern capitals. Darwin warm and dry,","the widest north-south temperature gap of the year."]}}},
-    {"transform":[{"filter":"selectedMonth==7"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["August: Winter holds in the south; Darwin still dry.","The temperature spread across all capitals is near its annual maximum."]}}},
-    {"transform":[{"filter":"selectedMonth==8"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["September: Spring warming arrives in the south.","Darwin heats toward the pre-monsoon build; rainfall still very low."]}}},
-    {"transform":[{"filter":"selectedMonth==9"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["October: Rapid spring warming across southern cities. Darwin's heat peaks","before the monsoon breaks; humidity and bubble heat both surge."]}}},
-    {"transform":[{"filter":"selectedMonth==10"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["November: Darwin reaches its hottest and most humid point before the monsoon.","Southern cities warm into early summer; Brisbane and Perth heat up fast."]}}},
-    {"transform":[{"filter":"selectedMonth==11"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":10},"text":{"value":["December: Darwin's first monsoon rains arrive; bubble size surges.","Southern cities hit summer heat peak; Adelaide often rivals Darwin for heat."]}}}
+    {"transform":[{"filter":"selectedMonth==1"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["January: Peak summer across all capitals.", "Darwin's monsoon at its highest monthly peak;", "Adelaide often rivals Darwin for heat."]}}},
+    {"transform":[{"filter":"selectedMonth==2"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["February: Darwin's wettest month,", "monsoon at full force.", "Southern capitals still hot before autumn cooling."]}}},
+    {"transform":[{"filter":"selectedMonth==3"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["March: Darwin's wet season winds down.", "Southern capitals begin cooling into autumn;", "temperature gaps start to narrow."]}}},
+    {"transform":[{"filter":"selectedMonth==4"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["April: Darwin's wet season ends sharply;", "rainfall collapses to near zero.", "Southern capitals cool steadily."]}}},
+    {"transform":[{"filter":"selectedMonth==5"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["May: Darwin dry season establishes,", "warm and bone dry.", "Hobart already cold; southern cooling continues."]}}},
+    {"transform":[{"filter":"selectedMonth==6"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["June: Darwin mild and dry,", "peak tourist season.", "Southern capitals deep in mid-winter cold."]}}},
+    {"transform":[{"filter":"selectedMonth==7"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["July: Coldest month for all southern capitals.", "Darwin warm and dry;", "widest north-south temperature gap of the year."]}}},
+    {"transform":[{"filter":"selectedMonth==8"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["August: Winter holds in the south;", "Darwin still dry.", "Temperature spread near its annual maximum."]}}},
+    {"transform":[{"filter":"selectedMonth==9"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["September: Spring warming arrives in the south.", "Darwin heats toward the pre-monsoon build;", "rainfall still very low."]}}},
+    {"transform":[{"filter":"selectedMonth==10"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["October: Rapid spring warming in southern cities.", "Darwin's heat peaks before monsoon breaks;", "humidity and bubble size both surge."]}}},
+    {"transform":[{"filter":"selectedMonth==11"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["November: Darwin hottest and most humid", "before the monsoon.", "Southern cities warm into early summer."]}}},
+    {"transform":[{"filter":"selectedMonth==12"}],"data":{"values":[{}]},"mark":{"type":"text","align":"left","fontSize":9,"fontStyle":"italic","fill":"#222","lineHeight":13},"encoding":{"x":{"value":8},"y":{"value":42},"text":{"value":["December: Darwin's first monsoon rains arrive;", "bubble size surges.", "Southern cities hit summer heat peak."]}}}
   ]
 }

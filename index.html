@@ -34,7 +34,7 @@
     <div class="chart-row">
       <section class="block">
         <h2>Average Maximum Temperature by Capital City (Bar Chart)</h2>
-        <p class="description">Darwin (32.5°C) records an average maximum more than 14°C above Hobart (17.9°C), the largest temperature gap between any two Australian capitals. The dashed line marks the national average across all seven cities. Four cities, Sydney, Adelaide, Perth, and Brisbane, fall within 4°C of each other in the low-to-mid 20s, forming a relatively close mid-range cluster. Melbourne sits just below the national average, reflecting the moderating influence of its southern latitude and proximity to the Southern Ocean. The bar chart provides the clearest single-number summary of each city's climate, and serves as a reference point for the more detailed distributional charts that follow.</p>
+        <p class="description">Darwin (32.5°C) records an average maximum more than 14°C above Hobart (17.9°C), the largest temperature gap between any two Australian capitals. Four cities, Sydney, Adelaide, Perth, and Brisbane, fall within 4°C of each other in the low-to-mid 20s, forming a relatively close mid-range cluster. Melbourne sits just below the national average, reflecting the moderating influence of its southern latitude and proximity to the Southern Ocean. The bar chart provides the clearest single-number summary of each city's climate, and serves as a reference point for the more detailed distributional charts that follow.</p>
         <div id="vis2"></div>
       </section>
       <section class="block">
@@ -67,7 +67,7 @@
     <div class="chart-row">
       <section class="block">
         <h2>Monthly Weather by Capital City (Heatmap)</h2>
-        <p class="description">The heatmap reveals distinct patterns depending on the metric selected. On temperature, Darwin's row is uniformly high-intensity across all twelve months, while Hobart consistently records the lowest values. Adelaide shows the greatest month-to-month variation, transitioning from peak values in January to its lowest in July. On rainfall, the pattern differs substantially: Darwin records high values during the wet season months and near-zero values from May to October, while southern cities maintain low, uniform values throughout the year. Use the <strong>Show</strong> dropdown to switch between temperature and rainfall views.</p>
+        <p class="description">On temperature, Darwin's row is uniformly high-intensity across all twelve months while Hobart records the lowest values. Adelaide shows the greatest variation, peaking in January and dropping in July. On rainfall, Darwin records high values during the wet season and near-zero from May to October; southern cities remain low year-round. Use the <strong>Show</strong> dropdown to switch views.</p>
         <div id="vis5"></div>
       </section>
       <section class="block">
@@ -126,12 +126,12 @@
     </div>
 
     <div class="chart-row">
-      <section class="block" style="padding-bottom: 0; overflow: hidden;">
+      <section class="block" style="padding-bottom: 0; overflow: visible; position: relative;">
         <h2>Interactive Weather Explorer: Metric &amp; Month</h2>
         <p class="description">The proportional symbol map uses colour saturation to display the selected weather metric across Australian capital cities. Each bubble is coloured according to its recorded value for the selected month and metric.</p>
         <div id="vis16"></div>
-        <div id="vis16-legend"></div>
-        <div id="vis16-controls"></div>
+        <div id="vis16-legend" style="position: absolute; bottom: 100px; left: 22px; z-index: 100;"></div>
+        <div id="vis16-controls" style="position: absolute; bottom: 18px; left: 22px; z-index: 100;"></div>
       </section>
       <section class="block">
         <h2>Prevailing Wind Directions by Capital City (Wind Rose)</h2>
@@ -155,14 +155,14 @@
     </div>
 
     <div class="chart-row">
-      <section class="block" style="padding-bottom: 0; overflow: hidden;">
+      <section class="block" style="padding-bottom: 0; overflow: visible; position: relative;">
         <h2>Heat vs Rain by Capital City Map</h2>
-        <p class="description">Two climate extremes stand out immediately: Darwin dominates both dimensions, the hottest and the wettest capital by a wide margin, its monsoon season pushing daily rainfall nearly three times that of Adelaide. At the opposite corner, Hobart sits coolest and driest. The southern cities cluster tightly in the middle, while Perth breaks the pattern, nearly as hot as Brisbane but far drier, a signature of its Mediterranean climate. Bubble <strong>colour</strong> encodes average maximum temperature; bubble <strong>size</strong> encodes average daily rainfall.</p>
+        <p class="description">Darwin dominates both dimensions: the hottest and wettest capital, its monsoon pushing daily rainfall nearly x3 that of Adelaide. Hobart sits at the opposite extreme, coolest and driest. Perth breaks the pattern, near Brisbane's heat but far drier, a signature of its Mediterranean climate. Bubble <strong>colour</strong> encodes average maximum temperature; bubble <strong>size</strong> encodes average daily rainfall.</p>
         <div id="vis18"></div>
-        <div id="vis18-controls" style="margin-top:-35px; position: relative; z-index: 100;"></div>
+        <div id="vis18-controls" style="position: absolute; bottom: 24px; left: 22px; z-index: 100;"></div>
       </section>
       <section class="block">
-        <h2>Then vs Now: Weather Shift Across Capital Cities (Slider Map)</h2>
+        <h2>Then vs Now: Weather Shift Across Capital Cities</h2>
         <p class="description">Select a year to compare it against 2024. Bubble <strong>colour</strong> encodes average max temperature; bubble <strong>size</strong> encodes average daily rainfall. When viewing 2024, <span style="color:#c0392b;font-weight:600">red labels</span> mark cities that warmed relative to the historical average; <span style="color:#2471a3;font-weight:600">blue</span> marks cooling. Six of seven capitals were warmer in 2024; Perth is the sole exception.</p>
         <div id="vis20"></div>
         <div id="vis20-controls" style="padding: 6px 0 2px;"></div>

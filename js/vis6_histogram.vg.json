@@ -47,7 +47,7 @@
       }
     },
     {
-      "data": {"values": [{"hum": 10, "temp": 33}, {"hum": 92, "temp": 23}]},
+      "data": {"values": [{"hum": 10, "temp": 32}, {"hum": 92, "temp": 27}]},
       "mark": {"type": "line", "color": "#111", "strokeWidth": 2, "strokeDash": [5, 3]},
       "encoding": {
         "x": {"field": "hum",  "type": "quantitative"},
